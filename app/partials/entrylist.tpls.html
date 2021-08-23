@@ -1,0 +1,327 @@
+<div class="card" ng-init="vm.init();">
+    <title>{{vm.pagetitle}} - Lab Report </title>
+
+
+    <div class="modal-body " style="padding:0px " ng-show="vm.notification.message ">
+        <div class="alert alert-{{vm.notification.mode}} "
+            style="margin-bottom:0px; width:20%; position:fixed;bottom:0;right:0;z-index: 100; ">
+            <button type="button " class="close " data-ng-click="close() ">
+                <span class="glyphicon glyphicon-remove " style="font-size: small; "></span>
+            </button>
+            <div ng-bind="vm.notification.message "></div>
+        </div>
+    </div>
+
+    <div class="row m-2">
+
+        <div class="col-md-12">
+            <h6 class="font-weight-bold text-left small">{{vm.pagetitle}} </h6>
+
+            <div class="row filterbar">
+                <div class="col-md-9">
+                    <!--DATE TYPE-->
+                    <div class="btn-group mr-1">
+                        <button class="btn btn-sm btn-link m-1 p-1 dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            DateType : {{vm.selectedDateType.name}}
+                        </button>
+                        <div class="dropdown-menu keep-open">
+                            <li ng-repeat="x in dateTypes" ng-click="vm.onDateTypeSelected(x)">
+                                <div class="dropdown-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="datetype" id="{{x.name}}"
+                                            ng-model="datetype" ng-click="vm.onDateTypeSelected(x)"
+                                            value="{{x.value}}" />
+                                        <label class="form-check-label" for="{{x.name}}"> {{x.name}}
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                        </div>
+                    </div>
+
+                    <!--DATE -->
+
+                <!--AD DATE-->
+                <div class="btn-group" ng-show="vm.selectedDateType.value ==0">
+                    <span class="small  m-1 p-1 mt-2" type="button" aria-haspopup="true"
+                        aria-expanded="false">
+                        From
+                </span>
+                    <input type="date" class="form-control dateinput m-1  p-1" ng-model="vm.initdate"
+                        ng-change="vm.setInit(vm.initdate);vm.AdToBsInit(vm.initdate);" >
+                    <span class="small m-1 p-1 mt-2 " type="button" aria-haspopup="true"
+                        aria-expanded="false">  
+                        To
+                    </span>
+                    <input type="date" class="form-control dateinput m-1  p-1" ng-model="vm.finaldate"
+                        ng-change="vm.AdToBsFinal(vm.finaldate);vm.setFinal(vm.finaldate)">
+                </div>
+
+
+
+
+                <!--BS DATE-->
+                <div class="btn-group" ng-show="vm.selectedDateType.value ==1">
+                    <button class="btn btn-sm btn-link m-1 p-1" type="button" aria-haspopup="true"
+                        aria-expanded="false">
+                        From
+                    </button>
+                    <input type="text" class="form-control dateinput m-1  p-1" ng-model="vm.bsdateinit"
+                        ng-change="vm.BsToAdInit(vm.bsdateinit);">
+                    <button class="btn btn-sm btn-link m-1 p-1 " type="button" aria-haspopup="true"
+                        aria-expanded="false">
+                        To
+                    </button>
+                    <input type="text" class="form-control dateinput m-1  p-1" ng-model="vm.bsdatefinal"
+                        ng-change="vm.BsToAdFinal(vm.bsdatefinal);">
+                </div>
+
+
+                    <div class="btn-group mr-1">
+                        <button class="btn btn-sm btn-link m-1 p-1 dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Select Department : {{vm.selectedDepartment.groupname}}
+                        </button>
+                        <div class="dropdown-menu keep-open">
+                            <li ng-repeat="x in vm.UserDepartmentList">
+                                <div class="dropdown-item " ng-click="vm.onDepartmentSelected(x);">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="department"
+                                            id="{{x.groupname}}" ng-model="department"
+                                            ng-click="vm.onDepartmentSelected(x);" value="{{x.grpid}}" />
+                                        <label class="form-check-label" for="{{x.groupname}}"> {{x.groupname}}
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-link m-1 p-1 dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Status : {{vm.selectedStatusFilter.name}} </button>
+                        <div class="dropdown-menu keep-open">
+                            <li ng-repeat="x in vm.statusFilterList" ng-click="vm.onStatusFilterSelected(x);">
+
+                                <div class="dropdown-item " ng-click="vm.onStatusFilterSelected(x);">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="name" id="{{x.name}}"
+                                            ng-model="vm.selectedStatusFilter.value"
+                                            ng-click="vm.onStatusFilterSelected(x);" value="{{x.value}}" />
+                                        <label class="form-check-label" for="{{x.name}}"> {{x.name}}
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-md-2">
+
+                    <div class="btn-group runreport">
+                        <button class="btn btn-sm btn-link btn-rounded m-1 p-1" type="button" aria-haspopup="true"
+                            aria-expanded="false" ng-click="vm.fetchInvoiceList()">
+                            <span class="m-1 p-1"> Run Report </span>
+                        </button>
+                    </div>
+
+                </div>
+                <!--EXPORT Btton -->
+                <div class="col-sm-1 mt-2">
+                    <a class="m-1 p-1 " href="" ng-click="vm.PrintRecord();">
+                        <i class="fas fa-file-pdf red-text" data-toggle="tooltip" title="Print "
+                            style="font-size: 20px;color:red;"></i> </a>
+                    <a class="m-1 p-1" href="" ng-click="vm.Export();">
+                        <i class="fas fa-file-excel green-text" data-toggle="tooltip" title="Export to excel"
+                            style="font-size: 20px;color:green;"></i> </a>
+                    </span>
+
+
+                </div>
+            </div>
+
+            <div class="col-md-12" style="overflow: auto; height: 400px;">
+                <table class="table table-bordered table-hover table-striped" id="reporttable">
+                    <thead>
+                        <tr>
+                            <th class="m-0 p-0 font-weight-bold ">#</th>
+
+                            <th class="m-0 p-0 font-weight-bold ">Document No</th>
+                            <th class="m-0 p-0 font-weight-bold ">Date</th>
+                            <th class="m-0 p-0 font-weight-bold ">Invoice No</th>
+                            <th class="m-0 p-0 font-weight-bold ">Patient name</th>
+                            <th class="m-0 p-0 font-weight-bold ">Service name</th>
+                            <th class="m-0 p-0 font-weight-bold ">Completed</th>
+                        </tr>
+                    </thead>
+                    <tr ng-if="loadtrue"> 
+                        <th colspan="7" class="text-center">
+                            <!-- ng-show="loadtrue" -->
+                            <div class="small spinner-border" role="status" >
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                        </th>
+                    </tr>
+                    <tbody>
+                        <tr ng-repeat="report in vm.InvoiceEntryList | filter:vm.selectedStatusFilter.value"
+                            class="hoverable">
+
+                            <td class="m-0 p-0 "> {{$index + 1}} </td>
+                            <td class="m-0 p-0"> {{report.sn}} </td>
+
+                            <td class="m-0 p-0"> {{report.ddate | date: 'yyyy/MM/dd'}} </td>
+                            <td class="m-0 p-0">
+                                <a ng-click="vm.onInvoiceSelected(report)" href=""
+                                    class="btn btn-link m-0 p-0 blue-text"> {{report.inv_no}} </a>
+                            </td>
+                            <td class="m-0 p-0"> {{report.pname}} </td>
+
+                            <td class="m-0 p-0 "> {{report.servname}} </td>
+
+                            <td class="m-0 p-0 text-center" ng-show="report.complete"> <i
+                                    class="fa fa-check green-text"></i> </td>
+                            <td class="m-0 p-0 text-center" ng-hide="report.complete"> <i
+                                    class="fa fa-window-close red-text"></i> </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="m-0 p-0 mt-4 text-center" colspan=7 ng-if="vm.InvoiceEntryList.length === 0">
+                                <h6> No results found search again </h6>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+
+    <div class="modal fade in " id="dateSeek" tabindex="-1" role="dialog" aria-labelledby="dateSeek" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header m-0">
+                    <h5 class="modal-title font-weight-bold " id="dateSeek">Date Search</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="small">Date type</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="browser-default custom-select" ng-model="datetype">
+                                <option value="ad">AD</option>
+                                <option value="bs">BS</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="small">ByDate/month</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="browser-default custom-select" ng-model="by">
+                                <option value="date">Date</option>
+                                <option value="month">Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="datetype=='ad' && by== 'date'">
+                        <div class="col-md-4">
+                            <label class="">From</label>
+
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="vm.initdate"
+                                ng-change="vm.AdToBsInit(vm.initdate);">
+                        </div>
+                    </div>
+                    <div class="row " ng-show="datetype=='ad' && by== 'date'">
+                        <div class="col-md-4">
+                            <label class="">To</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="vm.finaldate"
+                                ng-change="vm.AdToBsFinal(vm.finaldate)">
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="datetype=='bs' && by== 'date'">
+                        <div class="col-md-4">
+                            <label class="">From</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="vm.bsdateinit"
+                                ng-init="vm.AdToBsInit(vm.initdate);" ng-change="vm.BsToAdInit(vm.bsdateinit);">
+                        </div>
+                    </div>
+                    <div class="row " ng-show="datetype=='bs' && by== 'date'">
+                        <div class="col-md-4">
+                            <label class="">To </label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="vm.bsdatefinal"
+                                ng-init="vm.AdToBsFinal(vm.finaldate);" ng-change="vm.BsToAdFinal(vm.bsdatefinal);">
+
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="datetype=='ad' && by== 'month'">
+                        <div class="col-md-4">
+                            <label class="">Year</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="browser-default custom-select" ng-model="year">
+                                <option value="1">2077</option>
+                                <option value="2">2076</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row " ng-show="datetype=='ad' && by== 'month'">
+                        <div class="col-md-4">
+                            <label class="">Month</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="browser-default custom-select" ng-model="month">
+                                <option value="1">JAN</option>
+                                <option value="2">FEB</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-link waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success btn-sm waves-effect" data-dismiss="modal"
+                        ng-click="vm.fetchInvoiceList();">Save</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>

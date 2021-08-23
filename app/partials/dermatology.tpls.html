@@ -1,0 +1,2190 @@
+<div class=" container-fluid  card  p-0 " ng-init="vm.init();">
+
+    <title>{{vm.pagetitle}} - Ek ek Paila </title>
+
+    <style>
+        @media print {
+
+            .table thead tr td,
+            .table tbody tr td {
+                border-width: 1px !important;
+                border-style: solid !important;
+                border-color: #000 !important;
+                font-size: 12px !important;
+                background-color: white;
+                padding: 0px;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+
+
+
+    <div class="modal-body small" ng-show="vm.notification.message">
+        <div class="alert alert-{{vm.notification.mode}}"
+            style="margin-bottom:0px; width:300px; position:fixed;bottom:30;right:0;z-index: 100;">
+            <button type="button" class="close" data-ng-click="close()">
+                <span class="glyphicon glyphicon-remove" style="font-size: small;"></span>
+            </button>
+            <div class="text-center m-1 p-1" ng-bind="vm.notification.message"></div>
+        </div>
+    </div>
+    <div class="container col-sm-12 col-md-12">
+
+
+
+
+        <!--Title-->
+        <div class="row m-1 ">
+            <a class="fa fa-home btn btn-sm" href="#!dashboard">
+                Dashboard
+                </a>
+            <div class="col-md-12 " style="background-color: rgb(40, 40, 92);height: 35px !important; ">
+                <h5 class="text-center white-text mt-1">{{ vm.pagetitle}}</h5>
+            </div>
+        </div>
+
+        <div class="row m-1">
+
+            <div class="col-md-1 col-sm-1 small">
+                <label class="mt-3"></label> Search:
+            </div>
+
+            <div class="col-md-4 small">
+                <div class="input-group mb-3">
+
+                    <input type="text" class="form-control mt-2 " placeholder="" aria-label=""
+                        aria-describedby="button-addon2" ng-model="mrdnum" />
+                    <button class="btn btn-sm btn-primary" type="button" ng-click="vm.fetchDermoReportList();vm.fetchDermoForm()"
+                        id="button-addon2">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <button class="btn btn-sm btn-primary" ng-click="vm.reset();">
+                        Clear </button>
+
+                    <!--        <button class="btn btn-sm btn-primary" type="button" ng-click="vm.createMrd()" id="button-addon2">
+                            <i class="fa fa-plus"></i>
+                        </button> -->
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <!-- <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+            <i class="fa fa-edit"></i></a> -->
+
+        <div class="col-md-6 offset-1" ng-if="loadtrue">
+            <div class="small spinner-border text-center" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="col-md-4" ng-show="noReport">
+            <p class="red-text">No Report found!</p>
+        </div>
+
+        <div class="row" ng-show="showReport">
+
+            <table class="table table-sm table-bordered col-sm-9 offset-1">
+                <tr>
+                    <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                    <th class="m-1 p-1 font-weight-bold">Date</th>
+                    <th class="m-1 p-1 font-weight-bold">Actions</th>
+                </tr>
+                <tr>
+                    <td class="m-1 p-1">{{vm.pname}}</td>
+                    <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
+                    <td class="m-1 p-1">
+
+                        <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                            <i class="fa fa-edit"></i></a>
+
+                        <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
+                        <i class="fa fa-trash"></i></a>
+
+                    </td>
+
+
+                </tr>
+            </table>
+
+
+
+
+
+        </div>
+
+
+        <!--KES ID NO and DATE-->
+
+        <div class="row m-1 ">
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="typeText ">MRD No </label>
+                    <input type="text"  id="formControlSm " ng-model="mrdnum" disabled class="form-control form-control-sm " />
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="date ">Date:</label>
+                    <input type="text" ui-mask="9999/99/99" placeholder="yyyy/MM/dd" ui-mask-placeholder-char="-"  id="date " ng-model="vm.today" class="form-control form-control-sm " />
+                </div>
+            </div>
+
+            <!-- <div class="col-md-3 col-sm-3 mt-3 ">
+                    <button class="btn btn-sm btn-primary " ng-click="vm.createMrd(); ">Create new patient</button>
+                </div> -->
+        </div>
+
+
+        <!-- Patient Information -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left">Patient Information</h7>
+            </div>
+        </div>
+
+        <div class="row m-1 mt-2">
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="pname ">Name</label>
+                    <input type="text" id="pname" ng-model="pname" class="form-control form-control-sm " />
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="age ">Age</label>
+                    <input type="number" id="age" ng-model="age" class="form-control form-control-sm " />
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="sex">Gender</label>
+                    <select class="browser-default custom-select" ng-model="sex ">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="address ">Address</label>
+                    <input type="text" id="address" ng-model="address" class="form-control form-control-sm " />
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <div class="row m-1 mt-2">
+
+
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="occupation ">Occupation</label>
+                    <select class="browser-default custom-select" ng-model="occupation ">
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Salary/Wages">Salary/Wages</option>
+                        <option value="Own Economic Enterprise">Own Economic Enterprise</option>
+                        <option value="Extended Eco">Extended Eco</option>
+
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="sex">Education</label>
+                    <select class="browser-default custom-select" ng-model="education ">
+                        <option value="Illiterate">Illiterate</option>
+                        <option value="Informal">Informal</option>
+                        <option value="Literate">Literate</option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="religion">Income</label>
+                    <select class="browser-default custom-select" ng-model="income">
+                        <option value="low">5,000 - 10,000</option>
+                        <option value="average">10,000 - 50,000</option>
+                        <option value="high">50,000 - above</option>
+
+
+                    </select>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+        <!-- Medical History -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left">History</h7>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+
+
+            <div class="row">
+                <!-- SN NO -->
+                <div class="col-md-2 mt-1">
+                    <label class="mt-1 ml-2">Complaints</label>
+                </div>
+
+                <div class="col-sm-3 col-md-3">
+                    <textarea name="complaints" class="form-control " ng-model="complaints"
+                        rows="2" cols="2" style="width: 380px;"></textarea>
+                </div>
+
+
+            </div>
+
+
+            <!-- Itching-->
+            <div class="row mt-3">
+                <div class="col-md-2">
+                    <label class="ml-2">Itching</label>
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="form-check form-check-inline small ">
+                        <input class="form-check-input" type="radio" name="options" value="mild" ng-model="itching"
+                            id="occyes">
+                        <label class="form-check-label" for="occyes">Mild</label>
+                    </div>
+                    <div class="form-check form-check-inline small">
+                        <input class="form-check-input" type="radio" name="options" value="moderate" ng-model="itching"
+                            id="occno">
+                        <label class="form-check-label" for="occno">Moderate</label>
+                    </div>
+                    <div class="form-check form-check-inline small">
+                        <input class="form-check-input" type="radio" name="options" value="severe" ng-model="itching"
+                            id="occ">
+                        <label class="form-check-label" for="occ">Severe</label>
+                    </div>
+
+                    <div class="form-check form-check-inline small">
+                        <input class="form-check-input" type="radio" name="options" ng-checked="true" value="absent"
+                            ng-model="itching" id="no">
+                        <label class="form-check-label" for="no">Absent</label>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Pain IN -->
+            <div class="row mt-3">
+                <div class="col-md-2">
+                    <label class="ml-2">Pain&nbsp;in&nbsp;muscosal&nbsp;lesion</label>
+                </div>
+                <!-- Present -->
+                <div class="col-md-4">
+
+                    <div class="form-check form-check-inline small ">
+                        <input class="form-check-input" type="radio" name="lesoptions" value="true"
+                            ng-model="mucosal_lesion_pain_tick" id="lesyes">
+                        <label class="form-check-label" for="lesyes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline small">
+                        <input class="form-check-input" type="radio" name="lesoptions" value="false"
+                            ng-model="mucosal_lesion_pain_tick" id="lesno" ng-checked="true">
+                        <label class="form-check-label" for="lesno">No</label>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- lesions -->
+            <div class="row mt-3">
+                <div class="col-md-2">
+                    <label class="mt-1 ml-2">Lesions</label>
+                </div>
+
+                <!-- Present -->
+                <div class="col-md-4">
+
+                    <div class="form-check form-check-inline small ">
+                        <input class="form-check-input" type="radio" name="lesopt" ng-model="lesion_tick" id="lesy"
+                            value="1">
+                        <label class="form-check-label" for="lesy">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline small">
+                        <input class="form-check-input" type="radio" name="lesopt" ng-model="lesion_tick" id="lesn"
+                            value="0" ng-checked="true">
+                        <label class="form-check-label" for="lesn">No</label>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div ng-show="lesion_tick==1">
+                <!-- Checked checkbox -->
+                <div class="form-check-inline ml-4">
+                    <input class="form-check-input" type="checkbox" ng-model="cutaneous_tick" id="cut_tick" />
+                    <label class="form-check-label" for="cut_tick">
+                        Cutaneous
+                    </label>
+                </div>
+
+                <div class=" form-check col-md-4 ml-2">
+
+                    <input class="form-control" ng-show="cutaneous_tick" ng-model="cutaneous"
+                        placeholder="Duration in months">
+                </div>
+
+                <div class="form-check-inline ml-4">
+                    <input class="form-check-input" type="checkbox" ng-model="oral_tick" id="oral_tick" />
+                    <label class="form-check-label" for="oral_tick">
+                        Oral
+                    </label>
+                </div>
+                <div class="col-md-4 ml-2">
+                    <input class="form-control" ng-show="oral_tick" ng-model="oral" placeholder="Duration in months">
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="genital_tick" id="genital_tick" />
+                    <label class="form-check-label" for="genital_tick">
+                        Genital
+                    </label>
+                </div>
+
+                <div class="col-md-4 ml-2">
+                    <input class="form-control" ng-show="genital_tick" ng-model="genital"
+                        placeholder="Duration in months">
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="nail_tick" id="nail_tick" />
+                    <label class="form-check-label" for="nail_tick">
+                        Nail
+                    </label>
+                </div>
+
+                <div class="col-md-4 ml-2">
+                    <input class="form-control" ng-show="nail_tick" ng-model="nail" placeholder="Duration in months">
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="scalp_tick" id="scalp_tick" />
+                    <label class="form-check-label" for="scalp_tick">
+                        Scalp
+                    </label>
+                </div>
+                <div class="col-md-4 ml-2">
+                    <input class="form-control" ng-show="scalp_tick" ng-model="scalp" placeholder="Duration in months">
+                </div>
+
+
+
+
+
+
+                <!-- Type of  LESIONS -->
+                <div class="col-md-1 mt-1">
+                    <label class="mt-1">Type&nbsp;of&nbsp;Lesions</label>
+                </div>
+                <!-- Checked checkbox -->
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="macule_lesion_tick"
+                        id="macule_lesion_tick" />
+                    <label class="form-check-label" for="macule_lesion_tick">
+                        Macule
+                    </label>
+                </div>
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="papules_lesion_tick"
+                        id="papules_lesion_tick" />
+                    <label class="form-check-label" for="papules_lesion_tick">
+                        Papules
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="palques_lesion_tick"
+                        id="palques_lesion_tick" />
+                    <label class="form-check-label" for="palques_lesion_tick">
+                        Palques
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="erosions_lesion_tick"
+                        id="erosions_lesion_tick" />
+                    <label class="form-check-label" for="erosions_lesion_tick">
+                        Erosions
+                    </label>
+                </div>
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="ulcers_lesion_tick"
+                        id="ulcers_lesion_tick" />
+                    <label class="form-check-label" for="ulcers_lesion_tick">
+                        Ulcers
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="vesicles_lesion_tick"
+                        id="vesicles_lesion_tick" />
+                    <label class="form-check-label" for="vesicles_lesion_tick">
+                        Vesicles
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="bullae_lesion_tick"
+                        id="bullae_lesion_tick" />
+                    <label class="form-check-label" for="bullae_lesion_tick">
+                        Bullae
+                    </label>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <!-- Site of  LESIONS -->
+                <div class="col-md-1 mt-1">
+                    <label class="mt-1">Site&nbsp;of&nbsp;Lesions</label>
+                </div>
+                <!-- Checked checkbox -->
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="scalp_lesion_tick"
+                        id="scalp_lesion_tick" />
+                    <label class="form-check-label" for="scalp_lesion_tick">
+                        Scalp
+                    </label>
+                </div>
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="face_lesion_tick" id="face_lesion_tick" />
+                    <label class="form-check-label" for="face_lesion_tick">
+                        Face
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="trunk_lesion_tick"
+                        id="trunk_lesion_tick" />
+                    <label class="form-check-label" for="trunk_lesion_tick">
+                        Trunk
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="upper_extremities_tick"
+                        id="upper_extremities_tick" />
+                    <label class="form-check-label" for="upper_extremities_tick">
+                        Extremities Upper
+                    </label>
+                </div>
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="lower_extremities_tick"
+                        id="lower_extremities_tick" />
+                    <label class="form-check-label" for="lower_extremities_tick">
+                        Extremities Lower
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="flexure_lesion_tick"
+                        id="flexure_lesion_tick" />
+                    <label class="form-check-label" for="flexure_lesion_tick">
+                        Flexure
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="extensor_lesion_tick"
+                        id="extensor_lesion_tick" />
+                    <label class="form-check-label" for="extensor_lesion_tick">
+                        Extensor
+                    </label>
+                </div>
+
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="palm_lesion_tick" id="palm_lesion_tick" />
+                    <label class="form-check-label" for="palm_lesion_tick">
+                        Palm
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="soles_lesion_tick"
+                        id="soles_lesion_tick" />
+                    <label class="form-check-label" for="soles_lesion_tick">
+                        Soles
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="nails_lesion_tick"
+                        id="nails_lesion_tick" />
+                    <label class="form-check-label" for="nails_lesion_tick">
+                        Nails
+                    </label>
+                </div>
+
+
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="oral_lesion_tick" id="oral_lesion_tick" />
+                    <label class="form-check-label" for="oral_lesion_tick">
+                        Oral
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="genital_lesion_tick"
+                        id="genital_lesion_tick" />
+                    <label class="form-check-label" for="genital_lesion_tick">
+                        Genital
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="lips_lesion_tick" id="lips_lesion_tick" />
+                    <label class="form-check-label" for="lips_lesion_tick">
+                        Lips
+                    </label>
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+            <!-- Past ho siliar -->
+            <div class="row mt-3">
+                <div class="col-md-2">
+                    <label class="mt-1 ml-2">Past&nbsp;H/O&nbsp;similar&nbsp;lesions</label>
+                </div>
+
+                <!-- Present -->
+                <div class="col-md-4">
+
+                    <div class="form-check form-check-inline small ">
+                        <input class="form-check-input" type="radio" name="pasopt" ng-model="past_ho_lesion_tick"
+                            id="pasyes" value="true">
+                        <label class="form-check-label" for="pasyes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline small">
+                        <input class="form-check-input" type="radio" name="pasopt" ng-model="past_ho_lesion_tick"
+                            id="pasno" value="false" ng-checked="true">
+                        <label class="form-check-label" for="pasno">No</label>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Family -->
+            <div class="row mt-3">
+                <div class="col-md-2">
+                    <label class="mt-1 ml-2">Family&nbsp;History</label>
+                </div>
+
+                <!-- Present -->
+                <div class="col-md-4">
+
+                    <div class="form-check form-check-inline small ">
+                        <input class="form-check-input" type="radio" name="famopt" ng-model="family_history_tick"
+                            id="famyes" value="true">
+                        <label class="form-check-label" for="famyes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline small">
+                        <input class="form-check-input" type="radio" name="famopt" ng-model="family_history_tick"
+                            id="famno" value="false" ng-checked="true">
+                        <label class="form-check-label" for="famno">No</label>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+            <!-- systematic diseaes-->
+            <div class="row mt-3">
+                <div class="col-md-2">
+                    <label class="mt-1 ml-2">Systematic diseases</label>
+                </div>
+
+            </div>
+
+
+            <!-- Checked checkbox -->
+            <div class="form-check ml-4">
+                <input class="form-check-input" type="checkbox" ng-model="dm_tick" id="dm_tick" />
+                <label class="form-check-label" for="dm_tick">
+                    DM
+                </label>
+            </div>
+
+
+            <div class="form-check ml-4">
+                <input class="form-check-input" type="checkbox" ng-model="liver_tick" id="liver_tick" />
+                <label class="form-check-label" for="liver_tick">
+                    Liver
+                </label>
+            </div>
+
+
+            <div class="form-check ml-4">
+                <input class="form-check-input" type="checkbox" ng-model="hypertension_tick" id="hypertension_tick" />
+                <label class="form-check-label" for="hypertension_tick">
+                    Hypertension
+                </label>
+            </div>
+
+
+            <div class="form-check ml-4">
+                <input class="form-check-input" type="checkbox" ng-model="anaemia_tick" id="anaemia_tick" />
+                <label class="form-check-label" for="anaemia_tick">
+                    Anaemia
+                </label>
+            </div>
+
+            <div class="form-check ml-4">
+                <input class="form-check-input" type="checkbox" ng-model="asthma_tick" id="asthma_tick" />
+                <label class="form-check-label" for="asthma_tick">
+                    Asthma
+                </label>
+            </div>
+
+
+
+            <div class="form-check ml-4">
+                <input class="form-check-input" type="checkbox" ng-model="pul_tb_tick" id="pul_tb_tick" />
+                <label class="form-check-label" for="pul_tb_tick">
+                    Phulmonary Tuberculosis
+                </label>
+            </div>
+
+
+            <div class="form-check ml-4">
+                <input class="form-check-input" type="checkbox" ng-model="ihd_tick" id="ihd_tick" />
+                <label class="form-check-label" for="ihd_tick">
+                    IHD
+                </label>
+            </div>
+
+
+
+            <div class="form-check ml-4">
+                <input class="form-check-input" type="checkbox" ng-model="other_disease_tick" id="other_disease_tick" />
+                <label class="form-check-label" for="other_disease_tick">
+                    Other
+                </label>
+            </div>
+            <div class="col-md-6 ml-4">
+                <input class="form-control" ng-show="other_disease_tick" ng-model="other_disease"
+                    placeholder="Specify.." style="width: 400px ;">
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <!-- CUtaneius examination -->
+            <div class="row m-1 mt-3 ml-1">
+                <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                    <h7 class="text-left">Cutaneous Examination</h7>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+
+
+                <div class="row">
+                    <!-- SN NO -->
+                    <div class="col-md-2 mt-1">
+                        <label class="mt-1 ml-2">Morphology</label>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <textarea name="complaints" class="form-control form-control-sm" ng-model="morphology"
+                            rows="2" cols="2" style="width: 380px;" ></textarea>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+            <!-- SKin -->
+
+            <div class="col-md-2 mt-2">
+                <label class="mt-1 ml-2">Skin</label>
+            </div>
+
+
+            <!-- Checked checkbox -->
+            <div class="ml-4">
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="macule_skin_tick" id="macule_skin_tick" />
+                    <label class="form-check-label" for="macule_skin_tick">
+                        Macule
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="papules_skin_tick"
+                        id="papules_skin_tick" />
+                    <label class="form-check-label" for="papules_skin_tick">
+                        Papules
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="plaques_skin_tick"
+                        id="plaques_skin_tick" />
+                    <label class="form-check-label" for="plaques_skin_tick">
+                        Plaques
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="hyperkeratotic_skin_tick"
+                        id="hyperkeratotic_skin_tick" />
+                    <label class="form-check-label" for="hyperkeratotic_skin_tick">
+                        Hyperkeratotic
+                    </label>
+                </div>
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="atrophic_skin_tick"
+                        id="atrophic_skin_tick" />
+                    <label class="form-check-label" for="atrophic_skin_tick">
+                        Atrophic
+                    </label>
+                </div>
+
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="follicular_skin_tick"
+                        id="follicular_skin_tick" />
+                    <label class="form-check-label" for="follicular_skin_tick">
+                        Follicular
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="violaceous_skin_tick"
+                        id="violaceous_skin_tick" />
+                    <label class="form-check-label" for="violaceous_skin_tick">
+                        Violaceous
+                    </label>
+                </div>
+
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="eryth_skin_tick" id="eryth_skin_tick" />
+                    <label class="form-check-label" for="eryth_skin_tick">
+                        Eryth Ematous
+                    </label>
+                </div>
+
+
+
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="hyperpigment_skin_tick"
+                        id="hyperpigment_skin_tick" />
+                    <label class="form-check-label" for="hyperpigment_skin_tick">
+                        Hyperpigment
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="annular_skin_tick"
+                        id="annular_skin_tick" />
+                    <label class="form-check-label" for="annular_skin_tick">
+                        Annular
+                    </label>
+                </div>
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="bullous_skin_tick"
+                        id="bullous_skin_tick" />
+                    <label class="form-check-label" for="bullous_skin_tick">
+                        Bullous
+                    </label>
+                </div>
+
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="ulcerative_skin_tick"
+                        id="ulcerative_skin_tick" />
+                    <label class="form-check-label" for="ulcerative_skin_tick">
+                        Ulcerative
+                    </label>
+                </div>
+
+
+                <div class="form-check ml-1">
+                    <input class="form-check-input" type="checkbox" ng-model="fissur_skin_tick" id="fissur_skin_tick" />
+                    <label class="form-check-label" for="fissur_skin_tick">
+                        Fissur
+                    </label>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+            <!-- Eye Problem -->
+            <div class="row m-1 mt-2">
+                <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                    <h7>Mucosa</h7>
+                </div>
+            </div>
+            <div class="row m-1 mt-1">
+                <!-- <label>Sites</label> -->
+
+                <div class="col-md-6">
+                    <label>Sites</label>
+                    <div class="col-md-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="buccal_mucosa_unilateral_tick"
+                                id="buccal_mucosa_unilateral_tick">
+                            <label class="form-check-label" for="buccal_mucosa_unilateral_tick">
+                                Buccal mucosa unilaterally
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="buccal_mucosa_bilateral_tick"
+                                id="buccal_mucosa_bilateral_tick">
+                            <label class="form-check-label" for="buccal_mucosa_bilateral_tick">
+                                Buccal mucosa bilaterally
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="tongue_mucosa_tick"
+                                id="tongue_mucosa_tick">
+                            <label class="form-check-label" for="tongue_mucosa_tick">
+                                Tongue
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="palatal_arch_mucosa_tick"
+                                id="palatal_arch_mucosa_tick">
+                            <label class="form-check-label" for="palatal_arch_mucosa_tick">
+                                Palatal arch
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="mouth_floor_mucosa_tick"
+                                id="mouth_floor_mucosa_tick">
+                            <label class="form-check-label" for="mouth_floor_mucosa_tick">
+                                Floor of mouth
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="labial_mucosa_tick"
+                                id="labial_mucosa_tick">
+                            <label class="form-check-label" for="labial_mucosa_tick">
+                                Labial mucosa
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="gingiva_mucosa_tick"
+                                id="gingiva_mucosa_tick">
+                            <label class="form-check-label" for="gingiva_mucosa_tick">
+                                Gingiva
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- types -->
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <label>Types</label>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="white_plaque_mucosa_tick"
+                                id="white_plaque_mucosa_tick">
+                            <label class="form-check-label" for="white_plaque_mucosa_tick">
+                                White plaque
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="violaceous_mucosa_tick"
+                                id="violaceous_mucosa_tick">
+                            <label class="form-check-label" for="violaceous_mucosa_tick">
+                                Violaceous
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="hyperpigmentation_mucosa_tick"
+                                id="hyperpigmentation_mucosa_tick">
+                            <label class="form-check-label" for="hyperpigmentation_mucosa_tick">
+                                Hyperpigmentation
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="papules_mucosa_tick"
+                                id="papules_mucosa_tick">
+                            <label class="form-check-label" for="papules_mucosa_tick">
+                                Papules
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="reticulate_mucosa_tick"
+                                id="reticulate_mucosa_tick">
+                            <label class="form-check-label" for="reticulate_mucosa_tick">
+                                Reticulate pattern
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="ulcer_mucosa_tick"
+                                id="ulcer_mucosa_tick">
+                            <label class="form-check-label" for="ulcer_mucosa_tick">
+                                Ulcers
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="atrophic_mucosa_tick"
+                                id="atrophic_mucosa_tick">
+                            <label class="form-check-label" for="atrophic_mucosa_tick">
+                                Atrophic
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="erosive_mucosa_tick"
+                                id="erosive_mucosa_tick">
+                            <label class="form-check-label" for="erosive_mucosa_tick">
+                                Erosive
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="bullous_mucosa_tick"
+                                id="bullous_mucosa_tick">
+                            <label class="form-check-label" for="bullous_mucosa_tick">
+                                Bullous
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="mixed_mucosa_tick"
+                                id="mixed_mucosa_tick">
+                            <label class="form-check-label" for="mixed_mucosa_tick">
+                                Mixed
+                            </label>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Genetelia -->
+
+            <div class="row m-1">
+                <div class="col-md-6 mt-1">
+                    <label>Genitalia</label>
+                    <div class="col-md-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="erythema_genitalia_mucosa_tick"
+                                id="erythema_genitalia_mucosa_tick">
+                            <label class="form-check-label" for="erythema_genitalia_mucosa_tick">
+                                Erythema
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="voilaceous_genitalia_mucosa_tick"
+                                id="voilaceous_genitalia_mucosa_tick">
+                            <label class="form-check-label" for="voilaceous_genitalia_mucosa_tick">
+                                Violaceous
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="papules_genitalia_mucosa_tick"
+                                id="papules_genitalia_mucosa_tick">
+                            <label class="form-check-label" for="papules_genitalia_mucosa_tick">
+                                Papules
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="plaques_genitalia_mucosa_tick"
+                                id="plaques_genitalia_mucosa_tick">
+                            <label class="form-check-label" for="plaques_genitalia_mucosa_tick">
+                                Plaques
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="ulcers_genitalia_mucosa_tick"
+                                id="ulcers_genitalia_mucosa_tick">
+                            <label class="form-check-label" for="ulcers_genitalia_mucosa_tick">
+                                Ulcers
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="ml-3">Nails</label>
+                    <div class="col-md-12">
+                        &nbsp; &nbsp; <div class="form-check form-check-inline ml-1">
+                            <input class="form-check-input" type="checkbox" ng-model="fin_tick" id="fin_tick">
+                            <label class="form-check-label" for="fin_tick">
+                                Finger
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" ng-model="toe_tick" id="toe_tick">
+                            <label class="form-check-label" for="toe_tick">
+                                Toe
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" ng-model="b_tick" id="b_tick">
+                            <label class="form-check-label" for="b_tick">
+                                B
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="thining_nail_tick"
+                                id="thining_nail_tick">
+                            <label class="form-check-label" for="thining_nail_tick">
+                                Thining
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="onycho_nail_tick"
+                                id="onycho_nail_tick">
+                            <label class="form-check-label" for="onycho_nail_tick">
+                                Onychorrhexis
+                            </label>
+                        </div>
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="subungual_nail_tick"
+                                id="subungual_nail_tick">
+                            <label class="form-check-label" for="subungual_nail_tick">
+                                Subungualhyperkeratosis
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="pterygium_nail_tick"
+                                id="pterygium_nail_tick">
+                            <label class="form-check-label" for="pterygium_nail_tick">
+                                Pterygium
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="totaloss_nail_tick"
+                                id="totaloss_nail_tick">
+                            <label class="form-check-label" for="totaloss_nail_tick">
+                                Totalloss
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="long_melanon_nail_tick"
+                                id="long_melanon_nail_tick">
+                            <label class="form-check-label" for="long_melanon_nail_tick">
+                                Longitudinal melanonychia
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="hyperpigment_nail_tick"
+                                id="hyperpigment_nail_tick">
+                            <label class="form-check-label" for="hyperpigment_nail_tick">
+                                Hyper pignentation
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <!-- Scalp -->
+
+            <div class="row m-1">
+                <div class="col-md-6 mt-2">
+                    <label>Scalp</label>
+                    <div class="col-md-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="diffuse_alop_scalp_tick"
+                                id="diffuse_alop_scalp_tick">
+                            <label class="form-check-label" for="diffuse_alop_scalp_tick">
+                                Diffuse alopacia
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="male_pattern_scalp_tick"
+                                id="male_pattern_scalp_tick">
+                            <label class="form-check-label" for="male_pattern_scalp_tick">
+                                Male pattern alopacia
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="scarring_scalp_tick"
+                                id="scarring_scalp_tick">
+                            <label class="form-check-label" for="scarring_scalp_tick">
+                                Scarring
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="pupules_scalp_tick"
+                                id="pupules_scalp_tick">
+                            <label class="form-check-label" for="pupules_scalp_tick">
+                                Pupules
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="follicular_scalp_tick"
+                                id="follicular_scalp_tick">
+                            <label class="form-check-label" for="follicular_scalp_tick">
+                                Follicular
+                            </label>
+                        </div>
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="black_dots_scalp_tick"
+                                id="black_dots_scalp_tick">
+                            <label class="form-check-label" for="black_dots_scalp_tick">
+                                Black dots
+                            </label>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+                <!-- Palms and soles-->
+                <div class="col-md-6">
+                    <label class="mt-1 ml-2">Palms&nbsp;and&nbsp;Soles</label>
+
+
+                    <!-- Present -->
+                    <div class="col-md-12">
+
+                        <div class="form-check form-check-inline small ">
+                            <input class="form-check-input" type="radio" name="palmopt" ng-model="palms_soles_tick"
+                                id="palmyes" value="1">
+                            <label class="form-check-label" for="palmyes">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline small">
+                            <input class="form-check-input" type="radio" name="palmopt" ng-model="palms_soles_tick"
+                                id="palmno" value="0" ng-checked="true">
+                            <label class="form-check-label" for="palmno">No</label>
+                        </div>
+
+                        <div ng-show="palms_soles_tick==1" class="mt-2">
+
+                            <!-- Checked checkbox -->
+                            <div class="">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="macule_palm_soles_tick"
+                                        id="macule_palm_soles_tick" />
+                                    <label class="form-check-label" for="macule_palm_soles_tick">
+                                        Macule
+                                    </label>
+                                </div>
+
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="papules_palm_soles_tick"
+                                        id="papules_palm_soles_tick" />
+                                    <label class="form-check-label" for="papules_palm_soles_tick">
+                                        Papules
+                                    </label>
+                                </div>
+
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="plaques_palm_soles_tick"
+                                        id="plaques_palm_soles_tick" />
+                                    <label class="form-check-label" for="plaques_palm_soles_tick">
+                                        Plaques
+                                    </label>
+                                </div>
+
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                        ng-model="hyperkerato_palm_soles_tick" id="hyperkerato_palm_soles_tick" />
+                                    <label class="form-check-label" for="hyperkerato_palm_soles_tick">
+                                        Hyperkeratotic
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="atrophic_palm_soles_tick"
+                                        id="atrophic_palm_soles_tick" />
+                                    <label class="form-check-label" for="atrophic_palm_soles_tick">
+                                        Atrophic
+                                    </label>
+                                </div>
+
+
+
+
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="erythem_palm_soles_tick"
+                                        id="erythem_palm_soles_tick" />
+                                    <label class="form-check-label" for="erythem_palm_soles_tick">
+                                        Eryth Ematous
+                                    </label>
+                                </div>
+
+
+
+
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                        ng-model="hyperpigment_palm_soles_tick" id="hyperpigment_palm_soles_tick" />
+                                    <label class="form-check-label" for="hyperpigment_palm_soles_tick">
+                                        Hyperpigment
+                                    </label>
+                                </div>
+
+
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="bullous_palm_soles_tick"
+                                        id="bullous_palm_soles_tick" />
+                                    <label class="form-check-label" for="bullous_palm_soles_tick">
+                                        Bullous
+                                    </label>
+                                </div>
+
+
+
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="checkbox" ng-model="ulcer_palm_soles_tick"
+                                        id="ulcer_palm_soles_tick" />
+                                    <label class="form-check-label" for="ulcer_palm_soles_tick">
+                                        Ulcerative
+                                    </label>
+                                </div>
+
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="fissur_palm_soles_tick"
+                                        id="fissur_palm_soles_tick" />
+                                    <label class="form-check-label" for="fissur_palm_soles_tick">
+                                        Fissur
+                                    </label>
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Cliinical diganosis -->
+            <div class="row m-1 mt-3 ml-1">
+                <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                    <h7 class="text-left">Clinical Diagnosis</h7>
+                </div>
+            </div>
+
+            <div class="row m-1">
+                <div class="col-md-6">
+                    <!-- <label class="ml-3">Pruritus</label> -->
+                    <div class="col-md-12">
+
+                        <div class="form-check form-check">
+                            <input class="form-check-input" type="checkbox" value="1" ng-model="pruritus_tick"
+                                id="pruritus_tick">
+                            <label class="form-check-label" for="pruritus_tick">
+                                Pruritus
+                            </label>
+
+                        </div>
+                        <div ng-show="pruritus_tick==1">
+                            &nbsp; &nbsp; <div class="form-check form-check-inline ml-1">
+                                <input class="form-check-input" type="checkbox" ng-model="senile_pruritus_tick"
+                                    id="senile_pruritus_tick">
+                                <label class="form-check-label" for="senile_pruritus_tick">
+                                    Senile
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" ng-model="cuta_derma_pruritus_tick"
+                                    id="cuta_derma_pruritus_tick">
+                                <label class="form-check-label" for="cuta_derma_pruritus_tick">
+                                    Cutaneous dermatosis
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox"
+                                    ng-model="systemic_disease_pruritus_tick" id="systemic_disease_pruritus_tick">
+                                <label class="form-check-label" for="systemic_disease_pruritus_tick">
+                                    Systemic diseases
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="senile_xerosis_tick"
+                                id="senile_xerosis_tick">
+                            <label class="form-check-label" for="senile_xerosis_tick">
+                                Senile xerosis
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="senile_purpura_tick"
+                                id="senile_purpura_tick">
+                            <label class="form-check-label" for="senile_purpura_tick">
+                                Senile purpura
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="telang_tick" id="telang_tick">
+                            <label class="form-check-label" for="telang_tick">
+                                Telangiactasia
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="comedones_tick"
+                                id="comedones_tick">
+                            <label class="form-check-label" for="comedones_tick">
+                                Comedones
+                            </label>
+                        </div>
+
+
+
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="asta_exz_tick" id="asta_exz_tick">
+                            <label class="form-check-label" for="asta_exz_tick">
+                                Asteatotic exzema
+                            </label>
+                        </div>
+                        <!-- <div class="form-check">
+                        <input class="form-check-input" type="checkbox" ng-model="atop_derma_tick"
+                            id="atop_derma_tick">
+                        <label class="form-check-label" for="atop_derma_tick">
+                            Atopic dermatitis
+                        </label>
+                    </div> -->
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="sebor_derma_tick"
+                                id="sebor_derma_tick">
+                            <label class="form-check-label" for="sebor_derma_tick">
+                                Seborrhoeic dermatitis
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="stasis_derma_tick"
+                                id="stasis_derma_tick">
+                            <label class="form-check-label" for="stasis_derma_tick">
+                                Stasis dermatitis
+
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="contact_derma_tick"
+                                id="contact_derma_tick">
+                            <label class="form-check-label" for="contact_derma_tick">
+                                Contact dermatitis
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="lichen_simplex_tick"
+                                id="lichen_simplex_tick">
+                            <label class="form-check-label" for="lichen_simplex_tick">
+                                Lichen simplex chronicus
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="nummular_eczema_tick"
+                                id="nummular_eczema_tick">
+                            <label class="form-check-label" for="nummular_eczema_tick">
+                                Nummular eczema
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="photoderma_tick"
+                                id="photoderma_tick">
+                            <label class="form-check-label" for="photoderma_tick">
+                                Photo dermatitis
+                            </label>
+                        </div>
+
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="auto_derma_tick"
+                                id="auto_derma_tick">
+                            <label class="form-check-label" for="auto_derma_tick">
+                                Auto sensitization dermatitis
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="atop_derma_tick"
+                                id="atop_derma_tick">
+                            <label class="form-check-label" for="atop_derma_tick">
+                                Atopic dermatitis
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="fissured_soles_tick"
+                                id="fissured_soles_tick">
+                            <label class="form-check-label" for="fissured_soles_tick">
+                                Fissured soles
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="pemp_vulg_tick"
+                                id="pemp_vulg_tick">
+                            <label class="form-check-label" for="pemp_vulg_tick">
+                                Pemphigus vulgaris
+
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="pemphi_tick" id="pemphi_tick">
+                            <label class="form-check-label" for="pemphi_tick">
+                                Pemphigoid
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="psoriasis_tick"
+                                id="psoriasis_tick">
+                            <label class="form-check-label" for="psoriasis_tick">
+                                Psoriasis
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="vitiligo_tick" id="vitiligo_tick">
+                            <label class="form-check-label" for="vitiligo_tick">
+                                Vitiligo
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="idio_guttate_tick"
+                                id="idio_guttate_tick">
+                            <label class="form-check-label" for="idio_guttate_tick">
+                                Idiopathic guttate hypomelanosis
+
+                            </label>
+                        </div>
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="cherry_tick" id="cherry_tick">
+                            <label class="form-check-label" for="cherry_tick">
+                                Cherry angiomas
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="sebor_kerat_tick"
+                                id="sebor_kerat_tick">
+                            <label class="form-check-label" for="sebor_kerat_tick">
+                                Seborrhoeic keratosis
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="naevi_tick" id="naevi_tick">
+                            <label class="form-check-label" for="naevi_tick">
+                                Naevi
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="achro_tick" id="achro_tick">
+                            <label class="form-check-label" for="achro_tick">
+                                Achrochordon
+                            </label>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-md-6 mt-1">
+                    <div class="col-md-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="xanthel_tick" id="xanthel_tick">
+                            <label class="form-check-label" for="xanthel_tick">
+                                Xanthelesma palpebranum
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="lichen_planus_tick"
+                                id="lichen_planus_tick">
+                            <label class="form-check-label" for="lichen_planus_tick">
+                                Lichen planus
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="urticaria_tick"
+                                id="urticaria_tick">
+                            <label class="form-check-label" for="urticaria_tick">
+                                Urticaria
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="miliaria_tick" id="miliaria_tick">
+                            <label class="form-check-label" for="miliaria_tick">
+                                Miliaria
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="erythoderma_tick"
+                                id="erythoderma_tick">
+                            <label class="form-check-label" for="erythoderma_tick">
+                                Erythoderma
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="lenti_tick" id="lenti_tick">
+                            <label class="form-check-label" for="lenti_tick">
+                                Lentigenes
+                            </label>
+                        </div>
+
+
+
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="callos_tick" id="callos_tick">
+                            <label class="form-check-label" for="callos_tick">
+                                Callosities
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="milia_tick" id="milia_tick">
+                            <label class="form-check-label" for="milia_tick">
+                                Milia
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="acanthosis_tick"
+                                id="acanthosis_tick">
+                            <label class="form-check-label" for="acanthosis_tick">
+                                Acanthosis nigricans
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="rhino_tick" id="rhino_tick">
+                            <label class="form-check-label" for="rhino_tick">
+                                Rhinophyma
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="freckles_tick" id="freckles_tick">
+                            <label class="form-check-label" for="freckles_tick">
+                                Freckles
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" ng-model="fungal_tick"
+                                id="fungal_tick">
+                            <label class="form-check-label" for="fungal_tick">
+                                Fungal
+                            </label>
+                        </div>
+
+                        <div class="ml-4" ng-show="fungal_tick==1">
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="checkbox" ng-model="tinea_fungal_tick"
+                                    id="tinea_fungal_tick">
+                                <label class="form-check-label" for="tinea_fungal_tick">
+                                    Tinea
+                                </label>
+                            </div>
+
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="checkbox" ng-model="candida_fungal_tick"
+                                    id="candida_fungal_tick">
+                                <label class="form-check-label" for="candida_fungal_tick">
+                                    Candida
+                                </label>
+                            </div>
+
+
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="checkbox" ng-model="pity_fungal_tick"
+                                    id="pity_fungal_tick">
+                                <label class="form-check-label" for="pity_fungal_tick">
+                                    Pityriasis
+                                </label>
+                            </div>
+
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="checkbox" ng-model="deep_fungal_tick"
+                                    id="deep_fungal_tick">
+                                <label class="form-check-label" for="deep_fungal_tick">
+                                    Deep
+                                </label>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="herpes_tick" id="herpes_tick">
+                            <label class="form-check-label" for="herpes_tick">
+                                Herpes zoster
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="post_herpes_tick"
+                                id="post_herpes_tick">
+                            <label class="form-check-label" for="post_herpes_tick">
+                                Post herpetic neuralgia
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="herpes_simplex_tick"
+                                id="herpes_simplex_tick">
+                            <label class="form-check-label" for="herpes_simplex_tick">
+                                Herpes simplex
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="pyoderma_tick" id="pyoderma_tick">
+                            <label class="form-check-label" for="pyoderma_tick">
+                                Pyodermas
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="leprosy_tick" id="leprosy_tick">
+                            <label class="form-check-label" for="leprosy_tick">
+                                Leprosy
+                            </label>
+                        </div>
+
+
+
+
+
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="scabies_tick" id="scabies_tick">
+                            <label class="form-check-label" for="scabies_tick">
+                                Scabies
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="warts_tick" id="warts_tick">
+                            <label class="form-check-label" for="warts_tick">
+                                Warts
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="bedsore_tick" id="bedsore_tick">
+                            <label class="form-check-label" for="bedsore_tick">
+                                Bedsore
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="prime_syp_tick"
+                                id="prime_syp_tick">
+                            <label class="form-check-label" for="prime_syp_tick">
+                                Primary syphilis
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" ng-model="tb_verru_tick" id="tb_verru_tick">
+                            <label class="form-check-label" for="tb_verru_tick">
+                                Tuberculosis verrucosa cutis
+                            </label>
+                        </div>
+
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" ng-model="others_tick"
+                                id="others_tick">
+                            <label class="form-check-label" for="others_tick">
+                                Others
+                            </label>
+                            <div class="col-md-10">
+                                <input class="form-control" ng-show="others_tick==1" ng-model="others"
+                                    placeholder="Specify..">
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+
+            <!-- Investigations -->
+            <div class="row m-1 mt-3 ml-1">
+                <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                    <h7 class="text-left">Investigation</h7>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-10 ml-2">
+
+                <div class="row">
+                    <!-- Total leucocytes count -->
+                    <div class="col-md-2">
+                        <label class="mt-1">Total&nbsp;leucocytes&nbsp;count</label>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <input class="form-control form-control-sm" ng-model="leucocytes_cnt" style="width: 250px;" />
+                    </div>
+
+
+                </div>
+
+
+
+
+                <div class="row">
+                    <!-- DLC -->
+                    <div class="col-md-1">
+                        <label class="mt-1">DLC</label>
+                    </div>
+                    <div class="col-sm-3 col-md-1">
+                        <label class="mt-1">N</label>
+                    </div>
+
+                    <div class="col-sm-3 col-md-2">
+                        <input class="form-control form-control-sm" ng-model="dlc_n" style="width: 100px;" />
+                    </div>
+
+
+
+                    <div class="col-sm-3 col-md-1">
+                        <label class="mt-1">L</label>
+                    </div>
+
+                    <div class="col-sm-3 col-md-2">
+                        <input class="form-control form-control-sm" ng-model="dlc_l" style="width: 100px;" />
+                    </div>
+
+
+
+                    <div class="col-sm-3 col-md-1">
+                        <label class="mt-1 ml-1">E</label>
+                    </div>
+
+                    <div class="col-sm-3 col-md-2">
+                        <input class="form-control form-control-sm" ng-model="dlc_e" style="width: 100px;" />
+                    </div>
+
+
+
+                    <div class="col-sm-3 col-md-1">
+                        <label class="mt-1">M</label>
+                    </div>
+
+                    <div class="col-sm-3 col-md-1">
+                        <input class="form-control form-control-sm" ng-model="dlc_m" style="width: 100px;" />
+                    </div>
+
+
+                </div>
+
+
+                <div class="row">
+                    <!-- ESR -->
+                    <div class="col-md-2">
+                        <label class="mt-1">ESR</label>
+                    </div>
+                    <div class="col-sm-3 col-md-5">
+                        <input class="form-control form-control-sm" ng-model="esr" style="width: 250px;" />
+                    </div>
+
+
+
+                    <div class="col-md-2">
+                        <label class="mt-1">Hemoglobin</label>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <input class="form-control form-control-sm" ng-model="hemoglobin" style="width: 250px;" />
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+                <div class="row">
+                    <!--Blood sugar -->
+                    <div class="col-md-2">
+                        <label class="mt-1">Blood sugar(F)</label>
+                    </div>
+                    <div class="col-sm-3 col-md-5">
+                        <input class="form-control form-control-sm" ng-model="bloodsugar_f" style="width: 250px;" />
+                    </div>
+
+
+
+                    <div class="col-md-2">
+                        <label class="mt-1">Blood sugar(pp)</label>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <input class="form-control form-control-sm" ng-model="bloodsugar_p" style="width: 250px;" />
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="row">
+                    <!--Blood urea -->
+                    <div class="col-md-2">
+                        <label class="mt-1">Blood urea</label>
+                    </div>
+                    <div class="col-sm-3 col-md-5">
+                        <input class="form-control form-control-sm" ng-model="blood_urea" style="width: 250px;" />
+                    </div>
+
+
+
+                </div>
+
+
+
+
+                <div class="row">
+                    <!--Serum -->
+                    <div class="col-md-2">
+                        <label class="mt-1">Serum protiens</label>
+                    </div>
+                    <div class="col-sm-3 col-md-5">
+                        <input class="form-control form-control-sm" ng-model="serum_proteins" style="width: 250px;" />
+                    </div>
+
+
+
+                    <div class="col-md-2">
+                        <label class="mt-1">Serum albumin</label>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <input class="form-control form-control-sm" ng-model="serum_albumin" style="width: 250px;" />
+                    </div>
+
+                </div>
+
+
+
+                <div class="row">
+                    <!--LFT -->
+                    <div class="col-md-2">
+                        <label class="mt-1">LFT</label>
+                    </div>
+                    <div class="col-sm-3 col-md-5">
+                        <input class="form-control form-control-sm" ng-model="lft" style="width: 250px;" />
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="row">
+                    <!--Blood urea -->
+                    <div class="col-md-2">
+                        <label class="mt-1">Skin&nbsp;Biopsy</label>
+                    </div>
+                    <div class="col-sm-3 col-md-5">
+                        <input class="form-control form-control-sm" ng-model="skin_biopsy" style="width: 250px;" />
+                    </div>
+
+
+
+                </div>
+
+
+
+                <!--Treatment -->
+                <div class="row">
+                    <div class="col-md-2">
+                        <label class="mt-1">Treatment</label>
+                    </div>
+                    <div class="col-sm-3 col-md-5">
+                        <textarea class="form-control form-control-sm" ng-model="treatment"
+                            style="width: 250px;"> </textarea>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+        <div class="row m-1 ">
+            <div class="col-md-2 col-sm-2 ">
+                <button class="btn btn-sm btn-primary " ng-click="vm.submitDermoForm()">Save&nbsp;Record</button>
+
+            </div>
+            <!-- <div class="col-md-1 col-sm-1 ml-5 ">
+        <button class="btn btn-sm btn-primary ">Next</button>
+    </div> -->
+            <div class="col-md-1 col-sm-1 ">
+                <button class="btn btn-sm btn-primary" ng-click="vm.reset()">Reset</button>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+</div>

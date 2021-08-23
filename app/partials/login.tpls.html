@@ -1,0 +1,92 @@
+<div class="container-fluid  p-0 " ng-init="vm.init();">
+  <title>Report- {{vm.title}}</title>
+
+  <div class="" data-wow-delay="0.3s">
+    <div class="row m-1  ">
+      <div class="col-md-2 col-sm-3 ">
+        <form class=" " ng-submit="vm.tryLogin();">
+
+          <img src="../imports/img/medipro.png" height="40" class="mt-5">
+
+          <!-- Email input -->
+          <div class="form-outline mb-1">
+            <label class="form-label text-center small" for="form1Example1">Username</label>
+
+            <input type="text" id="form1Example1" ng-model="vm.username" class="form-control" placeholder="" />
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-1">
+            <label class="form-label text-center small" for="form1Example2">Password</label>
+
+            <input type="password" id="form1Example2" ng-model="vm.password" class="form-control" />
+          </div>
+          <!-- Submit button -->
+          <button type="submit" class=" mt-1 btn-sm btn btn-primary btn-block" ng-click="vm.tryLogin();">Sign
+            in</button>
+
+          <!-- <img src="../imports/img/mediprofull.jpg" style="height:150px;width: 100%;" class="mt-2 "> -->
+
+        </form>
+      </div>
+
+      <div class="col-md-10 d-none d-sm-block">
+        <img
+          src="../imports/img/ekpaila.png"
+          style="height:400px;width:900px" class="">
+      </div>
+
+    </div>
+
+
+    <div class="row" ng-show="false">
+
+      <div class="col-md-3 z-depth-2 card ">
+        <h5 class="text-center">Login</h5>
+
+        <form ng-submit="vm.tryLogin();">
+
+          <!--Body-->
+          <div class="md-form">
+            <i class="fas fa-user prefix white-text"></i>
+            <input type="text" id="orangeForm-name" class="form-control" ng-model="vm.username">
+            <label for="orangeForm-name">Username</label>
+          </div>
+
+
+          <div class="md-form">
+            <i class="fas fa-lock prefix white-text"></i>
+            <input type="password" id="orangeForm-pass" class="form-control" ng-model="vm.password">
+            <label for="orangeForm-pass">Your password</label>
+          </div>
+
+          <div class="text-center">
+            <input type="submit" class="btn btn-primary" ng-click="vm.tryLogin();" value="Login">
+            <hr>
+
+          </div>
+        </form>
+
+      </div>
+
+      <div class="col-md-9">
+        <img
+          src="https://insights.omnia-health.com/sites/omnia-health.com/files/styles/article_featured_retina/public/radiology%20images.jpg?itok=Jj9CO94H"
+          class="img-responsive">
+      </div>
+
+    </div>
+
+  </div>
+</div>
+</div>
+
+
+<div class="modal-body" style="padding:0px" ng-show="vm.notification.message">
+  <div class="alert alert-{{vm.notification.mode}}">
+    <button type="button" class="close" data-ng-click="close()">
+      <span class="glyphicon glyphicon-remove" style="font-size: small;"></span>
+    </button>
+    <div ng-bind="vm.notification.message"></div>
+  </div>
+</div>

@@ -1,0 +1,1270 @@
+<!-- <h6 class="text-center   mt-3 font-weight-bold">{{vm.title}}</h6> -->
+
+
+<div class=" container-fluid  card  p-0 " ng-init="vm.init();">
+    <title>{{vm.pagetitle}} - Ek ek Paila </title>
+
+ 
+    <style>
+        @media print {
+
+            .table thead tr td,
+            .table tbody tr td {
+                border-width: 1px !important;
+                border-style: solid !important;
+                border-color: #000 !important;
+                font-size: 12px !important;
+                background-color: white;
+                padding: 0px;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+
+    <title>Report- {{vm.title}}</title>
+
+
+    <div class="modal-body small" ng-show="vm.notification.message">
+        <div class="alert alert-{{vm.notification.mode}}"
+            style="margin-bottom:0px; width:300px; position:fixed;bottom:30;right:0;z-index: 100;">
+            <button type="button" class="close" data-ng-click="close()">
+                <span class="glyphicon glyphicon-remove" style="font-size: small;"></span>
+            </button>
+            <div class="text-center m-1 p-1" ng-bind="vm.notification.message"></div>
+        </div>
+    </div>
+
+
+    <div class="container col-sm-12 col-md-12">
+        <!--Title-->
+        <div class="row m-1 ">
+            <a class="fa fa-home btn btn-sm" href="#!dashboard">
+                Dashboard
+                </a>
+            <div class="col-md-12 " style="background-color: rgb(40, 40, 92);height: 35px !important; ">
+                <h5 class="text-center white-text mt-1"> {{vm.pagetitle}}</h5>
+            </div>
+        </div>
+
+                   
+              
+    <div class="row m-1">
+
+        <div class="col-md-1 col-sm-1 small">
+            <label class="mt-3"></label> Search:
+        </div>
+  
+        <div class="col-md-4 small">
+            <div class="input-group mb-3">
+  
+                <input type="text" class="form-control mt-2 " placeholder="" aria-label=""
+                    aria-describedby="button-addon2" ng-model="mrdnum" />
+                <button class="btn btn-sm btn-primary" type="button" ng-click="vm.fetchUserReportList()"
+                    id="button-addon2">
+                    <i class="fa fa-search"></i>
+                </button>
+                <button class="btn btn-sm btn-primary" ng-click="vm.reset();">
+                    Clear </button>
+  
+                <!--        <button class="btn btn-sm btn-primary" type="button" ng-click="vm.createMrd()" id="button-addon2">
+                    <i class="fa fa-plus"></i>
+                </button> -->
+            </div>
+        </div>
+  
+  
+    </div>
+    <div class="col-md-6 offset-1" ng-if="loadtrue">
+        <div class="small spinner-border text-center" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+  
+    <div class="col-md-4" ng-show="noReport">
+        <p class="red-text">No Report found!</p>
+    </div>
+  
+  
+    <div class="row" ng-show="showReport">
+  
+        <table class="table table-sm table-bordered col-sm-9 offset-1">
+            <tr>
+                <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                <th class="m-1 p-1 font-weight-bold">Date</th>
+                <th class="m-1 p-1 font-weight-bold">Actions</th>
+            </tr>
+            <tr>
+                <td class="m-1 p-1">{{vm.pname}}</td>
+                <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
+                <td class="m-1 p-1">
+  
+                    <!-- <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                        <i class="fa fa-edit"></i></a> -->
+  
+  <!-- 
+                    <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
+                        <i class="fa fa-print"></i></a> -->
+                        <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                            <i class="fa fa-edit"></i></a>
+      
+  
+                    <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
+                        <i class="fa fa-trash"></i></a>
+  
+  
+                </td>
+  
+  
+            </tr>
+        </table>
+  
+  
+  
+  
+  
+    </div>
+
+
+        <!--KES ID NO and DATE-->
+
+        <div class="row m-1 ">
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="typeText ">MRD No:</label>
+                    <input type="text"  id="formControlSm " ng-model="mrdnum" disabled class="form-control form-control-sm " />
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="date ">Date:</label>
+                    <input type="text" id="date" ui-mask="9999/99/99" placeholder="yyyy/MM/dd" ui-mask-placeholder-char="-"  ng-model="vm.today " class="form-control form-control-sm " />
+                </div>
+            </div>
+
+            <!-- <div class="col-md-3 col-sm-3 mt-3 ">
+                <button class="btn btn-sm btn-primary " ng-click="vm.createMrd(); ">Create new patient</button>
+            </div> -->
+        </div>
+
+
+
+        <!-- Eye Problem -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7>Chief eye complain</h7>
+            </div>
+        </div>
+
+
+        <!-- OD -->
+        <!-- <div class="row m-1">
+            <div class="col-md-4">
+                <div class="col-md-1 col-sm-1">
+                    <label class="">OD</label>
+                </div>
+                <div class="col-md-10 small">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" value="1" name="eyecomplain_od_tick"
+                            id="eyecomplain_od_yestick" ng-model="cheye_od_tick" />
+                        <label class="form-check-label" for="eyecomplain_od_yestick">Yes</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" value="0" name="eyecomplain_od_tick"
+                            ng-checked="true" id="eyecomplain_od_nottick" ng-model="cheye_od_tick" />
+                        <label class="form-check-label" for="eyecomplain_od_nottick">No</label>
+                    </div>
+                </div>
+
+
+            </div> -->
+
+        <!-- OS HERE -->
+        <!-- <div class="col-md-4">
+                <!-- Eyeproblem OS -->
+        <!-- <div class="col-md-1 col-sm-1 ">
+                    <label>OS</label>
+                </div>
+                <div class="col-md-10 small">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="eyecomplain_os_tick" ng-checked="true"
+                            ng-model="cheye_os_tick" id="eyecomplain_os_tickdone" value="1" />
+                        <label class="form-check-label" for="eyecomplain_os_tickdone">Yes</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="eyecomplain_os_tick" ng-checked="true"
+                            ng-model="cheye_os_tick" id="eyecomplain_os_ticknotdone" value="0" />
+                        <label class="form-check-label" for="eyecomplain_os_ticknotdone">No</label>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div> -->
+
+        <!-- Table -->
+        <div class="row">
+
+            <div class="col-md-12 mt-2">
+
+                <table class="table-sm table-bordered table">
+                    <thead class="m-4">
+                        <tr>
+                            <th scope="col" colspan="1" class="font-weight-bold">Eye</th>
+                            <th scope="col" colspan="2" class="font-weight-bold text-center">OD</th>
+                            <th scope="col" colspan="2" class="font-weight-bold text-center">OS</th>
+                        </tr>
+                        <th scope="col" class="font-weight-bold" style="width: 15%;">Complain</th>
+                        <th scope="col" class="font-weight-bold" style="width: 10%;">Yes</th>
+                        <th scope="col" class="font-weight-bold" style="width: 10%;">No</th>
+                        <th scope="col" class="font-weight-bold" style="width: 10%;">Yes</th>
+                        <th scope="col" class="font-weight-bold" style="width: 10%;">No</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Decreased vision -->
+                        <tr>
+                            <th scope="row">1. Decreased vision</th>
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="dvisison" id="dvisiontoddone"
+                                            value="1" ng-model="cheye_devi_od_tick" />
+                                        <label class="form-check-label" for="dvisiontoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_devi_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_devi_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="dvisison"
+                                            id="dvisiontodnotdone" value="0" ng-model="cheye_devi_od_tick"
+                                            ng-checked="true" />
+                                        <label class="form-check-label" for="dvisiontodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="cheye_devi_os_tick"
+                                            id="dvisiontosdone" value="1" ng-model="cheye_devi_os_tick" />
+                                        <label class="form-check-label" for="dvisiontosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_devi_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_devi_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="cheye_devi_os_tick"
+                                            id="dvisiontosnotdone" value="0" ng-model="cheye_devi_os_tick"
+                                            ng-checked="true" />
+                                        <label class="form-check-label" for="dvisiontosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+                        <!-- Pain -->
+                        <tr>
+                            <th scope="row">2. Pain</th>
+
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="pain" id="paintoddone"
+                                            value="1" ng-model="cheye_pain_od_tick" />
+                                        <label class="form-check-label" for="paintoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_pain_od_tick ==1">
+                                    <input type="text" class="form-control" placeholder="Duration"
+                                        ng-model="cheye_pain_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="pain" id="paintodnotdone"
+                                            value="0" ng-model="cheye_pain_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="paintodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="painos" id="paintosdone"
+                                            value="1" ng-model="cheye_pain_os_tick" />
+                                        <label class="form-check-label" for="paintosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_pain_os_tick ==1">
+                                    <input type="text" class="form-control" placeholder="Duration"
+                                        ng-model="cheye_pain_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="painos" id="painosnotdone"
+                                            value="0" ng-model="cheye_pain_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="painosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+                        <!-- Redness -->
+                        <tr>
+                            <th scope="row">3. Redness</th>
+
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="redod" id="redtoddone"
+                                            value="1" ng-model="cheye_red_od_tick" />
+                                        <label class="form-check-label" for="redtoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_red_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_red_od" /></textarea>
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="redod" id="redtodnotdone"
+                                            value="0" ng-model="cheye_red_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="redtodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="redos" id="redtosdone"
+                                            value="1" ng-model="cheye_red_os_tick" />
+                                        <label class="form-check-label" for="redtosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_red_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_red_os" /></textarea>
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="redos" id="redtosnotdone"
+                                            value="0" ng-model="cheye_red_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="redtosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+
+                        <!-- watering -->
+                        <tr>
+                            <th scope="row">4. Watering</th>
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="waterod" id="watertoddone"
+                                            value="1" ng-model="cheye_water_od_tick" />
+                                        <label class="form-check-label" for="watertoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_water_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_water_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="water" id="watertodnotdone"
+                                            value="0" ng-model="cheye_water_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="watertodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="wateros" id="watertosdone"
+                                            value="1" ng-model="cheye_water_os_tick" />
+                                        <label class="form-check-label" for="watertosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_water_os_tick ==1">
+                                    <input type="text" class="form-control" placeholder="Duration"
+                                        ng-model="cheye_water_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="wateros" id="watertosnotdone"
+                                            value="0" ng-model="cheye_water_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="watertosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+                        <!--Fb sensation -->
+                        <tr>
+
+                            <th scope="row">5. FB sensation</th>
+
+                            <!-- OD YES -->
+
+
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="fbsenod" id="fbsentoddone"
+                                            value="1" ng-model="cheye_fbsen_od_tick" />
+                                        <label class="form-check-label" for="fbsentoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_fbsen_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_fbsen_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="fbsenod" id="fbsentodnotdone"
+                                            value="0" ng-model="cheye_fbsen_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="fbsentodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="fbsenos" id="fbsentosdone"
+                                            value="1" ng-model="cheye_fbsen_os_tick" />
+                                        <label class="form-check-label" for="fbsentosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_fbsen_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_fbsen_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="fbsenos" id="fbsentosnotdone"
+                                            value="0" ng-model="cheye_fbsen_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="fbsentosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- Itching -->
+                        <tr>
+
+                            <th scope="row">6. Itching</th>
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="itchod" id="itchtoddone"
+                                            value="1" ng-model="cheye_itch_od_tick" />
+                                        <label class="form-check-label" for="itchtoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_itch_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_itch_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="itchod" id="itchtodnotdone"
+                                            value="0" ng-model="cheye_itch_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="itchtodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="itchos" id="itchtosdone"
+                                            value="1" ng-model="cheye_itch_os_tick" />
+                                        <label class="form-check-label" for="itchtosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_itch_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_itch_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="itchos" id="itchtosnotdone"
+                                            value="0" ng-model="cheye_itch_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="itchtosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+
+
+
+                        <!-- Photophobia -->
+                        <tr>
+                            <th scope="row">7. Photophobia</th>
+
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="ptbod" id="ptbtoddone"
+                                            value="1" ng-model="cheye_ptb_od_tick" />
+                                        <label class="form-check-label" for="ptbtoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_ptb_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_ptb_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="ptbod" id="ptbtodnotdone"
+                                            value="0" ng-model="cheye_ptb_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="ptbtodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="ptbos" id="ptbtosdone"
+                                            value="1" ng-model="cheye_ptb_os_tick" />
+                                        <label class="form-check-label" for="ptbtosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_ptb_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_ptb_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="ptbos" id="ptbtosnotdone"
+                                            value="0" ng-model="cheye_ptb_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="ptbtosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+                        <!-- Floaters-->
+                        <tr>
+                            <th scope="row">8. Floaters</th>
+
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="flood" id="flotoddone"
+                                            value="1" ng-model="cheye_flo_od_tick" />
+                                        <label class="form-check-label" for="flotoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_flo_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_flo_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="flood" id="flotodnotdone"
+                                            value="0" ng-model="cheye_flo_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="flotodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="floos" id="flotosdone"
+                                            value="1" ng-model="cheye_flo_os_tick" />
+                                        <label class="form-check-label" for="flotosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_flo_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_flo_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="floos" id="flotosnotdone"
+                                            value="0" ng-model="cheye_flo_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="flotosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+                        <!-- Flashes -->
+                        <tr>
+                            <th scope="row">9. Flashes</th>
+
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="flaod" id="flatoddone"
+                                            value="1" ng-model="cheye_fla_od_tick" />
+                                        <label class="form-check-label" for="flatoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_fla_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_fla_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="flaod" id="flatodnotdone"
+                                            value="0" ng-model="cheye_fla_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="flatodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="flaos" id="flatosdone"
+                                            value="1" ng-model="cheye_fla_os_tick" />
+                                        <label class="form-check-label" for="flatosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_fla_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_fla_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="flaos" id="flatosnotdone"
+                                            value="0" ng-model="cheye_fla_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="flatosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+
+
+
+                        <!-- Diplopia -->
+                        <tr>
+                            <th scope="row">10. Diplopia</th>
+
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="dipod" id="dipoddone"
+                                            value="1" ng-model="cheye_dip_od_tick" />
+                                        <label class="form-check-label" for="dipoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_dip_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_dip_od">
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="dipod" id="dipodnotdone"
+                                            value="0" ng-model="cheye_dip_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="dipodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="dipos" id="diposdone"
+                                            value="1" ng-model="cheye_dip_os_tick" />
+                                        <label class="form-check-label" for="diposdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_dip_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_dip_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="dipos" id="diposnotdone"
+                                            value="0" ng-model="cheye_dip_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="diposnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+
+                        <!-- Scotoma -->
+                        <tr>
+                            <th scope="row">11. Scotoma</th>
+
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="scood" id="scooddone"
+                                            value="1" ng-model="cheye_sco_od_tick" />
+                                        <label class="form-check-label" for="scooddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_sco_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_sco_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="scood" id="scoodnotdone"
+                                            value="0" ng-model="cheye_sco_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="scoodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="scoos" id="scoosdone"
+                                            value="1" ng-model="cheye_sco_os_tick" />
+                                        <label class="form-check-label" for="scoosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_sco_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_sco_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="scoos" id="scoosnotdone"
+                                            value="0" ng-model="cheye_sco_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="scoosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+
+                        <!-- Colored haloes -->
+                        <tr>
+                            <th scope="row">12. Colored haloes</th>
+
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="colhaod" id="colhaoddone"
+                                            value="1" ng-model="cheye_colha_od_tick" />
+                                        <label class="form-check-label" for="colhaoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_colha_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_colha_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="colhaod" id="colhaodnotdone"
+                                            value="0" ng-model="cheye_colha_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="colhaodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="colhaos" id="colhaosdone"
+                                            value="1" ng-model="cheye_colha_os_tick" />
+                                        <label class="form-check-label" for="colhaosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_colha_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_colha_os" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="colhaos" id="colhaosnotdone"
+                                            value="0" ng-model="cheye_colha_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="colhaosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+                        <!-- Others -->
+                        <tr>
+                            <th scope="row">13. Others</th>
+
+                            <!-- OD YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="othod" id="othoddone"
+                                            value="1" ng-model="cheye_oth_od_tick" />
+                                        <label class="form-check-label" for="othoddone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_oth_od_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_oth_od" />
+                                    <P class="small text-right">Days</P>
+                            </td>
+
+                            <!-- OD NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="othod" id="othodnotdone"
+                                            value="0" ng-model="cheye_oth_od_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="othodnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- OS YES -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="othos" id="othosdone"
+                                            value="1" ng-model="cheye_oth_os_tick" />
+                                        <label class="form-check-label" for="othosdone"></label>
+                                    </div>
+                                </div>
+
+                                <!-- ng-show=od ==1" -->
+                                <div class="col-md-12 mt-3" ng-show="cheye_oth_os_tick ==1">
+                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                        ng-model="cheye_oth_os" />
+                                    <P class="small text-right">Days</P>
+
+                            </td>
+
+                            <!-- OS NO -->
+                            <td>
+                                <div class="col-md-10 small">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="othos" id="othosnotdone"
+                                            value="0" ng-model="cheye_oth_os_tick" ng-checked="true" />
+                                        <label class="form-check-label" for="othosnotdone"></label>
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+
+
+
+                    </tbody>
+                </table>
+
+
+
+
+                <!-- Any Problem -->
+                <div class="row m-1 mt-2">
+                    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                        <h7 class="text-left">If having any of above complain</h7>
+                    </div>
+                </div>
+
+
+                <!-- Yes -->
+                <div class="row m-1">
+                    <div class="col-md-6">
+                        <div class="col-md-12 small">
+                            <label>Did&nbsp;you&nbsp;make&nbsp;any&nbsp;eye&nbsp;health&nbsp;care&nbsp;consulation
+                            </label>
+
+                            <div class="form-check form-check-inline ml-2">
+                                <input class="form-check-input" type="radio" value="1" name="eyeconsult"
+                                    id="eyeconsult_yes" ng-model="eyeconsult_tick" />
+                                <label class="form-check-label" for="eyeconsult_yes">Yes</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="0" name="eyeconsult"
+                                    id="eyeconsult_no" ng-model="eyeconsult_tick" ng-checked="true" />
+                                <label class="form-check-label" for="eyeconsult_no">No</label>
+                            </div>
+
+
+                            <div ng-show="eyeconsult_tick ==1">
+                                <label class=" mt-2"> <b>If yes where</b></label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                        ng-model="eyeconsult_yes_pharmacy_tick" id="eyeconsult_yes_pharmacy_tick">
+                                    <label class="form-check-label" for="eyeconsult_yes_pharmacy_tick">
+                                        1. Pharmacy
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                        ng-model="eyeconsult_yes_health_i_tick"
+                                        id="eyeconsult_yes_health_i_tick">
+                                    <label class="form-check-label" for="eyeconsult_yes_health_i_tick">
+                                        2. General Health Institute
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                        ng-model="eyeconsult_eye_clinic_tick" id="eyeconsult_eye_clinic_tick">
+                                    <label class="form-check-label" for="eyeconsult_eye_clinic_tick">
+                                        3. Eye Clinic 
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="eyeconsult_eye_hospital_tick"
+                                        id="eyeconsult_eye_hospital_tick">
+                                    <label class="form-check-label" for="eyeconsult_eye_hospital_tick">
+                                        4. Eye hospital
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div ng-show="eyeconsult_tick ==0">
+                                <label class=" mt-2"> <b>If no, reason (barrier)</b></label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="eyeconsult_no_lt"
+                                        id="eyeconsult_no_lt">
+                                    <label class="form-check-label" for="eyeconsult_no_lt">
+                                        1. Lack of time
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="eyeconsult_no_lm"
+                                        id="eyeconsult_no_lm">
+                                    <label class="form-check-label" for="eyeconsult_no_lm">
+                                        2. Lack of money
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="eyeconsult_no_lc"
+                                        id="eyeconsult_no_lc">
+                                    <label class="form-check-label" for="eyeconsult_no_lc">
+                                        3. Lack of compansion
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ng-model="eyeconsult_no_o"
+                                        id="eyeconsult_no_o">
+                                    <label class="form-check-label" for="eyeconsult_no_o">
+                                        4. Other alternative medicine
+                                    </label>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+                </div>
+
+                <!-- Button -->
+                <div class="col-sm-6 mt-3">
+                    <button class="btn btn-primary btn-sm" type="submit" ng-click="vm.submitChiefComplain()">Save
+                        Record</button>
+                    <input class="btn btn-primary btn-sm" ng-click="vm.next()" type="button" value="Next">
+                    <input class="btn btn-primary btn-sm" type="submit" ng-click="vm.reset()" value="Reset">
+
+
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>

@@ -1,0 +1,1641 @@
+<div class="container-fluid card mt-4" ng-init="vm.init();">
+    <title>{{vm.pagetitle}} - Ek ek Paila </title>
+    <style>
+        @media print {
+
+            .table thead tr td,
+            .table tbody tr td {
+                border-width: 1px !important;
+                border-style: solid !important;
+                border-color: #000 !important;
+                font-size: 12px !important;
+                background-color: white;
+                padding: 0px;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+
+
+
+    <div class="modal-body " style="padding:0px " ng-show="vm.notification.message ">
+        <div class="alert alert-{{vm.notification.mode}} "
+            style="margin-bottom:0px; width:20%; position:fixed;bottom:0;right:0;z-index: 100; ">
+            <button type="button " class="close " data-ng-click="close() ">
+                <span class="glyphicon glyphicon-remove " style="font-size: small; "></span>
+            </button>
+            <div ng-bind="vm.notification.message "></div>
+        </div>
+    </div>
+
+        <!--Title-->
+        <div class="row m-1 ">
+            <a class="fa fa-home btn btn-sm" href="#!dashboard">
+                Dashboard
+                </a>
+            <div class="col-md-12 " style="background-color: rgb(40, 40, 92);height: 35px !important; ">
+                <h5 class="text-center white-text mt-1">Vision and Refraction</h5>
+            </div>
+        </div>
+    <div class="row m-1">
+
+        <div class="col-md-1 col-sm-1 small">
+            <label class="mt-3"></label> Search:
+        </div>
+
+        <div class="col-md-4 small">
+            <div class="input-group mb-3">
+
+                <input type="text" class="form-control mt-2 " placeholder="" aria-label=""
+                    aria-describedby="button-addon2" ng-model="mrdnum" />
+                <button class="btn btn-sm btn-primary" type="button" ng-click="vm.fetchUserReportList()"
+                    id="button-addon2">
+                    <i class="fa fa-search"></i>
+                </button>
+                <button class="btn btn-sm btn-primary" ng-click="vm.reset();">
+                    Clear </button>
+
+                <!--        <button class="btn btn-sm btn-primary" type="button" ng-click="vm.createMrd()" id="button-addon2">
+                    <i class="fa fa-plus"></i>
+                </button> -->
+            </div>
+        </div>
+        
+<!--         
+        <div class="col-md-1 offset-2">
+            <label class="small mt-2">Create&nbsp;New&nbsp;MRD</label>
+        </div>
+        <div class="col-sm-2">
+            <input type="number" class="form-control" ng-model="newmdr" min="0">
+        </div>
+        <div class="col-sm-2 ">
+            <button class=" mb-2 btn btn-sm btn-primary" ng-click="vm.createMrd(); ">
+                Submit
+            </button>
+        </div> -->
+
+
+    </div>
+
+
+
+
+    <div class="col-md-6 offset-1" ng-if="loadtrue">
+        <div class="small spinner-border text-center" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div class="col-md-4" ng-show="noReport">
+        <p class="red-text">No Report found!</p>
+    </div>
+
+
+    <div class="row" ng-show="showReport">
+
+        <table class="table table-sm table-bordered col-sm-9 offset-1">
+            <tr>
+                <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                <th class="m-1 p-1 font-weight-bold">Date</th>
+                <th class="m-1 p-1 font-weight-bold">Actions</th>
+            </tr>
+            <tr>
+                <td class="m-1 p-1">{{vm.pname}}</td>
+                <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
+                <td class="m-1 p-1">
+
+                    <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                        <i class="fa fa-edit"></i></a>
+
+
+                    <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
+                        <i class="fa fa-print"></i></a>
+
+                        
+                    <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
+                        <i class="fa fa-trash"></i></a>
+
+
+                </td>
+
+
+            </tr>
+        </table>
+
+
+        <!-- ng-show="showReport" -->
+        <div class="col-md-12 offset-1 m-1" id="report" ng-show="false">
+            <div id="center" ng-show="False">
+                <h3 class="text-center black-text font-weight-bold ">Summary Report</h3>
+            </div>
+            <div class="col-md-11 ">
+                <table class="table-condensed table table-sm offset-1 mb-0 pb-0" id="noborder"
+                    style="width:95% !important;">
+
+                    <tr>
+                        <td class="m-1 p-1 text-left noborder " colspan="30 " style="width: 670px; ">
+
+                            Mrd No: &nbsp;&nbsp; {{vm.userMrd}}
+                            </th>
+                            <!-- <td colspan="5 ">
+
+                        </td> -->
+                        <td class="m-1 p-1 noborder pp ">
+
+                            Name:
+                        </td>
+
+                        <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                            {{vm.pname}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="m-1 p-1 text-left noborder " colspan="30 ">
+
+                            Date: &nbsp;&nbsp; {{vm.reportDate | date:'yyyy/MM/dd'}}
+                        </td>
+                        <td class="m-1 p-1 noborder pp ">
+
+                            Age:
+                        </td>
+                        <td class="m-1 p-1 noborder ">
+                            {{vm.age | placeholder}}
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <th class="m-1 p-1 text-left noborder " id="left " colspan="30 ">
+                            <strong>Use of Glasses</strong>
+                        </th>
+                        <td class="m-1 p-1 noborder pp ">
+                            Gender:
+                        </td>
+                        <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                            {{vm.gender}}
+                        </td>
+
+
+
+                    </tr>
+                    <tr>
+                        <td class="m-1 p-1 text-left noborder " colspan="30 ">
+                            Distance: &nbsp; {{vm.distanceGlasses}}
+                        </td>
+                        <td class="m-1 p-1 noborder pp ">
+                            Address:
+                        </td>
+                        <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                            {{vm.address}}
+                        </td>
+
+
+                    </tr>
+                    <tr>
+                        <td class="m-1 p-1 text-left noborder " colspan="30 ">
+                            Near: &nbsp; {{vm.nearGlasses}}
+                        </td>
+
+                        <td class="m-1 p-1 noborder pp ">
+
+                            Contact&nbsp;no:
+                        </td>
+                        <td class="m-1 p-1 noborder pp ">
+                            {{vm.contact | placeholder}}
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>
+            <!-- ACUITY -->
+            <div class="col-md-11 ">
+                <!-- <h4 class="text-left black-text font-weight-bold " ng-show="false">Visual Acuity</h4> -->
+
+                <table class="table-condensed offset-1 table table-sm table-bordered " style="width: 95% !important; ">
+                    <tr>
+                        <th class="m-1 p-1 font-weight-bold " rowspan="2 ">Visual Acuity</th>
+                        <th class="m-1 p-1 text-center font-weight-bold " colspan="2 ">OD</th>
+                        <th class="m-1 p-1 text-center font-weight-bold " colspan="2 ">OS</th>
+                    </tr>
+                    <tr>
+                        <!-- <th class="m-1 p-1 "></th> -->
+                        <th class="m-1 p-1 text-center font-weight-bold ">PVA</th>
+                        <!-- <th class="m-1 p-1 text-center font-weight-bold ">UVA</th> -->
+                        <th class="m-1 p-1 text-center font-weight-bold ">PHVA</th>
+
+                        <th class="m-1 p-1 text-center font-weight-bold ">PVA</th>
+                        <!-- <th class="m-1 p-1 text-center font-weight-bold ">UVA</th> -->
+                        <th class="m-1 p-1 text-center font-weight-bold ">PHVA</th>
+                    </tr>
+
+                    <tr>
+                        <th class="m-1 p-1 ">Distance</th>
+                        <td class="m-1 p-1 text-center ">{{vm.pvaDistanceOd |placeholder}}</th>
+                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaDistanceOd |placeholder}}</th> -->
+                        <td class="m-1 p-1 text-center ">{{vm.pvDistanceOd |placeholder}}</th>
+
+                        <td class="m-1 p-1 text-center ">{{vm.pvaDistanceOs |placeholder}}</th>
+                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaDistanceOs |placeholder}}</th> -->
+                        <td class="m-1 p-1 text-center ">{{vm.pvDistanceOs |placeholder}}</th>
+
+                    </tr>
+                    <tr>
+                        <th class="m-1 p-1 ">Near</th>
+                        <td class="m-1 p-1 text-center ">{{vm.pvaNearOd |placeholder}}</th>
+
+                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaNearOd |placeholder}}</th> -->
+
+                        <td class="m-1 p-1 text-center "> {{vm.pvNearOd|placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">
+                            {{vm.pvaNearOs}} </th>
+                        <td class="m-1 p-1 text-center ">
+                            {{vm.pvNearOs}} </th>
+                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaNearOs |placeholder}}</th> -->
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div class="col-md-11 ">
+                <table class="table-condensed offset-1 table table-sm table-bordered " style="width: 95% !important; ">
+                    <tr>
+
+                        <th class="m-1 p-1 font-weight-bold text-left " style="border-bottom: none !important; "
+                            colspan="1 ">Glass prescription</th>
+                        <th class="m-1 p-1 text-center font-weight-bold " colspan="4 ">OD</th>
+                        <th class="m-1 p-1 text-center font-weight-bold " colspan="4 ">OS</th>
+                    </tr>
+                    <tr>
+                        <th class="m-1 p-1 noborder " style="border-top: none !important; "></th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">SPH</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">CYL</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">Axis</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">BCVA</th>
+
+                        <th class="m-1 p-1 text-center font-weight-bold ">SPH</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">CYL</th>
+                        <th class="m-1 text-center p-1 font-weight-bold ">Axis</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">BCVA</th>
+                    </tr>
+
+                    <tr>
+                        <th class="m-1 p-1 ">Distance</th>
+                        <td class="m-1 p-1 text-center ">{{vm.sphericalDistanceOdValue | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.cylindricalDistanceOdValue | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.axisDistanceOd | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.vancDistanceOd | placeholder}}</th>
+
+                        <td class="m-1 p-1 text-center ">{{vm.sphericalDistanceOsValue | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.cylindricalDistanceOsValue | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.axisDistanceOs | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.vancDistanceOs | placeholder}}</th>
+
+                    </tr>
+                    <tr>
+                        <th class="m-1 p-1 ">Near</th>
+                        <td class="m-1 p-1 text-center ">{{vm.sphericalNearOdValue | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">
+                            </th>
+                        <td class="m-1 p-1 ">
+                            </th>
+                        <td class="m-1 p-1 text-center ">{{vm.vancNearOd | placeholder}}</th>
+
+                        <td class="m-1 p-1 text-center ">{{vm.sphericalNearOsValue | placeholder}}</th>
+                        <td class="m-1 p-1 ">
+                            </th>
+                        <td class="m-1 p-1 ">
+                            </th>
+                        <td class="m-1 p-1 text-center ">{{vm.vancNearOs | placeholder}}</th>
+                    </tr>
+                </table>
+            </div>
+
+            <span ng-show="false">Note: Kindly note the power prescribed for near vision glass is net value, not an
+                addition to distance glass</span>
+
+            <div class="col-md-11 offset-1">
+                <h4 class="text-left black-text font-weight-bold " ng-show="false">Diagnosis</h4>
+                <h5 class="text-left font-weight-bold f-0 p-0">OD</h5>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.normal_od_tick">Normal</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.refractive_error_od_tick">Refractive Error</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.presbyopia_od_tick">Presbyopia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_untreated_od_tick">Cataract Untreated</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.aphakia_od_tick">Aphakia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_surg_complications_od_tick">
+                    Cataract Surg Complications</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.tco_od_tick">Tco</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.phthisis_od_tick">Phthisis</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.onchcercia_od_tick">Onchcercia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.glaucoma_od_tick">Glaucoma</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.diabetic_od_tick">Diabetic </p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.armd_od_tick">Armd </p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.other_posterior_od_tick">Other Posterior</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cns_od">Cns</p>
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.others_od_tick">Others:</p>{{vm.others_od}}
+                </span>
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.medical_treatment_od_tick">Medical Treatment:</p>
+                    {{vm.medical_treatment_od}}
+                </span>
+
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.surgrical_treatment_od_tick">Surgrical Treatment:</p>
+                    {{vm.surgrical_treatment_od}}
+                </span>
+
+                
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.laser_treatment_od_tick">Laser Treatment:</p>
+                    {{vm.laser_treatment_od}}
+                </span>
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.subspeciality_referal_od_tick">Sub speciality Refer:
+                    </p>
+                    <span class="b-0 pp" ng-if="vm.subspec_corena_od_tick"> Corena</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_retina_od_tick"> Retina,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_glaucoma_od_tick"> Glaucoma,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_opal_od_tick"> Opal,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_referr_od_tick"> Referr,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_squint_od_tick"> Squint,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_uvea_od_tick"> Uvea,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_neuropthalmo_od_tick"> Neuropthalmology,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_none_od_tick"> None</span>
+
+                </span>
+
+
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.followup_od != null">Follow up:</p>
+                    {{vm.followup_od}}
+                </span>
+
+
+                <br>
+                <h5 class="text-left font-weight-bold f-0 p-0">OS</h5>
+
+                <p class="font-weight-bold f-0 pp" ng-if="vm.normal_os_tick">Normal</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.refractive_error_os_tick">Refractive Error</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.presbyopia_os_tick">Presbyopia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_untreated_os_tick">Cataract Untreated</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.aphakia_os_tick">Aphakia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_surg_complications_os_tick">
+                    Cataract Surg Complications</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.tco_os_tick">Tco</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.phthisis_os_tick">Phthisis</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.onchcercia_os_tick">Onchcercia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.glaucoma_os_tick">Glaucoma</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.diabetic_os_tick">Diabetic</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.armd_os_tick">Armd</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.other_posterior_os_tick">Other Posterior</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cns_os">Cns</p>
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.others_os_tick">Others:</p>
+                    {{vm.others_os}}
+                </span>
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.medical_treatment_os_tick">Medical Treatment:</p>
+                    {{vm.medical_treatment_os}}
+                </span>
+
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.surgrical_treatment_os_tick">Surgrical Treatment:</p>
+                    {{vm.surgrical_treatment_os}}
+                </span>
+
+                
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.laser_treatment_os_tick">Laser Treatment:</p>
+                    {{vm.laser_treatment_os}}
+                </span>
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.subspeciality_referal_os_tick">Sub speciality Refer:
+                    </p>
+                    <span class=" b-0 pp" ng-if="vm.subspec_corena_os_tick"> Corena</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_retina_os_tick"> Retina</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_glaucoma_os_tick"> Glaucoma</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_opal_os_tick"> Opal</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_referr_os_tick"> Referr</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_squint_os_tick"> Squint</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_uvea_os_tick"> Uvea</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_neuropthalmo_os_tick"> Neuropthalmology</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_none_os_tick"> None</span>
+    
+
+                </span>
+
+
+
+               
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.followup_os != null">Follow up:</p>
+                    {{vm.followup_os}}
+                </span>
+
+
+
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div>
+
+
+<form>
+        <!--KES ID NO and DATE-->
+
+        <div class="row m-1 ">
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="typeText ">MRD No:</label>
+                    <input type="text" id="formControlSm " ng-model="mrdnum" disabled class="form-control form-control-sm " />
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="date ">Date:</label>
+                    <input type="text" id="date " ui-mask="9999/99/99" placeholder="yyyy/MM/dd" ui-mask-placeholder-char="-"  ng-model="vm.today " class="form-control form-control-sm " />
+                </div>
+            </div>
+
+            <!-- <div class="col-md-3 col-sm-3 mt-3 ">
+                <button class="btn btn-sm btn-primary " ng-click="vm.createMrd(); ">Create new patient</button>
+            </div> -->
+        </div>
+
+
+
+
+
+
+        <!--GLASSES-->
+        <div class="row m-1 ">
+            <div class="col-md-12 " style="border-bottom: 1px solid rgba(0, 0, 0, 0.473); ">
+                <h7 class="text-left ">Use of glasses</h7>
+            </div>
+
+        </div>
+        <div class="row m-1 ">
+            <div class="col-md-1 col-sm-1 small ">
+                <label>1.Distance</label>
+            </div>
+
+            <div class="col-md-2 col-sm-2 small ">
+                <div class="form-check form-check-inline ">
+                    <input class="form-check-input" type="radio" name="distanceglassestick" id="distanceyes"
+                        ng-model="distanceglassestick" ng-value="true" />
+                    <label class="form-check-label" for="distanceyes">Yes</label>
+                </div>
+
+                <div class="form-check form-check-inline ">
+                    <input class="form-check-input" type="radio" name="distanceglassestick" id="distanceno"
+                        ng-model="distanceglassestick" ng-value="false" ng-init="distanceglassestick = false" />
+                    <label class="form-check-label" for="distanceno">No</label>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row m-1 ">
+            <div class="col-md-1 col-sm-1 small ">
+                <label>2.Near</label>
+            </div>
+
+            <div class="col-md-2 col-sm-2 small ">
+                <div class="form-check form-check-inline ">
+                    <input class="form-check-input" type="radio" ng-model="nearglassestick" name="nearglassestick"
+                        id="nearyes" ng-value="true" />
+                    <label class="form-check-label" for="nearyes">Yes</label>
+                </div>
+
+                <div class="form-check form-check-inline ">
+                    <input class="form-check-input" type="radio" name="nearglassestick" ng-model="nearglassestick"
+                        id="nearno" ng-value="false" ng-init="nearglassestick = false" />
+                    <label class="form-check-label" for="nearno">No</label>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- IF USING GLASSES -->
+        <div class="row m-1 ">
+            <div class="col-md-12 " style="border-bottom: 1px solid rgba(0, 0, 0, 0.473); ">
+                <h7 class="text-left ">If using glasses(Regularity)</h7>
+            </div>
+
+        </div>
+        <div class="row m-1 ">
+
+            <div class="col-md-2 col-sm-2 small ">
+                <div class="form-check form-check-inline ">
+                    <input class="form-check-input" type="radio" ng-model="glassesregularitytick" name="glassesuse"
+                        id="yesuse" ng-value="true" />
+                    <label class="form-check-label" for="yesuse">Yes</label>
+                </div>
+
+                <div class="form-check form-check-inline ">
+                    <input class="form-check-input" type="radio" ng-model="glassesregularitytick" name="glassesuse"
+                        id="nouse" ng-value="false" ng-init="glassesregularitytick = false" />
+                    <label class="form-check-label" for="nouse">No</label>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        <!-- Visual Acuity  DEKSTOP-->
+        <div class="row m-1 ">
+            <div class="col-md-12 " style="border-bottom: 1px solid rgba(0, 0, 0, 0.473); ">
+                <h7 class="text-left ">Visual Acuity</h7>
+            </div>
+            <div class="col-md-12 ">
+                <table class="table table-sm table-bordered ">
+                    <tr>
+                        <th class="m-2 p-2 font-weight-bold small" colspan="4">Visual Acuity</th>
+                        <th class="m-2 p-2 font-weight-bold small" colspan="5">Presenting Glass</th>
+
+                    </tr>
+
+                    <tr>
+                        <th class="m-2 p-2 font-weight-bold small " colspan="2 "></th>
+                        <th class="m-2 p-2 font-weight-bold small ">Presenting Visual Acuity</th>
+                        <th class="m-2 p-2 font-weight-bold small ">Pinhole Vision</th>
+                        <th class="m-2 p-2 font-weight-bold small text-center " style="width: 90px !important;">Sign
+                        </th>
+                        <th class="m-2 p-2 font-weight-bold small text-center ">Spherical</th>
+                        <th class="m-2 p-2 font-weight-bold small text-center " style="width: 90px !important;">Sign
+                        </th>
+                        <th class="m-2 p-2 font-weight-bold small text-center ">Cylindrical</th>
+                        <th class="m-2 p-2 font-weight-bold small text-center ">Axis</th>
+
+                    </tr>
+                    <!--DISTANCE-->
+                    <tr>
+                        <th class="font-weight-bold small m-2 p-2 ">Distance 
+                                                        <!-- {{pvadistanceod}} {{pvadistanceod.name.name}}   {{pvadistanceod.value}} -->
+
+                        </th>
+
+
+                        <td class="m-1 p-1 small ">
+                            <table class="table-bordered table-sm table ">
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OD</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OS</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <!-- Presenting Visual Acuity DISTANCE -->
+
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+
+                                        <!-- Presenting Visual Acuity -->
+
+                                        <select class="browser-default custom-select"
+                                            ng-options="pvadistanceod.value for pvadistanceod in distanceVisionValues "
+                                            ng-model="pvadistanceod.name " ng-init="pvadistanceod.name= distanceVisionValues[0]">
+                                            
+                                        </select>
+
+
+
+
+
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td class=" " style="height: 60px; ">
+                                        <!-- Presenting Visual Acuity DISTANCE -->
+
+                                        <select class="browser-default custom-select"
+                                            ng-options="pvadistanceos.value for pvadistanceos in distanceVisionValues "
+                                            ng-model="pvadistanceos.name " ng-init="pvadistanceos.name= distanceVisionValues[0]">
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <!-- Pinhole Vision -->
+                        <td class="m-1 p-1 small ">
+                            <table class="table-bordered table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <!-- Pinhole Vision -->
+                                        <select class="browser-default custom-select"
+                                            ng-options="pvdistanceod.value for pvdistanceod in distanceVisionValues "
+                                            ng-model="pvdistanceod.name " ng-init="pvdistanceod.name= distanceVisionValues[0]" > 
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <!-- Pinhole Vision -->
+
+                                        <select class="browser-default custom-select"
+                                            ng-options="pvdistanceos.value for pvdistanceos in distanceVisionValues "
+                                            ng-model="pvdistanceos.name " ng-init="pvdistanceos.name= distanceVisionValues[0]" >
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <!-- PRSENTING GLASS    -->
+                        <!-- Spherical DISTANCE SIGN -->
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select"
+                                                ng-model="pg_spherical_distance_od"
+                                                ng-init="pg_spherical_distance_od = '+'">
+                                                <option value="+" selected>+</option>
+                                                <option value="-">-</option>
+                                            </select>
+                                            <!-- Spherical OD VALUE-->
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select"
+                                                ng-model="pg_spherical_distance_os "
+                                                ng-init="pg_spherical_distance_os = '+'">
+                                                <option value="+">+</option>
+                                                <option value="-">-</option>
+                                            </select>
+                                            <!-- Spherical OS VALUE-->
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </td>
+                        <!-- Spherical DISTANCE  -->
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <!-- Spherical OD -->
+
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Spherical OD Distance-->
+                                            <input type="text" numbers-only aria-label="pg_spherical_distance_od_value "
+                                                ng-model="pg_spherical_distance_od_value "
+                                                class="form-control customform" min="0" />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Spherical OS -->
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Spherical OS Distance-->
+                                            <input type="text" numbers-only aria-label=" " class="form-control customform"
+                                                ng-model="pg_spherical_distance_os_value " min="0" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+
+                        <!-- cylindricaldistanceod SIGN-->
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select"
+                                                ng-model="pg_cylindrical_distance_od "
+                                                ng-init="pg_cylindrical_distance_od = '+'">
+                                                <option value="+">+</option>
+                                                <option value="-">-</option>
+                                            </select>
+                                            <!-- cylindricaldistanceod OD VALUE-->
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select"
+                                                ng-model="pg_cylindrical_distance_os"
+                                                ng-init="pg_cylindrical_distance_os = '+'">
+                                                <option value="+">+</option>
+                                                <option value="-">-</option>
+                                            </select>
+                                            <!-- Cylindrical DIstance oS  -->
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </td>
+                        <!-- cylindricaldistanceod -->
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Cylindrical DIstance oD  -->
+                                            <input type="text" numbers-only aria-label="pg_cylindrical_distance_od_value "
+                                                ng-model="pg_cylindrical_distance_od_value "
+                                                class="form-control customform" min="0" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Cylindrical DIstance oS -->
+
+                                            <input type="text" numbers-only aria-label="pg_cylindrical_distance_os_value "
+                                                class="form-control customform"
+                                                ng-model="pg_cylindrical_distance_os_value " min="0" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                        <!-- AXIS  DISTANCE -->
+                        <td class="m-1 p-1 small ">
+                            <table class="table-bordered table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <input type="text" numbers-only class="form-control" ng-model="pg_axis_distance_od "
+                                            min="0">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <input type="text" numbers-only class="form-control" ng-model="pg_axis_distance_os "
+                                            min="0">
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                    </tr>
+                    <!--NEAR-->
+                    <tr>
+                        <th class="font-weight-bold small m-2 p-2 ">Near
+                        </th>
+
+                        <td class="m-1 p-1 small ">
+                            <table class="table-bordered table-sm table ">
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OD</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OS</td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <!-- Presenting Visual Acuity NEAR-->
+
+                                    <td class=" " style="height: 60px; ">
+                                        <!-- Presenting Visual Acuity NEAR -->
+
+                                        <select class="browser-default custom-select"
+                                            ng-options="pvanearod.name for pvanearod in nearVisionValues "
+                                            ng-model="pvanearod.name " ng-init="pvanearod.name = nearVisionValues[0] ">
+                                        </select>
+
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <!-- Presenting Visual Acuity  NEAR-->
+
+                                        <select class="browser-default custom-select"
+                                            ng-options="pvanearos.name for pvanearos in nearVisionValues "
+                                            ng-model="pvanearos.name " ng-init="pvanearos.name = nearVisionValues[0] ">
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <!-- Pinvision Acuity NEAR-->
+
+                        <td class="m-1 p-1 small ">
+                            <table class="table-bordered table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <!-- Pinvision Acuity -->
+                                        <select class="browser-default custom-select"
+                                            ng-options="pvnearod.name for pvnearod in nearVisionValues "
+                                            ng-model="pvnearod.name "  ng-init="pvnearod.name = nearVisionValues[0] ">
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <!-- Pinvision Acuity -->
+
+                                        <select class="browser-default custom-select"
+                                            ng-options="pvnearos.name for pvnearos in nearVisionValues "
+                                            ng-model="pvnearos.name " ng-init="pvnearos.name = nearVisionValues[0] "> 
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select"
+                                                ng-model="pg_spherical_near_od" ng-init="pg_spherical_near_od='+'">
+                                                <option value="+">+</option>
+                                                <option value="-">-</option>
+
+                                            </select>
+                                            <!-- Spherical Near OD-->
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select"
+                                                ng-model="pg_spherical_near_os " ng-init="pg_spherical_near_os='+'">
+                                                <option value="+">+</option>
+                                                <option value="-">-</option>
+
+                                            </select>
+
+                                            <!-- Spherical NEAR OS VALUE-->
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <!-- Spherical Near VALUE-->
+
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Spherical OD Distance-->
+                                            <input type="text" numbers-only aria-label="pg_spherical_near_od_value "
+                                                ng-model="pg_spherical_near_od_value " class="form-control customform"
+                                                min="0" />
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Spherical NEAR OS-->
+                                            <input type="text" numbers-only aria-label="pg_spherical_near_os_value"
+                                                class="form-control customform" ng-model="pg_spherical_near_os_value "
+                                                min="0" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+
+                    </tr>
+
+
+                </table>
+            </div>
+        </div>
+
+
+
+
+        <!--REFRACTION TABLE-->
+        <div class="row m-1 ">
+            <div class="col-md-12 " style="border-bottom: 1px solid rgba(0, 0, 0, 0.473); ">
+                <h7 class="text-left ">Refraction and New Visual Acuity After Correction </h7>
+            </div>
+            <div class="col-md-12 ">
+                <table class="table table-sm table-bordered ">
+                    <tr>
+                        <th class="m-2 p-2 font-weight-bold small " colspan="2 ">Refraction</th>
+                        <th class="m-2 p-2 font-weight-bold small text-center ">Sign</th>
+                        <th class="m-2 p-2 font-weight-bold small text-center ">Spherical</th>
+                        <th class="m-2 p-2 font-weight-bold small text-center ">Sign</th>
+                        <th class="m-2 p-2 font-weight-bold small text-center ">Cylindrical</th>
+                        <th class="m-2 p-2 font-weight-bold small text-center ">Axis</th>
+                        <th class="m-2 p-2 font-weight-bold small text-center">Visual Acuity with New Correction</th>
+                    </tr>
+
+                    <!--DISTANCE-->
+                    <tr>
+                        <th class="font-weight-bold small m-2 p-2 ">Distance
+                        </th>
+
+                        <td class="m-1 p-1 small ">
+                            <table class="table-bordered table-sm table ">
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OD</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OS</td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <!-- Spherical DISTANCE SIGN -->
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select" ng-model="sphericaldistanceod"
+                                                ng-init="sphericaldistanceod = '+'">
+                                                <option value="+" selected>+</option>
+                                                <option value="-">-</option>
+                                            </select>
+                                            <!-- Spherical OD VALUE-->
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select"
+                                                ng-model="sphericaldistanceos " ng-init="sphericaldistanceos = '+'">
+                                                <option value="+">+</option>
+                                                <option value="-">-</option>
+                                            </select>
+                                            <!-- Spherical OS VALUE-->
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </td>
+                        <!-- Spherical DISTANCE  -->
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <!-- Spherical OD -->
+
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Spherical OD Distance-->
+                                            <input type="text" numbers-only aria-label="SphericalOdDistance "
+                                                ng-model="sphericaldistanceodvalue " class="form-control customform"
+                                                min="0" />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Spherical OS -->
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Spherical OS Distance-->
+                                            <input type="text" numbers-only aria-label=" " class="form-control customform"
+                                                ng-model="sphericaldistanceosvalue " min="0" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+
+                        <!-- cylindricaldistanceod SIGN-->
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select"
+                                                ng-model="cylindricaldistanceod "
+                                                ng-init="cylindricaldistanceod = '+'">
+                                                <option value="+">+</option>
+                                                <option value="-">-</option>
+                                            </select>
+                                            <!-- cylindricaldistanceod OD VALUE-->
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select"
+                                                ng-model="cylindricaldistanceos"
+                                                ng-init="cylindricaldistanceos = '+'">
+                                                <option value="+">+</option>
+                                                <option value="-">-</option>
+                                            </select>
+                                            <!-- Cylindrical DIstance oS  -->
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </td>
+                        <!-- cylindricaldistanceod -->
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Cylindrical DIstance oD  -->
+                                            <input type="text" numbers-only aria-label="Last name "
+                                                ng-model="cylindricaldistanceodvalue " class="form-control customform"
+                                                min="0" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Cylindrical DIstance oS -->
+
+                                            <input type="text" numbers-only aria-label="cylindricaldistanceosvalue "
+                                                class="form-control customform" ng-model="cylindricaldistanceosvalue "
+                                                min="0" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                        <!-- AXIS  DISTANCE -->
+                        <td class="m-1 p-1 small ">
+                            <table class="table-bordered table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <input type="text" numbers-only class="form-control" ng-model="axisdistanceod " min="0">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <input type="text" numbers-only class="form-control" ng-model="axisdistanceos " min="0">
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+
+                                        <select class="browser-default custom-select"
+                                            ng-options="vancdistanceod.value for vancdistanceod in distanceVisionValues "
+                                            ng-model="vancdistanceod.name " ng-init="vancdistanceod.name = distanceVisionValues[0]">
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <select class="browser-default custom-select"
+                                            ng-options="vancdistanceos.value for vancdistanceos in distanceVisionValues "
+                                            ng-model="vancdistanceos.name " ng-init="vancdistanceos.name = distanceVisionValues[0]">
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                    </tr>
+
+                    <!--Near-->
+                    <tr>
+                        <th class="font-weight-bold small m-2 p-2 ">Near
+                        </th>
+
+                        <td class="m-1 p-1 small ">
+                            <table class="table-bordered table-sm table ">
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OD</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OS</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <!-- Spherical Near -->
+
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select" ng-model="sphericalnearod"
+                                                ng-init="sphericalnearod='+'">
+                                                <option value="+">+</option>
+                                                <option value="-">-</option>
+
+                                            </select>
+                                            <!-- Spherical Near OD-->
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+
+                                            <select class="browser-default custom-select" ng-model="sphericalnearos "
+                                                ng-init="sphericalnearos='-'">
+                                                <option value="+">+</option>
+                                                <option value="-">-</option>
+
+                                            </select>
+
+                                            <!-- Spherical NEAR OS VALUE-->
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <!-- Spherical Near VALUE-->
+
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Spherical OD Distance-->
+                                            <input type="text" numbers-only aria-label="sphericalnearodvalue "
+                                                ng-model="sphericalnearodvalue " class="form-control customform"
+                                                min="0" />
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <div class="input-group">
+                                            <!-- Spherical NEAR OS-->
+                                            <input type="text" numbers-only aria-label=" " class="form-control customform"
+                                                ng-model="sphericalnearosvalue " min="0" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+
+                        <td class="m-1 p-1 small" colspan="3">
+
+                        </td>
+
+
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+
+                                        <select class="browser-default custom-select"
+                                            ng-options="vancnearod.name for vancnearod in nearVisionValues "
+                                            ng-model="vancnearod.name " ng-init="vancnearod.name= nearVisionValues[0]">
+                                        </select>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <select class="browser-default custom-select"
+                                            ng-options="vancnearos.name for vancnearos in nearVisionValues "
+                                            ng-model="vancnearos.name" ng-init="vancnearos.name= nearVisionValues[0]">
+                                        </select>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        
+
+
+                    </tr>
+
+
+                </table>
+
+
+                <!--REFRACTION TABLE-->
+                <div class="row m-1 " ng-show="false ">
+                    <div class="col-md-12 " style="border-bottom: 1px solid rgba(0, 0, 0, 0.473); ">
+                        <h7 class="text-left ">Refraction Table</h7>
+                    </div>
+                    <div class="col-md-12 ">
+                        <table class="table table-sm table-bordered ">
+                            <tr>
+                                <th class="m-2 p-2 font-weight-bold small " colspan="2 ">Refraction</th>
+                                <th class="m-2 p-2 font-weight-bold small ">Spherical</th>
+                                <th class="m-2 p-2 font-weight-bold small ">Cylindrical</th>
+                                <th class="m-2 p-2 font-weight-bold small ">Axis</th>
+                            </tr>
+                            <!--DISTANCE-->
+                            <tr>
+                                <th class="font-weight-bold small m-2 p-2 ">Distance
+                                </th>
+
+                                <td class="m-1 p-1 small ">
+                                    <table class="table-bordered table-sm table ">
+                                        <tr>
+                                            <td class="font-weight-bold " style="height: 60px; ">OD</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold " style="height: 60px; ">OS</td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <!-- Spherical OD Distance-->
+
+                                <td class="m-1 p-1 small ">
+                                    <table class=" table-sm table ">
+                                        <tr>
+                                            <td class=" " style="height: 60px; ">
+                                                <div class="input-group">
+
+                                                    <select class="browser-default custom-select"
+                                                        ng-model="sphericaldistanceod ">
+                                                        <option value="+ ">+</option>
+                                                        <option value="- ">-</option>
+                                                    </select>
+                                                    <!-- Spherical OD Distance-->
+                                                    <input type="text" numbers-only aria-label="SphericalOdDistance "
+                                                        ng-model="sphericaldistanceodvalue"
+                                                        class="form-control customform" min="0" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" " style="height: 60px; ">
+                                                <div class="input-group">
+
+                                                    <select class="browser-default custom-select"
+                                                        ng-model="sphericaldistanceos ">
+                                                        <option value="+ ">+</option>
+                                                        <option value="- ">-</option>
+                                                    </select>
+                                                    <!-- Spherical OS Distance-->
+
+                                                    <input type="text" numbers-only aria-label=" " class="form-control customform"
+                                                        ng-model="sphericaldistanceosvalue " min="0" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <!-- Cylindrical OD Distance-->
+
+                                <td class="m-1 p-1 small ">
+                                    <table class="table-bordered table-sm table ">
+                                        <tr>
+                                            <td class=" " style="height: 60px; ">
+                                                <div class="input-group">
+
+                                                    <select class="browser-default custom-select"
+                                                        ng-model="cylindricaldistanceod ">
+                                                        <option value="+ ">+</option>
+                                                        <option value="- ">-</option>
+                                                    </select>
+                                                    <!-- Cylindrical DIstance oD  -->
+                                                    <input type="text" numbers-only aria-label="Last name "
+                                                        ng-model="cylindricaldistanceodvalue "
+                                                        class="form-control customform" min="0" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" " style="height: 60px; ">
+                                                <div class="input-group">
+
+                                                    <select class="browser-default custom-select"
+                                                        ng-model="cylindricaldistanceos ">
+                                                        <option value="+ ">+</option>
+                                                        <option value="- ">-</option>
+                                                    </select>
+                                                    <!-- Cylindrical DIstance oS  -->
+
+                                                    <input type="text" numbers-only aria-label="cylindricaldistanceosvalue "
+                                                        class="form-control customform"
+                                                        ng-model="cylindricaldistanceosvalue " min="0" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <!-- Axis DIstance   -->
+
+                                <td class="m-1 p-1 small ">
+                                    <table class="table-bordered table-sm table ">
+                                        <tr>
+                                            <td class=" " style="height: 60px; ">
+                                                <input type="text" numbers-only class="form-control" ng-model="axisdistanceod "
+                                                    min="0">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" " style="height: 60px; ">
+                                                <input type="text" numbers-only class="form-control" ng-model="axisdistanceos "
+                                                    min="0">
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                            </tr>
+                            <!--NEAR-->
+                            <tr>
+                                <th class="font-weight-bold small m-2 p-2 ">Near
+                                </th>
+                                <td class="m-1 p-1 small ">
+                                    <table class="table-bordered table-sm table ">
+                                        <tr>
+                                            <td class="font-weight-bold " style="height: 60px; ">OD</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold " style="height: 60px; ">OS</td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <!-- SPHERICAL NEAR  -->
+                                <td class="m-1 p-1 small ">
+                                    <table class=" table-sm table ">
+                                        <tr>
+                                            <td class=" " style="height: 60px; ">
+                                                <div class="input-group">
+
+                                                    <select class="browser-default custom-select"
+                                                        ng-model="sphericalnearod ">
+                                                        <option>+</option>
+                                                        <option>-</option>
+                                                    </select>
+
+                                                    <input type="text" numbers-only aria-label="sphericalnearodvalue "
+                                                        ng-model="sphericalnearodvalue " class="form-control customform"
+                                                        min="0" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" " style="height: 60px; ">
+                                                <div class="input-group">
+
+                                                    <select class="browser-default custom-select"
+                                                        ng-model="sphericalnearos ">
+                                                        <option>+</option>
+                                                        <option>-</option>
+                                                    </select>
+
+                                                    <input type="text" numbers-only aria-label=" " class="form-control customform"
+                                                        ng-model="sphericalnearosvalue " min="0" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                            </tr>
+
+
+                        </table>
+                    </div>
+                </div>
+
+
+
+                <br>
+
+            </div>
+        </div>
+
+        <!-- Visual Acuity CORRECTION-->
+        <div class="row m-1 " ng-show="false">
+            <div class="col-md-12 " style="border-bottom: 1px solid rgba(0, 0, 0, 0.473); ">
+                <h7 class="text-left ">Visual Acuity with New Correction</h7>
+            </div>
+            <div class="col-md-12 ">
+                <table class="table table-sm table-bordered ">
+                    <tr>
+                        <th class="m-2 p-2 font-weight-bold small " colspan="2 ">Visual Acuity</th>
+                        <th class="m-2 p-2 font-weight-bold small "> Visual Acuity with New Correction</th>
+                    </tr>
+
+                    <!--DISTANCE-->
+                    <tr>
+                        <th class="font-weight-bold small m-2 p-2 ">Distance
+                        </th>
+
+                        <td class="m-1 p-1 small ">
+                            <table class="table-bordered table-sm table ">
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OD</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OS</td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+
+                                        <select class="browser-default custom-select"
+                                            ng-options="vancdistanceod.value for vancdistanceod in distanceVisionValues "
+                                            ng-model="vancdistanceod.name ">
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <select class="browser-default custom-select"
+                                            ng-options="vancdistanceos.value for vancdistanceos in distanceVisionValues "
+                                            ng-model="vancdistanceos.name ">
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+
+
+                    </tr>
+                    <!--NEAR-->
+                    <tr>
+                        <th class="font-weight-bold small m-2 p-2 ">Near
+                        </th>
+
+                        <td class="m-1 p-1 small ">
+                            <table class="table-bordered table-sm table ">
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OD</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold " style="height: 60px; ">OS</td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td class="m-1 p-1 small ">
+                            <table class=" table-sm table ">
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+
+                                        <select class="browser-default custom-select"
+                                            ng-options="vancnearod.name for vancnearod in nearVisionValues "
+                                            ng-model="vancnearod.name ">
+                                        </select>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" " style="height: 60px; ">
+                                        <select class="browser-default custom-select"
+                                            ng-options="vancnearos.name for vancnearos in nearVisionValues "
+                                            ng-model="vancnearos.name ">
+                                        </select>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+
+
+                    </tr>
+
+
+                </table>
+            </div>
+
+        </div>
+
+        <div class="row m-1 ">
+            <div class="col-md-2 col-sm-2 ">
+                <button class="btn btn-sm btn-primary "
+                    ng-click="vm.submiVIsionAndRefractionDetails(); " ng-hide="vm.edit">Save&nbsp;Record</button>
+                  
+                    <button class="btn btn-sm btn-primary " ng-show="vm.edit"
+                    ng-click="vm.editReport(); ">Save&nbsp;Record</button>
+
+            </div>
+            
+            <div class="col-md-1 col-sm-1 ml-1">
+                <button class="btn btn-sm btn-primary " ng-click="vm.next()">Next</button>
+            </div>
+            <div class="col-md-1 col-sm-1 ">
+                <input type="reset" class="btn btn-sm btn-link" value="Reset">
+
+            </div>
+        </div>
+
+    </form>
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- COMMNETESD -->

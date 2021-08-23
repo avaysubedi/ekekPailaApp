@@ -1,0 +1,771 @@
+﻿<div class="card" ng-init="vm.init();" style="background-color: rgba(102, 97, 92, 0.199);">
+    <title>{{vm.pagetitle}} - Ek Ek paila </title>
+
+    <style>
+        @media print {
+
+            .table thead tr td,
+            .table tbody tr td {
+                border-width: 1px !important;
+                border-style: solid !important;
+                border-color: #000 !important;
+                font-size: 12px !important;
+                background-color: white;
+                padding: 0px;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+
+
+
+    <div class="modal-body " style="padding:0px " ng-show="vm.notification.message ">
+        <div class="alert alert-{{vm.notification.mode}} "
+            style="margin-bottom:0px; width:20%; position:fixed;bottom:0;right:0;z-index: 100; ">
+            <button type="button " class="close " data-ng-click="close() ">
+                <span class="glyphicon glyphicon-remove " style="font-size: small; "></span>
+            </button>
+            <div ng-bind="vm.notification.message "></div>
+        </div>
+    </div>
+
+    <!--Title-->
+    <div class="row m-1 ">
+        <div class="col-md-12 " style="background-color: rgb(40, 40, 92);height: 35px !important; ">
+            <h5 class="text-center white-text mt-1">Summary Report</h5>
+        </div>
+    </div>
+
+    <div class="row filterbar m-1">
+        <div class="col-md-8">
+            <!--DATE TYPE-->
+            <div class="btn-group" ng-show="false">
+                <button class="btn btn-sm btn-link m-1 p-1 dropdown-toggle" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    DateType : {{vm.selectedDateType.name}}
+                </button>
+                <div class="dropdown-menu keep-open">
+                    <li ng-repeat="x in dateTypes" ng-click="vm.onDateTypeSelected(x)">
+                        <div class="dropdown-item">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="datetype" id="{{x.name}}"
+                                    ng-model="datetype" ng-click="vm.onDateTypeSelected(x)" value="{{x.value}}" />
+                                <label class="form-check-label" for="{{x.name}}"> {{x.name}}
+                                </label>
+                            </div>
+                        </div>
+
+                    </li>
+
+                </div>
+            </div>
+
+            <!--DATE -->
+
+            <!--AD DATE-->
+            <div class="btn-group" ng-show="vm.selectedDateType.value ==0">
+                <span class="btn btn-sm  m-1 p-1 " type="button" aria-haspopup="true" aria-expanded="false">
+                    From
+                </span>
+                <input type="date" class="form-control dateinput m-1  p-1" ng-model="vm.initdate"
+                    ng-change="vm.setInit(vm.initdate)">
+                <!-- ng-change="vm.AdToBsInit(vm.initdate);" -->
+                <span class="btn btn-sm  m-1 p-1 " type="button" aria-haspopup="true" aria-expanded="false">
+                    To
+                </span>
+                <input type="date" class="form-control dateinput m-1  p-1" ng-model="vm.finaldate"
+                    ng-change="vm.setFinal(vm.finaldate)">
+                <!-- ng-change="vm.AdToBsFinal(vm.finaldate)" -->
+            </div>
+            <!--BS DATE-->
+            <div class="btn-group" ng-show="vm.selectedDateType.value ==1">
+                <button class="btn btn-sm  m-1 p-1" type="button" aria-haspopup="true" aria-expanded="false">
+                    From
+                </button>
+                <input type="text" class="form-control dateinput m-1  p-1" ng-model="vm.bsdateinit">
+                <!-- ng-change="vm.BsToAdInit(vm.bsdateinit);" -->
+                <span class="btn btn-sm  m-1 p-1 " type="button" aria-haspopup="true" aria-expanded="false">
+                    To
+                </span>
+                <input type="text" class="form-control dateinput m-1  p-1" ng-model="vm.bsdatefinal">
+                <!-- ng-change="vm.BsToAdFinal(vm.bsdatefinal);" -->
+            </div>
+
+            <div class="btn-group" ng-show="false">
+                <button class="btn btn-sm btn-link m-1 p-1 dropdown-toggle" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Select Department : {{vm.selectedDepartment.groupname}}
+                </button>
+                <div class="dropdown-menu keep-open">
+                    <li ng-repeat="x in vm.UserDepartmentList">
+                        <div class="dropdown-item ">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="department" id="{{x.groupname}}"
+                                    ng-model="department" ng-click="vm.onDepartmentSelected(x);"
+                                    value="{{x.groupname}}" />
+                                <label class="form-check-label" for="{{x.groupname}}"> {{x.groupname}}
+                                </label>
+                            </div>
+                        </div>
+
+                    </li>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 ">
+
+            <div class="btn-group runreport">
+                <button class="btn btn-sm btn-link btn-rounded  m-1 p-1" type="button" aria-haspopup="true"
+                    aria-expanded="false" ng-click="vm.fetchMainList();">
+                    <span class="m-1 p-1"> Run Report </span>
+
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    <div class="row m-1">
+
+        <div class="col-md-1 col-sm-1 small">
+            <label class="mt-3 ">
+                MRD&nbsp;Search
+            </label>
+
+        </div>
+
+        <div class="col-md-4 small">
+            <div class="input-group mb-3">
+
+                <input type="text" class="form-control mt-2 " placeholder="" aria-label=""
+                    aria-describedby="button-addon2" ng-model="mdrsearch" />
+                <!-- vm.fetchUserReportList(); -->
+                <!-- <button class="btn btn-sm btn-primary" type="button" ng-click="vm.fetchMainList();"
+                    id="button-addon2">
+                    <i class="fa fa-search"></i> -->
+                </button>
+                <button class="btn btn-sm btn-primary mt-2" ng-click="vm.reset();">
+                    Clear </button>
+
+                <!--        <button class="btn btn-sm btn-primary" type="button" ng-click="vm.createMrd()" id="button-addon2">
+                    <i class="fa fa-plus"></i>
+                </button> -->
+            </div>
+        </div>
+        <!-- <div class="col-sm-1">
+            <label>Consultant</label>
+        </div> -->
+        <!-- <div class="col-sm-2">
+            <button class="btn btn-sm btn-link">Select Consultant</button>
+        </div> -->
+
+        <div ng-show="false">
+            <div class="col-md-1 offset-2">
+                <label class="small mt-2">Create&nbsp;New&nbsp;MRD</label>
+            </div>
+
+            <div class="col-sm-2">
+                <input type="number" class="form-control" ng-model="newmdr" min="0">
+            </div>
+            <div class="col-sm-2 ">
+                <button class=" mb-2 btn btn-sm btn-primary" ng-click="vm.createMrd(); ">
+                    Submit
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <style>
+        .selected {
+            background: rgb(154, 174, 185) !important;
+            color: white !important;
+        }
+    </style>
+
+    <div style="overflow:scroll;height:300px;">
+        <table class="table  table-sm table-bordered">
+            <tr>
+                <th class="m-1 p-1 font-weight-bold">Invoice No</th>
+                <th class="m-1 p-1 font-weight-bold">Hosp Id</th>
+                <th class="m-1 p-1 font-weight-bold">Date</th>
+                <th class="m-1 p-1 font-weight-bold">Patient Name</th>
+                <th class="m-1 p-1 font-weight-bold">Referer</th>
+                <th class="m-1 p-1 font-weight-bold">Actions</th>
+            </tr>
+            <tr ng-repeat="rep in vm.mainList| filter:mdrsearch" ng-class="{selected:$index==selectedRow}"
+                data-ng-click="rowHighilited($index);vm.onRepSelected(rep);" class="hoverable"
+                ng-click="vm.onRepSelected(rep);">
+                <td class="m-1 p-1">{{rep.inv_no}}</td>
+                <td class="m-1 p-1">{{rep.hospid}}</td>
+                <td class="m-1 p-1">{{rep.ddate | date:'yyyy/MM/dd'}}</td>
+                <td class="m-1 p-1">{{rep.pname}}</td>
+                <td class="m-1 p-1">{{rep.referer}}</td>
+                <td class="m-1 p-1">
+                    <a class="m-0 p-0" ng-click="vm.onRepSelected(rep);">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="6 " class="text-center">
+                    <div class="" ng-if="loadtrue">
+                        <div class="small spinner-border text-center" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table class="table table-sm table-bordered">
+        <tr>
+            <th class="m-1 p-1 font-weight-bold text-center">Vision and Refraction</th>
+            <th class="m-1 p-1 font-weight-bold text-center">Chief eye complain</th>
+            <th class="m-1 p-1 font-weight-bold text-center">Past eye history</th>
+            <th class="m-1 p-1 font-weight-bold text-center">Smoking and Alcohol History</th>
+            <th class="m-1 p-1 font-weight-bold text-center">Ocular Examination </th>
+            <th class="m-1 p-1 font-weight-bold text-center">Ocular Investigation</th>
+            <th class="m-1 p-1 font-weight-bold text-center">Biometry</th>
+
+            
+            <th class="m-1 p-1 font-weight-bold text-center">Dental Information</th>
+            <th class="m-1 p-1 font-weight-bold text-center">Dermatology Information</th>
+        </tr>
+        <tr>
+            <td class="text-center">
+                <a class="fa fa-print green-text" ng-click="vm.PrintRecord()" ng-hide="vm.noVision"></a>
+                <a class="fa fa-link green-text" ng-click="vm.goToVision()" ng-hide="vm.noVision"></a>
+                <a class="fa fa-link red-text" ng-click="vm.goToVision()" ng-show="vm.noVision"></a>
+            </td>
+            <td class="text-center">
+                <a class="fa fa-link green-text" ng-click="vm.goToComplain()" ng-hide="vm.noComplain"></a>
+                <a class="fa fa-link red-text" ng-click="vm.goToComplain()" ng-show="vm.noComplain"></a>
+            </td>
+
+            <td class="text-center">
+                <a class="fa fa-link green-text" ng-click="vm.goToPast()" ng-hide="vm.noPast"></a>
+                <a class="fa fa-link red-text" ng-click="vm.goToPast()" ng-show="vm.noPast"></a>
+            </td>
+
+
+            <td class="text-center">
+                <a class="fa fa-link green-text" ng-click="vm.goToSmoke()" ng-hide="vm.noSmoke"></a>
+                <a class="fa fa-link red-text" ng-click="vm.goToSmoke()" ng-show="vm.noSmoke"></a>
+            </td>
+            <td class="text-center">
+                <a class="fa fa-link green-text" ng-click="vm.goToOcularExam()" ng-hide="vm.noOcularExam"></a>
+                <a class="fa fa-link red-text" ng-click="vm.goToOcularExam()" ng-show="vm.noOcularExam"></a>
+            </td>
+            <td class="text-center">
+                <a class="fa fa-link green-text" ng-click="vm.goToOcular()" ng-hide="vm.noOcular"></a>
+                <a class="fa fa-link red-text" ng-click="vm.goToOcular()" ng-show="vm.noOcular"></a>
+            </td>
+
+            
+            <td class="text-center">
+                <a class="fa fa-link green-text" ng-click="vm.goToBiometry()" ng-hide="vm.noDental"></a>
+                <a class="fa fa-link red-text" ng-click="vm.goToBiometry()" ng-show="vm.noDental"></a>
+            </td>
+            <td class="text-center">
+                <a class="fa fa-link green-text" ng-click="vm.goToDental()" ng-hide="vm.noDental"></a>
+                <a class="fa fa-link red-text" ng-click="vm.goToDental()" ng-show="vm.noDental"></a>
+            </td>
+
+            <td class="text-center">
+                <a class="fa fa-link green-text" ng-click="vm.goToDerma()" ng-hide="vm.noDerma"></a>
+                <a class="fa fa-link red-text" ng-click="vm.goToDerma()" ng-show="vm.noDerma"></a>
+            </td>
+        </tr>
+    </table>
+
+
+
+    <!-- <div class="col-md-4" ng-show="noReport">
+        <p class="red-text">No Report found!</p>
+    </div> -->
+
+
+    <div class="row" ng-show="false">
+
+        <table class="table table-sm table-bordered col-sm-9 offset-1">
+            <tr>
+                <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                <th class="m-1 p-1 font-weight-bold">Date</th>
+                <th class="m-1 p-1 font-weight-bold">Actions</th>
+            </tr>
+            <tr>
+                <td class="m-1 p-1">{{vm.pname}}</td>
+                <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
+                <td class="m-1 p-1">
+
+                    <!-- <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                        <i class="fa fa-edit"></i></a> -->
+
+
+                    <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
+                        <i class="fa fa-print"></i></a>
+
+
+                    <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
+                        <i class="fa fa-trash"></i></a>
+
+
+                </td>
+
+
+            </tr>
+        </table>
+
+
+
+
+    </div>
+
+    
+        <!-- ng-show="showReport" -->
+        <div class="col-md-12 offset-1 m-1" id="report" ng-show="false">
+            <div id="center" ng-show="False">
+                <h3 class="text-center black-text font-weight-bold ">Summary Report</h3>
+            </div>
+            <div class="col-md-11 ">
+                <table class="table-condensed table table-sm offset-1 mb-0 pb-0" id="noborder"
+                    style="width:95% !important;">
+
+                    <tr>
+                        <td class="m-1 p-1 text-left noborder " colspan="30 " style="width: 670px; ">
+
+                            Mrd No: &nbsp;&nbsp; {{vm.userMrd}}
+                            </th>
+                            <!-- <td colspan="5 ">
+
+                        </td> -->
+                        <td class="m-1 p-1 noborder pp ">
+
+                            Name:
+                        </td>
+
+                        <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                            {{vm.pname}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="m-1 p-1 text-left noborder " colspan="30 ">
+
+                            Date: &nbsp;&nbsp; {{vm.reportDate | date:'yyyy/MM/dd'}}
+                        </td>
+                        <td class="m-1 p-1 noborder pp ">
+
+                            Age:
+                        </td>
+                        <td class="m-1 p-1 noborder ">
+                            {{vm.age | placeholder}}
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <th class="m-1 p-1 text-left noborder " id="left " colspan="30 ">
+                            <strong>Use of Glasses</strong>
+                        </th>
+                        <td class="m-1 p-1 noborder pp ">
+                            Gender:
+                        </td>
+                        <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                            {{vm.gender}}
+                        </td>
+
+
+
+                    </tr>
+                    <tr>
+                        <td class="m-1 p-1 text-left noborder " colspan="30 ">
+                            Distance: &nbsp; {{vm.distanceGlasses}}
+                        </td>
+                        <td class="m-1 p-1 noborder pp ">
+                            Address:
+                        </td>
+                        <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                            {{vm.address}}
+                        </td>
+
+
+                    </tr>
+                    <tr>
+                        <td class="m-1 p-1 text-left noborder " colspan="30 ">
+                            Near: &nbsp; {{vm.nearGlasses}}
+                        </td>
+
+                        <td class="m-1 p-1 noborder pp ">
+
+                            Contact&nbsp;no:
+                        </td>
+                        <td class="m-1 p-1 noborder pp ">
+                            {{vm.contact | placeholder}}
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>
+            <!-- ACUITY -->
+            <div class="col-md-11 ">
+                <!-- <h4 class="text-left black-text font-weight-bold " ng-show="false">Visual Acuity</h4> -->
+
+                <table class="table-condensed offset-1 table table-sm table-bordered " style="width: 95% !important; ">
+                    <tr>
+                        <th class="m-1 p-1 font-weight-bold " rowspan="2 ">Visual Acuity</th>
+                        <th class="m-1 p-1 text-center font-weight-bold " colspan="2 ">OD</th>
+                        <th class="m-1 p-1 text-center font-weight-bold " colspan="2 ">OS</th>
+                    </tr>
+                    <tr>
+                        <!-- <th class="m-1 p-1 "></th> -->
+                        <th class="m-1 p-1 text-center font-weight-bold ">PVA</th>
+                        <!-- <th class="m-1 p-1 text-center font-weight-bold ">UVA</th> -->
+                        <th class="m-1 p-1 text-center font-weight-bold ">PHVA</th>
+
+                        <th class="m-1 p-1 text-center font-weight-bold ">PVA</th>
+                        <!-- <th class="m-1 p-1 text-center font-weight-bold ">UVA</th> -->
+                        <th class="m-1 p-1 text-center font-weight-bold ">PHVA</th>
+                    </tr>
+
+                    <tr>
+                        <th class="m-1 p-1 ">Distance</th>
+                        <td class="m-1 p-1 text-center ">{{vm.pvaDistanceOd |placeholder}}</th>
+                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaDistanceOd |placeholder}}</th> -->
+                        <td class="m-1 p-1 text-center ">{{vm.pvDistanceOd |placeholder}}</th>
+
+                        <td class="m-1 p-1 text-center ">{{vm.pvaDistanceOs |placeholder}}</th>
+                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaDistanceOs |placeholder}}</th> -->
+                        <td class="m-1 p-1 text-center ">{{vm.pvDistanceOs |placeholder}}</th>
+
+                    </tr>
+                    <tr>
+                        <th class="m-1 p-1 ">Near</th>
+                        <td class="m-1 p-1 text-center ">{{vm.pvaNearOd |placeholder}}</th>
+
+                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaNearOd |placeholder}}</th> -->
+
+                        <td class="m-1 p-1 text-center "> {{vm.pvNearOd|placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">
+                            {{vm.pvaNearOs}} </th>
+                        <td class="m-1 p-1 text-center ">
+                            {{vm.pvNearOs}} </th>
+                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaNearOs |placeholder}}</th> -->
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div class="col-md-11 ">
+                <table class="table-condensed offset-1 table table-sm table-bordered " style="width: 95% !important; ">
+                    <tr>
+
+                        <th class="m-1 p-1 font-weight-bold text-left " style="border-bottom: none !important; "
+                            colspan="1 ">Glass prescription</th>
+                        <th class="m-1 p-1 text-center font-weight-bold " colspan="4 ">OD</th>
+                        <th class="m-1 p-1 text-center font-weight-bold " colspan="4 ">OS</th>
+                    </tr>
+                    <tr>
+                        <th class="m-1 p-1 noborder " style="border-top: none !important; "></th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">SPH</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">CYL</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">Axis</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">BCVA</th>
+
+                        <th class="m-1 p-1 text-center font-weight-bold ">SPH</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">CYL</th>
+                        <th class="m-1 text-center p-1 font-weight-bold ">Axis</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">BCVA</th>
+                    </tr>
+
+                    <tr>
+                        <th class="m-1 p-1 ">Distance</th>
+                        <td class="m-1 p-1 text-center ">{{vm.sphericalDistanceOdValue | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.cylindricalDistanceOdValue | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.axisDistanceOd | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.vancDistanceOd | placeholder}}</th>
+
+                        <td class="m-1 p-1 text-center ">{{vm.sphericalDistanceOsValue | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.cylindricalDistanceOsValue | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.axisDistanceOs | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.vancDistanceOs | placeholder}}</th>
+
+                    </tr>
+                    <tr>
+                        <th class="m-1 p-1 ">Near</th>
+                        <td class="m-1 p-1 text-center ">{{vm.sphericalNearOdValue | placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">
+                            </th>
+                        <td class="m-1 p-1 ">
+                            </th>
+                        <td class="m-1 p-1 text-center ">{{vm.vancNearOd | placeholder}}</th>
+
+                        <td class="m-1 p-1 text-center ">{{vm.sphericalNearOsValue | placeholder}}</th>
+                        <td class="m-1 p-1 ">
+                            </th>
+                        <td class="m-1 p-1 ">
+                            </th>
+                        <td class="m-1 p-1 text-center ">{{vm.vancNearOs | placeholder}}</th>
+                    </tr>
+                </table>
+            </div>
+
+            <span ng-show="false">Note: Kindly note the power prescribed for near vision glass is net value, not an
+                addition to distance glass</span>
+
+            <div class="col-md-11 offset-1">
+                <h4 class="text-left black-text font-weight-bold " ng-show="false">Diagnosis</h4>
+                <h5 class="text-left font-weight-bold f-0 p-0">OD</h5>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.normal_od_tick">Normal</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.refractive_error_od_tick">Refractive Error</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.presbyopia_od_tick">Presbyopia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_untreated_od_tick">Cataract Untreated</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.aphakia_od_tick">Aphakia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_surg_complications_od_tick">
+                    Cataract Surg Complications</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.tco_od_tick">Tco</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.phthisis_od_tick">Phthisis</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.onchcercia_od_tick">Onchcercia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.glaucoma_od_tick">Glaucoma</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.diabetic_od_tick">Diabetic </p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.armd_od_tick">Armd </p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.other_posterior_od_tick">Other Posterior</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cns_od">Cns</p>
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.others_od_tick">Others:</p>{{vm.others_od}}
+                </span>
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.medical_treatment_od_tick">Medical Treatment:</p>
+                    {{vm.medical_treatment_od}}
+                </span>
+
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.surgrical_treatment_od_tick">Surgrical Treatment:</p>
+                    {{vm.surgrical_treatment_od}}
+                </span>
+
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.laser_treatment_od_tick">Laser Treatment:</p>
+                    {{vm.laser_treatment_od}}
+                </span>
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.subspeciality_referal_od_tick">Sub speciality Refer:
+                    </p>
+                    <span class="b-0 pp" ng-if="vm.subspec_corena_od_tick"> Corena</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_retina_od_tick"> Retina,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_glaucoma_od_tick"> Glaucoma,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_opal_od_tick"> Opal,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_referr_od_tick"> Referr,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_squint_od_tick"> Squint,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_uvea_od_tick"> Uvea,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_neuropthalmo_od_tick"> Neuropthalmology,</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_none_od_tick"> None</span>
+
+                </span>
+
+
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.followup_od != null">Follow up:</p>
+                    {{vm.followup_od}}
+                </span>
+
+
+                <br>
+                <h5 class="text-left font-weight-bold f-0 p-0">OS</h5>
+
+                <p class="font-weight-bold f-0 pp" ng-if="vm.normal_os_tick">Normal</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.refractive_error_os_tick">Refractive Error</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.presbyopia_os_tick">Presbyopia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_untreated_os_tick">Cataract Untreated</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.aphakia_os_tick">Aphakia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_surg_complications_os_tick">
+                    Cataract Surg Complications</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.tco_os_tick">Tco</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.phthisis_os_tick">Phthisis</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.onchcercia_os_tick">Onchcercia</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.glaucoma_os_tick">Glaucoma</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.diabetic_os_tick">Diabetic</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.armd_os_tick">Armd</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.other_posterior_os_tick">Other Posterior</p>
+                <p class="font-weight-bold f-0 pp" ng-if="vm.cns_os">Cns</p>
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.others_os_tick">Others:</p>
+                    {{vm.others_os}}
+                </span>
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.medical_treatment_os_tick">Medical Treatment:</p>
+                    {{vm.medical_treatment_os}}
+                </span>
+
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.surgrical_treatment_os_tick">Surgrical Treatment:</p>
+                    {{vm.surgrical_treatment_os}}
+                </span>
+
+
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.laser_treatment_os_tick">Laser Treatment:</p>
+                    {{vm.laser_treatment_os}}
+                </span>
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.subspeciality_referal_os_tick">Sub speciality Refer:
+                    </p>
+                    <span class=" b-0 pp" ng-if="vm.subspec_corena_os_tick"> Corena</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_retina_os_tick"> Retina</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_glaucoma_os_tick"> Glaucoma</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_opal_os_tick"> Opal</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_referr_os_tick"> Referr</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_squint_os_tick"> Squint</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_uvea_os_tick"> Uvea</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_neuropthalmo_os_tick"> Neuropthalmology</span>
+                    <span class=" b-0 pp" ng-if="vm.subspeciality_none_os_tick"> None</span>
+
+
+                </span>
+                <span class="m-0 p-0">
+                    <p class="font-weight-bold f-0 pp" ng-if="vm.followup_os != null">Follow up:</p>
+                    {{vm.followup_os}}
+                </span>
+
+
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="h3 text-center">{{vm.pagetitle}}</div> -->
+<div ng-show="false">
+
+    <input type="text" value="test_public_key_dc74e0fd57cb46cd93832aee0a390234" id="key">
+    <input type="text" value="idno123" id="prodnum">
+    <input type="text" value="prodname123" id="prodname">
+    <input type="text" value="https://mediprocomputers.com" id="produrl">
+
+
+    <button id="payment-button">Pay with Khalti</button>
+</div>
+<!-- Place this where you need payment button -->
+<!-- Paste this code anywhere in you body tag -->
+
+<div class="row m-2 " ng-show="false">
+
+    <div class="col-md-4 offset-1">
+        <label class="font-weight-bold">Radiology</label>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="#!entrylist">Report Entry</a>
+            </li>
+            <li class="list-group-item">
+                <a href="#!testlist">Report Print</a>
+            </li>
+            <li class="list-group-item">
+                <a href="#!reporttemplate">Report Template</a>
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <div class="col-md-4 offset-1" ng-show="xxxxx">
+        <label class="font-weight-bold">Lab</label>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="">Sample Collection</a>
+            </li>
+            <li class="list-group-item">
+                <a href="#!testresult">Test Result</a>
+            </li>
+            <li class="list-group-item">
+                <a href="">Verification</a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- 
+    <i class="fa fa-print"></i>
+    <br>
+    <i class="fas fa-print"></i> -->
+
+    <!-- <div class="col-md-4 offset-1">
+    
+                            <ul class="list-group">
+                                <li class="list-group-item ">Last Print
+                                    </li>
+                                <li class="list-group-item">
+                                    </li>
+                
+                                </li>
+                                <li class="list-group-item">
+                
+                                </li>
+                              </ul>
+                
+                                    </div> -->
+</div>

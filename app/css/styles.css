@@ -1,0 +1,324 @@
+.btn-link {
+    color: black !important;
+    font-weight: 500;
+}
+
+.btn-link:hover {
+    color: black !important;
+    background-color: rgba(184, 179, 179, 0.514) !important;
+}
+.custom-select{
+    font-size: 12px !important;
+}
+.qtyinput {
+    width: 33px;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 0 0;
+    margin-left: 5px;
+    text-align: start;
+    height: 32px;
+}
+
+#text-r {
+    float: right;
+    right: 1500;
+    margin-right: 150px !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.btn-sm {
+    font-size: 12px !important;
+    margin-top: 0.5em !important;
+    color: rgba(204, 204, 204, 0);
+}
+
+.btn-link {
+    font-size: 12px !important;
+}
+
+.dateinput {
+    width: 130px !important;
+    height: 30px !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.151) !important;
+}
+
+.noborder {
+    border: none !important
+}
+
+.runreport {
+    border-left: 1px solid rgba(45, 56, 47, 0.589);
+    height: 35px !important;
+    padding-left: 20px !important;
+}
+
+.filterbar {
+    background-color: rgba(0, 0, 0, 0.11) !important;
+    margin-bottom: 0.25rem !important;
+    margin-top: 0.25rem !important;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+}
+
+
+/*   
+  .table-striped{
+    background-color:rgba(128, 128, 128, 0.205);
+  } */
+
+
+/* The navigation menu links */
+
+.btn-rounded:hover {
+    background-color: #f8fff8 !important;
+    border: solid !important;
+    border-width: 1px !important;
+    color: rgba(8, 1, 1, 0.89) !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    /* margin: 2px 2px 2px 2px !important; */
+    border-radius: 12px !important;
+}
+
+.btn-rounded {
+    background-color: #a2a3a27a !important;
+    color: black !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    border: solid !important;
+    border-width: 1px !important;
+    /* margin: 2px 2px 2px 2px !important; */
+    border-radius: 12px !important;
+}
+
+.navbar-brand {
+    font-weight: 50 !important;
+}
+
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+.btn {
+    text-transform: unset !important;
+}
+
+.thumb {
+    width: 24px;
+    height: 24px;
+    float: none;
+    position: relative;
+    top: 7px;
+}
+
+form .progress {
+    line-height: 15px;
+}
+
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #ccc;
+}
+
+hr .new1 {
+    border-bottom: 1px solid black !important;
+}
+
+.progress>div {
+    font-size: smaller;
+    width: 0%;
+}
+
+.col-sm-5 {
+    padding-top: 1em;
+}
+
+.row {
+    padding: 2 2;
+}
+
+.arrow-down:after,
+.arrow-up:after {
+    content: ' ';
+    position: relative;
+    left: 1px;
+    border: 4px solid transparent;
+}
+
+.drophover:hover {
+    color: black;
+    background-color: rgba(64, 117, 233, 0.89);
+}
+
+.drophover a {
+    font-size: 13px;
+}
+
+.input-group .customform {
+    width: 150px !important;
+}
+
+
+/* .form-control{
+  /* font-size: 13px !important; */
+
+
+/* height: 30px !important; */
+
+
+/* line-height: 15px; */
+
+
+/* width: 98% !important; */
+
+.arrow-down:after {
+    top: 4px;
+    border-top-color: black;
+}
+
+.arrow-up:after {
+    bottom: 4px;
+    border-bottom-color: black;
+}
+
+.arrow-down,
+.arrow-up {
+    padding-right: 3px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#container {
+    min-height: 100%;
+    position: relative;
+    width: 96%;
+}
+
+#section-body {
+    padding: 0.5em;
+    padding-bottom: 3em;
+    /*Height of the footer plus bit extra padding */
+    width: 95%;
+    margin: 0 auto;
+}
+
+.section-body-mini {
+    width: 90%;
+    margin: 0 auto;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 7em;
+    /* Height of the footer */
+    padding: 0.5em;
+    text-align: center;
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+
+@media only screen and (max-width: 600px) {
+    #section-body {
+        width: 95%;
+    }
+    .col-md-9 {
+        padding-right: 0px;
+    }
+}
+
+.sidenav {
+    height: 100%;
+    /* 100% Full-height */
+    width: 0;
+    /* 0 width - change this with JavaScript */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Stay on top */
+    top: 0;
+    /* Stay at the top */
+    left: 0;
+    background-color: rgba(56, 50, 50, 0.795);
+    /* Black*/
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    padding-top: 60px;
+    /* Place content 60px from the top */
+    transition: 0.5s;
+    /* 0.5 second transition effect to slide in the sidenav */
+    font-size: 15px;
+}
+
+.sidenav a i {
+    font-weight: 100;
+}
+
+
+/* When you mouse over the navigation links, change their color */
+
+.sidenav a:hover {
+    color: rgb(44, 40, 40);
+    background-color: rgba(248, 244, 244, 0.733);
+}
+
+
+/* Position and style the close button (top right corner) */
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 8px;
+    text-decoration: none;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    display: block;
+    transition: 0.3s;
+}
+
+.md-form i {
+    margin-top: 10px !important;
+    font-size: 18px !important;
+}
+
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+    }
+}

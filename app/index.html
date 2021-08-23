@@ -1,0 +1,257 @@
+<html ng-app="medipro-clientprofile">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!-- <link rel='shortcut icon' type='image/x-icon' href='./favicon.ico' /> -->
+    <link rel="shortcut icon" type="image/png" href="./mdb-favicon.ico" />
+    <link rel="apple-touch-icon" href="./mdb-favicon.ico" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../imports/custom/all.css" />
+    <!-- Google Fonts Roboto -->
+    <!-- <link rel="stylesheet" href="../imports/custom/fonts.css"> -->
+
+    <link rel="stylesheet" media="print" href="css/print.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+
+     <!-- Bootstrap core CSS -->
+  <link href="../imports/dashboard/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="../imports/dashboard/css/mdb.min.css" rel="stylesheet">
+
+
+    <script src="../imports/angular-1.7.8/angular.min.js"></script>
+    <script src="../imports/angular-1.7.8/angular-route.min.js"></script>
+
+    <link rel="stylesheet" href="../imports/web-fonts-with-css/css/fontawesome-all.min.css" />
+
+    <script src="../imports/custom/jquery.min.js"></script>
+
+    <script src="../imports/ckeditor/ckeditor.js"></script>
+    <script src="../imports/ckeditor/adapters/jquery.js"></script>
+
+
+    <script src="index.js"></script>
+
+    <script src="configs/config.dev.js"></script>
+    <!-- <script src="configs/config.prod.js"></script> -->
+
+    <script src="directives/ckeditor.directive.js"></script>
+
+
+    <script src="services/token.service.js"></script>
+    <script src="services/clientprofile.service.js"></script>
+    <script src="services/serviceprofile.service.js"></script>
+    <script src="services/date.service.js"></script>
+    <script src="services/broadcast.service.js"></script>
+    <script src="services/configuration.service.js"></script>
+
+
+    <script src="controllers/biometry.controller.js"></script>
+    <script src="controllers/reporttemplate.controller.js"></script>
+    <script src="controllers/testreport.controller.js"></script>
+    <script src="controllers/testlist.controller.js"></script>
+    <script src="controllers/entrylist.controller.js"></script>
+    <script src="controllers/dashboard..controller.js"></script>
+
+
+
+
+    <script src="controllers/OcularExamination.controller.js"></script>
+    <script src="controllers/ocularinvestigation.controller.js"></script>
+
+    <script src="controllers/visionandrefraction.controller.js"></script>
+    <script src="controllers/pasteyehistory.controller.js"></script>
+    <script src="controllers/chiefeyecomplain.controller.js"></script>
+    <script src="controllers/smokinghistory.controller.js"></script>
+
+
+    <script src="controllers/dentalinfo.controller.js"></script>
+
+
+
+
+
+    <script src="controllers/login.controller.js"></script>
+    <script src="controllers/navbar.controller.js"></script>
+    <script src="controllers/footer.controller.js"></script>
+
+    <script src="controllers/changepassword.controller.js"></script>
+    <script src="controllers/adminchangepassword.controller.js"></script>
+    <script src="controllers/createuser.controller.js"></script>
+    <script src="controllers/changepassword.controller.js"></script>
+    <script src="controllers/adminupdateuser.controller.js"></script>
+    <script src="controllers/dermatology.controller.js"></script>
+
+    <script src="directives/numbersonly.directive.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-mask/1.6.3/mask.js"></script>
+
+    <script src="filters/placeholder.filter.js"></script>
+    <script src="filters/total.filter.js"></script>
+
+    
+  <!-- jQuery -->
+  <script type="text/javascript" src="../imports/dashboard/js/jquery-3.4.1.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="../imports/dashboard/js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="../imports/dashboard/js/bootstrap.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="../imports/dashboard/js/mdb.min.js"></script>
+  <!-- Stepper JavaScript - minified -->
+
+    <script src="../imports/custom/table2excel.js" type="text/javascript"></script>
+
+
+    <!-- <script src="https://kit.fontawesome.com/b93104cab8.js" crossorigin="anonymous"></script> -->
+
+    <script type="text/JavaScript">
+        function toggle() { var e = document. getElementById('target_1234'); e. style. display = 'none'; }
+    </script>
+    <script type="text/JavaScript">
+     function openNav() {
+    document.getElementById("mySidenav").style.width = "190px";
+    // document.getElementById("mySidenavMini").style.width = "0px";
+    document.getElementById("mySidenav").style.width = "190px";
+          document.getElementById("section-body").style.marginLeft = "155px";
+          document.getElementById("section-body").style.width = "calc(100% - 155px)";
+  }
+
+  // function openDrop() {
+  //   document.getElementById("mySidenavMini").style.width = "100px";
+
+  // }
+ 
+  /* Set the width of the side navigation to 0 */
+  function closeNav() {
+    document.getElementById("section-body").style.marginLeft = "0px";
+    document.getElementById("mySidenav").style.width = "0px";
+    // document.getElementById("mySidenavMini").style.width = "45px";
+    document.getElementById("section-body").style.width = "100% ";
+
+  }        </script>
+
+
+    <script language="javascript" type="text/javascript">
+        function printerDiv(divID) {
+            //Get the HTML of div
+
+            var divElements = document.getElementById(divID).innerHTML;
+
+            //Get the HTML of whole page
+            var oldPage = document.body.innerHTML;
+
+            //Reset the pages HTML with divs HTML only
+
+            document.body.innerHTML =
+
+                "<html><head><title><div></div></title></head><body>" +
+                divElements + "</body>";
+
+            //Print Page
+            window.print();
+            //Restore orignal HTML
+            document.body.innerHTML = oldPage;
+
+        }
+    </script>
+    <script src="../imports/custom/jspdf.min.js"></script>
+    <script src="../imports/custom/canvas2image.min.js"></script>
+    <script language="javascript">
+        (function ($) {
+            $.fn.createPdf = function (parametros) {
+
+                var config = {
+                    'fileName': 'html-to-pdf'
+                };
+
+                if (parametros) {
+                    $.extend(config, parametros);
+                }
+
+                var quotes = document.getElementById($(this).attr('id'));
+
+                html2canvas(quotes, {
+                    onrendered: function (canvas) {
+                        var pdf = new jsPDF('p', 'pt', 'letter');
+
+                        for (var i = 0; i <= quotes.clientHeight / 1200; i++) {
+                            var srcImg = canvas;
+                            var sX = 0;
+                            var sY = 1200 * i;
+                            var sWidth = 1100;
+                            var sHeight = 1200;
+                            var dX = 0;
+                            var dY = 0;
+                            var dWidth = 1100;
+                            var dHeight = 1200;
+
+                            window.onePageCanvas = document.createElement("canvas");
+                            onePageCanvas.setAttribute('width', 1100);
+                            onePageCanvas.setAttribute('height', 1200);
+                            var ctx = onePageCanvas.getContext('2d');
+                            ctx.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
+
+                            var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
+                            var width = onePageCanvas.width;
+                            var height = onePageCanvas.clientHeight;
+
+                            if (i > 0) {
+                                pdf.addPage(612, 791);
+                            }
+
+                            pdf.setPage(i + 1);
+                            pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width * .62), (height * .62));
+                        }
+
+                        pdf.save(config.fileName);
+                    }
+                });
+            };
+        })(jQuery);
+
+
+        function createPDF() {
+            $('#report').createPdf({
+                'fileName': 'TestReport'
+            });
+        }
+    </script>
+
+<!-- <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script> -->
+
+</head>
+
+<body ng-controller="MainController as vm" ng-init="vm.init()">
+    <div id="container" class="container-fluid">
+        <div ng-include="'./partials/sidenav.tpls.html'"></div>
+
+        <header>
+            <div ng-include="'./partials/navbar.tpls.html'"></div>
+        </header>
+        <br>
+        <br>
+
+
+        <!-- <span onclick="openNav()">open</span> -->
+        <section id="section-body" onclick="closeNav();" style="margin-left: 0px;width: 100%;">
+
+            <div class="row" class="container-fluid">
+                <div class="col-md-12 ml-1" style="padding-left: 0;min-height:500px !important;">
+                    <!--                 
+  <button onclick="openNav()" class="btn btn-sm">
+    <i class="fa fa-bars"></i>
+  </button> -->
+                    <div ng-view></div>
+                </div>
+            </div>
+        </section>
+        <div ng-include="'./partials/footer.tpls.html'" class="pt-5 mt-5" onclick="closeNav()"></div>
+    </div>
+</body>
+
+
+</html>

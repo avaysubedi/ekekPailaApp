@@ -1,0 +1,355 @@
+<style>
+    .menu-item {
+        height: 4em;
+        color: #666666;
+        /* border-top: 1px solid black;
+      border-bottom: 1px solid black; */
+        font-size: 15px;
+        padding-left: 30%;
+        margin: auto;
+        padding: 1.1em;
+    }
+
+    .menu-item:hover {
+        background-color: rgba(12, 11, 11, 0.774);
+    }
+
+    .menu-item>a {
+        color: #161515;
+    }
+
+    .menu-item-text {
+        margin: 5px;
+    }
+
+    .actives {
+        color: #fff;
+        background-color: #F8F8F8;
+        /* border-color: #004085; */
+    }
+
+    .actives>a>i {
+        color: #000;
+    }
+
+    .actives>a>span {
+        color: #000;
+        font-weight: bold;
+    }
+
+    .activeside {
+        color: grey;
+        background-color: rgb(14, 13, 13);
+        text-decoration: underline;
+        font-weight: bold;
+        border-left: 5px solid rgb(17, 160, 17);
+
+
+        /* border-color: #004085; */
+    }
+
+    .activeside>a>i {
+        color: grey;
+        text-decoration: underline;
+        font-weight: bold;
+
+    }
+
+    .activeside>a>span {
+        color: white;
+        font-weight: bold;
+    }
+
+    .menu-item-drop {
+        height: auto;
+        color: #020101;
+        /* border-top: 1px solid black;
+      border-bottom: 1px solid black; */
+        font-size: 10px;
+        margin: auto;
+        padding: 1.1em;
+        margin-bottom: 10px !important;
+        margin-top: 10px !important;
+
+
+    }
+
+    .sidenav a:hover {
+        background-color: rgb(49, 47, 47);
+        color: white;
+    }
+
+    .menu-item-drop:hover {
+        background-color: #fff;
+    }
+
+    .menu-item-drop>a {
+        color: white;
+    }
+
+    .menu-item-drop-text {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        color: black;
+
+    }
+
+
+    .actives {
+        color: white;
+        background-color: rgba(209, 204, 204, 0.733);
+        /* text-decoration: underline; */
+        font-weight: bold;
+        border-left: 5px solid blue;
+        /* border-color: #004085; */
+    }
+
+    .actives>a>span {
+        color: white;
+        font-weight: bold;
+    }
+
+    /* .activehide {
+        background: rgba(128, 128, 128, 0.322);
+    } */
+
+    .fa-chevron-down {
+        float: right !important;
+    }
+
+    .fa-chevron-up {
+        float: right !important;
+
+    }
+</style>
+
+<!-- SIDENAV-->
+<div ng-show="vm.isRadioSideNavVisible">
+    <div id="mySidenav" class="sidenav">
+        <!-- <a href="javascript:void(0)" class=" white-text text-right" onclick="closeNav()">
+            <i class="fas fa-window-close"></i></a> -->
+            <a href="#!dashboard" ng-class="{ activeside: vm.isActive('/dashboard')}">Dashboard</a>
+            <a href="#!visionandrefraction" ng-class="{ activeside: vm.isActive('/visionandrefraction')}">
+                Vision and Refraction</a>
+
+                <a href="#!chiefeyecomplain" ng-class="{ activeside: vm.isActive('/chiefeyecomplain')}"> Chief Eye Complain</a>
+
+                <a href="#!pasteyehistory" ng-class="{ activeside: vm.isActive('/pasteyehistory')}"> Past Eye History</a>
+
+                
+        <a href="#!smokinghistory" ng-class="{ activeside: vm.isActive('/smokinghistory')}">  Smoking and Alcohol History
+        </a>
+            <a href="#!ocularexamination" ng-class="{ activeside: vm.isActive('/ocularexamination')}"> Ocular
+                Examination</a>
+
+        <a href="#!ocularinvestigation" ng-class="{ activeside: vm.isActive('/ocularinvestigation')}"> Ocular
+            Investigation</a>
+
+
+
+
+
+        <a href="#!dentalinfo" ng-class="{ activeside: vm.isActive('/dentalinfo')}">
+            Dental Information
+        </a>
+        
+        <a href="#!dermatology" ng-class="{ activeside: vm.isActive('/dermatology')}"> 
+            Dermatology Information
+        </a>
+        <!-- 
+        <a href="#!currentappointment" ng-class="{ activeside: vm.isActive('/currentappointment')}" >
+            <i class="fa fa-calendar"></i>
+Current Appointment
+        </a>
+        <a href="#!scheduledappointment" ng-class="{ activeside: vm.isActive('/scheduledappointment')}" >
+            <i class="fa fa-history"></i> Past Appointments
+        </a>
+
+        
+
+        <a href="#!chat" ng-class="{ activeside: vm.isActive('/chat')}"> <i class="fa fa-comment"></i>
+            Text</a>
+        <a href="#!changepassword" ng-class="{ activeside: vm.isActive('/changepassword')}"> <i class="fa fa-key"></i>
+            Change Password</a>
+ -->
+
+        <a href="javascript:void(0)" class="font-weight-bold" style="position: absolute; bottom: 80px;"
+            onclick="closeNav();">
+            <i class="fa fa-angle-double-left"></i></a>
+    </div>
+
+
+
+    <div id="mySidenavMini" class="sidenav" style="width:45px;" ng-show="False">
+        <!-- <a href="javascript:void(0)" class=" yellow-text text-right" onclick="openNav()">
+        <i class="fas fa-bars"></i></a> -->
+        <a href="#!profile" data-toggle="tooltip" title="Profile" ng-class="{ activeside: vm.isActive('/profile')}"><i
+                class="fa fa-user"></i> </a>
+        <a href="#!onlineappointment" data-toggle="tooltip" title="Book a Doctor"
+            ng-class="{ activeside: vm.isActive('/onlineappointment')}"><i class="fa fa-user-md"></i>
+
+        </a>
+
+        <a data-toggle="tooltip" href="#!currentappointment" title="Current Appointment"
+            ng-class="{ activeside: vm.isActive('/currentappointment')}">
+            <i class="fa fa-calendar"></i>
+        </a>
+
+
+        <a data-toggle="tooltip" href="#!scheduledappointment" title="Past Appointments"
+            ng-class="{ activeside: vm.isActive('/scheduledappointment')}">
+            <i class="fa fa-history"></i>
+        </a>
+        <a href="#!chat" ng-class="{ activeside: vm.isActive('/chat')}" data-toggle="tooltip" title="Text"> <i
+                class="fa fa-comment"></i>
+        </a>
+        <a href="#!changepassword" ng-class="{ activeside: vm.isActive('/changepassword')}" data-toggle="tooltip"
+            title="Change Password"> <i class="fa fa-key"></i>
+        </a>
+
+        <a href="javascript:void(0)" class="font-weight-bold" style="position: absolute; bottom: 80px;"
+            onclick="openNav();">
+            <i class="fa fa-angle-double-right"></i></a>
+
+
+    </div>
+
+</div>
+
+<!-- <a href="" class="actives" ng-click="vm.showAppointmentDropdown();" ng-show="vm.showAppointment">
+            <span class="font-weight-bold black-text bg-grey " ng-show="vm.showAppointment">
+                <i class="fa fa-calendar"></i> My Appointments
+                <i class="fa fa-chevron-down" ng-show="vm.showAppointment"></i>
+
+            </span>
+        </a>
+    
+        <a href="" ng-click="vm.showAppointmentDropdown();" ng-hide="vm.showAppointment">
+            <span ng-hide="vm.showAppointment">
+                <i class="fa fa-calendar"></i> My Appointments
+            </span>
+            <i class="fa fa-chevron-up black-text" ng-hide="vm.showAppointment"></i>
+        </a>
+
+        
+    <div ng-show="vm.showAppointment" class="z-depth-1">
+        <div class="menu-item-drop m-0 p-0 ml-2">
+
+            <a href="#!currentappointment" ng-class="{ activeside: vm.isActive('/currentappointment')}" class="m-0 p-0">
+                <span class="menu-item-drop-text black-text">Current Appointment</span>
+            </a>
+        </div>
+
+        <div class="menu-item-drop m-0 p-0 ml-2">
+
+            <a href="#!scheduledappointment" ng-class="{ activeside: vm.isActive('/scheduledappointment')}" class="m-0 p-0">
+                <span class="menu-item-drop-text black-text">Past Appointments</span>
+            </a>
+        </div>
+ -->
+
+<!--STATEMENTS-->
+
+
+
+
+
+
+<!-- <a href="" > <i class="fa fa-calendar"></i>
+            My Appointments</a>
+            <i class="fa fa-chevron-up black-text" ng-hide="vm.showAppointment"></i> -->
+
+
+
+
+
+<!--LAB SIDENAV-->
+
+<div class="menu-container" ng-show="false">
+    <div class="menu-item" ng-class="{ actives: vm.isActive('/profile')}">
+        <a href="#!profile">
+            <i class="fa fa-user"></i>
+            <span class="menu-item-text">Profile</span>
+        </a>
+    </div>
+
+    <div class="menu-item" ng-class="{ actives: vm.isActive('/onlineappointment')}">
+        <a href="#!onlineappointment">
+            <i class="fa fa-user-md"></i>
+            <span class="menu-item-text">Book a Doctor</span>
+        </a>
+    </div>
+
+    <div class="menu-item" ng-class="{ actives: vm.isActive('/scheduledappointment')}">
+        <a href="#!scheduledappointment">
+            <i class="fa fa-calendar"></i>
+            <span class="menu-item-text">My Appointments</span>
+        </a>
+    </div>
+
+    <div class="menu-item" ng-class="{ actives: vm.isActive('/chat')}">
+        <a href="#!chat">
+            <i class="fa fa-comment"></i>
+            <span class="menu-item-text">Text</span>
+        </a>
+    </div>
+    <div class="menu-item" ng-class="{ actives: vm.isActive('/changepassword')}">
+        <a href="#!changepassword">
+            <i class="fa fa-key"></i>
+            <span class="menu-item-text">Change Password</span>
+        </a>
+    </div>
+
+
+    <!--     
+  <div class="menu-item">
+    
+  <button ng-click="vm.toggleMenu();">
+    <i class="fa fa-bars"></i>
+  </button>
+  </div> -->
+
+    <ul class="list-group z-depth-1" ng-show="vm.infoVisible">
+        <li class="text-center list-group-item font-weight-bold m-0">General Info</li>
+        <li class="list-group-item small m-1 ml-2 p-0">
+            <span class="text-right green-text">
+                <i class="fa fa-chair"></i> </span>
+            <strong>Available</strong>
+        </li>
+        <li class="list-group-item small m-1 ml-2 p-0">
+            <span class="text-right red-text">
+                <i class="fa fa-chair"></i> </span>
+            <strong>Already Booked</strong>
+        </li>
+        <li class="list-group-item small m-1 ml-2 p-0">
+            <span class="text-right orange-text">
+                <i class="fa fa-chair"></i> </span>
+            <strong>Seat you book</strong>
+        </li>
+
+        <li class="list-group-item small ml-2 m-1 p-0">
+            <i class="fa fa-clock green-text"></i><strong> Time </strong>
+            <br>
+            <span class="text-right black-text">
+                Each appointment is 15 minute long.
+                <br>
+                One person can book only one appointment for one day.
+
+            </span>
+        </li>
+        <li class="list-group-item small m-1 ml-2 p-0">
+            <span class="text-right blue-text">
+                <i class="fa fa-eye"></i> </span>
+            <strong>Viewing details of appointment </strong>
+        </li>
+        <li class="list-group-item small m-1 ml-2 p-0">
+            <span class="text-right green-text">
+                <i class="fa fa-calendar"></i> </span>
+            <strong>Follow up appointment </strong>
+            <br>
+            After appointment is completed user can make a followup event within 7 days.
+
+        </li>
+    </ul>
+
+</div>

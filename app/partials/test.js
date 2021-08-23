@@ -1,0 +1,16 @@
+$scope.axis_distance_od= 0;
+$scope.axis_distance_os= 0;
+$scope.cylindrical_distance_od_value= 0;
+$scope.cylindrical_distance_os_value= 0;
+$scope.pg_axis_distance_od= 0;
+$scope.pg_axis_distance_os= 0;
+$scope.pg_cylindrical_distance_od_value= 0;
+$scope.pg_cylindrical_distance_os_value= 0;
+$scope.pg_spherical_distance_od_value= 0;
+$scope.pg_spherical_distance_os_value= 0;
+$scope.pg_spherical_near_od_value= 0;
+$scope.pg_spherical_near_os_value= 0;
+$scope.spherical_distance_od_value= 0;
+$scope.spherical_distance_os_value= 0;
+$scope.spherical_near_od_value= 0;
+$scope.spherical_near_os_value= 0;

@@ -1,0 +1,202 @@
+<div ng-init="vm.init();" class="container card border  p-0 ">
+    <title> {{vm.pagetitle}} of {{vm.pname}} - Lab Report </title>
+
+    <!-- <div class="h3 text-center">{{vm.pagetitle}}</div> -->
+
+    <style type="text/css">
+        @media print {
+
+            body {
+                margin: none;
+            }
+
+            #get,
+            #footer {
+                display: none;
+            }
+
+            #printbutton {
+                display: none;
+            }
+
+            thead {
+                display: table-header-group !important;
+            }
+
+
+
+        }
+    </style>
+
+    <!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxssssssssssssssssssssssssssssssssssssssssssxxxxxxxxDEMO PRINTING.................-->
+    <div class="modal-body" style="padding:0px" ng-show="vm.notification.message">
+        <div class="alert alert-{{vm.notification.mode}}" style="margin-bottom:0px">
+            <button type="button" class="close" data-ng-click="close()" data-dismiss="modal">
+                <span class="glyphicon glyphicon-remove "></span>
+            </button>
+            <div ng-bind="vm.notification.message"></div>
+        </div>
+    </div>
+
+    <div class="offset-sm-1" id="get">
+        <div class="row">
+            <div class="col-sm-2 mt-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" ng-model="headerInclude"/>
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Include Header
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="col-md-10">
+                <button class="btn btn-sm btn-primary" ng-click="vm.PrintRecord()">
+                    Print</button>
+                <button class="btn btn-sm  btn-primary" onclick="createPDF();"> Download PDF</button>
+            </div>
+        </div>
+
+
+        
+    </div>
+
+
+
+    <div class="row m-2 hoverable ">
+
+
+        <div class="col-md-11 container ml-0 " id="report">
+            <table class="table table-hover table-small " style="width:100% !important;">
+                <!-- table-bordered -->
+                <thead>
+                    
+<tr ng-if="headerInclude">
+                        
+                        <th class="noborder ml-0" colspan="6">
+                            <img src="../imports/img/header.jpg" style="width:95%;height:150px;"
+                                class="image-responsive" id="head">
+                    </tr>
+
+                    <tr class="noborder m-0 p-0">
+                        <br>
+                        <th class="m-1  p-1 font-weight-bold " colspan="6">
+                            <p style="font-size: 28px;margin-bottom: 10px !important;" class="m-0 p-0">
+                                {{vm.reportTitle}} </p>
+                        </th>
+                    </tr>
+
+
+                    <!--PATIENT INFO-->
+                    <tr>
+                        <th class="m-2 p-2 noborder  ">
+                            SN
+                            <br>PatientsName
+                            <br>Age/Sex
+                        </th>
+                        <td class="m-2 p-2 noborder" style="font-weight: 400 !important;">
+                            {{vm.sn}} <br>
+                            <b style="font-size: 17px;"> {{vm.pname | placeholder}} </b>
+                            <br>
+                            {{vm.age| placeholder}}/{{vm.sex | placeholder}}
+
+                        </td>
+
+                        <th class="m-2 p-2 noborder ">
+                            InvoiceNo
+                            <br> Hospital ID
+                            <br> Address
+                        </th>
+                        <td class="m-2 p-2 noborder black-text " style="font-weight: 400 !important;">
+                            <span class="font-weight-bold" id="name"> {{vm.inv_no | placeholder}} </span>
+                            <br>{{vm.hospid | placeholder }}
+                            <br> {{vm.address | placeholder}}
+
+
+                        </td>
+                        <th class="m-2 p-2 noborder  ">
+                            DOR
+                            <br> Report Date
+                            <br> Referer
+                        </th>
+                        <td class="m-2 p-2 noborder " id="bold" style="font-weight: 400 !important;">
+                            <span style="margin-top:10px !important;"> {{vm.inv_date | placeholder | date :
+                                'yyyy/MM/dd'}} </span>
+                            <br> {{vm.bs_inv_date | placeholder | date : 'yyyy/MM/dd'}}
+                            <br> {{vm.referer| placeholder}}
+
+                    </tr>
+
+                    <!--PATIENT INFO-->
+
+                </thead>
+
+
+
+                <!--REPORT BODY-->
+                <tbody class="noborder">
+                    <tr class="noborder">
+                        <td class="m-0 p-0 noborder" colspan="6">
+                            <br>
+                        </td>
+                    </tr>
+
+                    <tr class="noborder">
+
+                        <th class="m-1  p-1  font-weight-bold noborder" colspan="6">
+                            <p style="font-size: 17px;margin-top: 5px !important;" class="m-0 p-0">
+                                {{vm.servname}} </p>
+                        </th>
+                    </tr>
+
+
+                    <tr class="noborder">
+
+                        <td colspan="6" class="noborder">
+                            <hr>
+                            <div id="p1" class="ml-2 col-sm-11"
+                                style="color:black;font-weight: 400 !important;min-height: 500px !important;">
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th colspan="6" id="right" class="noborder m-1 p-1">
+                            <br>
+                            <p class="m-0 p-0 font-weight-bold text-right small noborder mr-2"
+                                style="margin-right: 80px !important;" id="right">Reported By
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+
+                        <th class="m-2 p-2 text-right mr-3 noborder" id="right" colspan="6">
+                            <p class="m-0 p-0 font-weight-bold text-right small noborder mr-3"
+                                style="margin-right: 80px !important;" id="right">
+                                {{vm.referer | placeholder}}
+                                <br>
+                                {{vm.qualification}} <br>
+                                {{vm.regno}}
+                            </p>
+                        </th>
+
+
+                    </tr>
+
+                </tbody>
+
+
+            </table>
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+

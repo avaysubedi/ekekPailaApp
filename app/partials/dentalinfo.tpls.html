@@ -1,0 +1,1122 @@
+<div class=" container-fluid  card  p-0 " ng-init="vm.init();">
+
+    <title>{{vm.pagetitle}} - Ek ek Paila </title>
+
+    <style>
+        @media print {
+
+            .table thead tr td,
+            .table tbody tr td {
+                border-width: 1px !important;
+                border-style: solid !important;
+                border-color: #000 !important;
+                font-size: 12px !important;
+                background-color: white;
+                padding: 0px;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+
+
+
+    <div class="modal-body small" ng-show="vm.notification.message">
+        <div class="alert alert-{{vm.notification.mode}}"
+            style="margin-bottom:0px; width:300px; position:fixed;bottom:30;right:0;z-index: 100;">
+            <button type="button" class="close" data-ng-click="close()">
+                <span class="glyphicon glyphicon-remove" style="font-size: small;"></span>
+            </button>
+            <div class="text-center m-1 p-1" ng-bind="vm.notification.message"></div>
+        </div>
+    </div>
+    <div class="container col-sm-12 col-md-12">
+
+
+
+
+        <!--Title-->
+        <div class="row m-1 ">
+          <a class="fa fa-home btn btn-sm" href="#!dashboard">
+            Dashboard
+            </a>
+            <div class="col-md-12 " style="background-color: rgb(40, 40, 92);height: 35px !important; ">
+                <h5 class="text-center white-text mt-1"> {{vm.pagetitle}}</h5>
+            </div>
+        </div>
+
+        <div class="row m-1">
+
+            <div class="col-md-1 col-sm-1 small">
+                <label class="small" class="mt-3"></label> Search:
+            </div>
+
+            <div class="col-md-4 small">
+                <div class="input-group mb-3">
+
+                    <input type="text" class="form-control mt-2 " placeholder="" aria-label=""
+                        aria-describedby="button-addon2" ng-model="mrdnum" />
+                    <button class="btn btn-sm btn-primary" type="button" ng-click="vm.fetchDentalInfo()"
+                        id="button-addon2">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <button class="btn btn-sm btn-primary" ng-click="vm.reset();">
+                        Clear </button>
+
+                    <!--        <button class="btn btn-sm btn-primary" type="button" ng-click="vm.createMrd()" id="button-addon2">
+                            <i class="fa fa-plus"></i>
+                        </button> -->
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 offset-1" ng-if="loadtrue">
+            <div class="small spinner-border text-center" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="col-md-4" ng-show="noReport">
+            <p class="red-text">No Report found!</p>
+        </div>
+
+        <!-- <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+        <i class="fa fa-edit"></i></a> -->
+
+
+        <div class="row" ng-show="showReport">
+
+            <table class="table table-sm table-bordered col-sm-9 offset-1">
+                <tr>
+                    <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                    <th class="m-1 p-1 font-weight-bold">Date</th>
+                    <th class="m-1 p-1 font-weight-bold">Actions</th>
+                </tr>
+                <tr>
+                    <td class="m-1 p-1">{{vm.pname}}</td>
+                    <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
+                    <td class="m-1 p-1">
+
+                        <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                            <i class="fa fa-edit"></i></a>
+
+                        <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
+                            <i class="fa fa-trash"></i></a>
+
+                    </td>
+
+
+                </tr>
+            </table>
+
+
+
+
+
+        </div>
+
+
+        <!--KES ID NO and DATE-->
+
+        <div class="row m-1 ">
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="small" class="form-label " for="typeText ">MRD No:</label>
+                    <input type="text" id="formControlSm " ng-model="mrdnum" disabled
+                        class="form-control form-control-sm " />
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="small" class="form-label " for="date ">Date:</label>
+                    <input type="text" id="date " ui-mask="9999/99/99" placeholder="yyyy/MM/dd"
+                        ui-mask-placeholder-char="-" ng-model="vm.today " class="form-control form-control-sm " />
+                </div>
+            </div>
+
+            <!-- <div class="col-md-3 col-sm-3 mt-3 ">
+                    <button class="btn btn-sm btn-primary " ng-click="vm.createMrd(); ">Create new patient</button>
+                </div> -->
+        </div>
+
+
+        <!-- Patient Information -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left">Patient Information</h7>
+            </div>
+        </div>
+
+        <div class="row m-1 mt-2">
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label  class="form-label " for="pname ">Name</label>
+                    <input type="text" id="pname" ng-model="pname" class="form-control form-control-sm " />
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2 ">
+                <div class="form-outline small ">
+                    <label  class="form-label " for="age ">Age</label>
+                    <input type="number" id="age" ng-model="age" class="form-control form-control-sm " />
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2 ">
+                <div class="form-outline small ">
+                    <label  class="form-label " for="sex">Gender</label>
+                    <select class="browser-default custom-select" ng-model="sex ">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label  class="form-label " for="address ">Address</label>
+                    <input type="text" id="address" ng-model="address" class="form-control form-control-sm " />
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <div class="row m-1 mt-2">
+
+
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label  class="form-label " for="occupation ">Occupation</label>
+                    <select class="browser-default custom-select" ng-model="occupation ">
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Salary/Wages">Salary/Wages</option>
+                        <option value="Own Economic Enterprise">Own Economic Enterprise</option>
+                        <option value="Extended Eco">Extended Eco</option>
+
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2 ">
+                <div class="form-outline small ">
+                    <label  class="form-label " for="education">Education</label>
+                    <select class="browser-default custom-select" ng-model="education ">
+                        <option value="Illiterate">Illiterate</option>
+                        <option value="Informal">Informal</option>
+                        <option value="Literate">Literate</option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="religion">Religion</label>
+                    <select class="browser-default custom-select" ng-model="religion ">
+                        <option value="Hindu">Hindu</option>
+                        <option value="Buddhist">Buddhist</option>
+                        <option value="Christian">Christian</option>
+                        <option value="Muslim">Muslim</option>
+                        <option value="Others">Others</option>
+
+
+                    </select>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label  class="form-label " for="maritalstatus ">Marital Status</label>
+                    <select class="browser-default custom-select" ng-model="maritalstatus ">
+                        <option value="Never Married">Never Married</option>
+                        <option value="Once Married">Once Married</option>
+                        <option value="Multiple Spouses">Multiple Spouses</option>
+                        <option value="Re-married">Re-married</option>
+                        <option value="Widow/Widower">Widow/Widower</option>
+                        <option value="Divorced">Divorced</option>
+                        <option value="Seperated">Seperated</option>
+
+
+
+
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+
+
+<form>
+
+        <!-- Medical History -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left">Medical History</h7>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <!-- Checked checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="allergy_tick" id="allergy_tick" />
+                <label class="small" class="form-check-label" for="allergy_tick">
+                    Allergy
+                </label>
+            </div>
+            <div class="col-md-6">
+                <input class="form-control" ng-show="allergy_tick" ng-model="allergy" placeholder="Specify..">
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="diabetes_tick" id="diabetes_tick" />
+                <label class="small" class="form-check-label" for="diabetes_tick">
+                    Diabetes
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="bp_tick" id="bp_tick" />
+                <label class="small" class="form-check-label" for="bp_tick">
+                    Hypertension
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="heart_disease_tick" id="heart_disease_tick" />
+                <label class="small" class="form-check-label" for="heart_disease_tick">
+                    Heart Disease
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="liver_disease_tick" id="liver_disease_tick" />
+                <label class="small" class="form-check-label" for="liver_disease_tick">
+                    Liver Disease
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="kidney_disease_tick"
+                    id="kidney_disease_tick" />
+                <label class="small" class="form-check-label" for="kidney_disease_tick">
+                    Kidney Disease
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="medications_tick" id="medications_tick" />
+                <label class="small" class="form-check-label" for="medications_tick">
+                    Medications
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="other_history_tick" id="other_history_tick" />
+                <label class="small" class="form-check-label" for="other_history_tick">
+                    Others
+                </label>
+            </div>
+            <div class="col-md-6">
+                <input class="form-control" type="text" ng-show="other_history_tick" ng-model="other_history"
+                    placeholder="Specify..">
+            </div>
+
+
+
+        </div>
+
+
+        <!--  History OPI  style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);" -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-2">
+                <h7 class="text-left small">Chief&nbsp;Complains</h7>
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" ng-model="chief_complain">
+            </div>
+        </div>
+
+        <div class="row m-1 mt-2">
+            <div class="col-md-2">
+                <h7 class="text-left small">History&nbsp;of&nbsp;Present&nbsp;Illness</h7>
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" ng-model="hopi">
+            </div>
+        </div>
+
+        <div class="row m-1 mt-2">
+            <div class="col-md-2">
+                <h7 class="text-left small">Dental&nbsp;History</h7>
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" ng-model="dental_history">
+            </div>
+        </div>
+
+
+        <!-- Dental Habits -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left sm">Dental Habits</h7>
+            </div>
+        </div>
+        <!-- <input type="text" class="form-control" ng-model=""> -->
+
+        <div class="col-md-12">
+            <!-- Checked checkbox -->
+            <!-- <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="brushing_tick" id="brushing_tick" />
+                <label class="small" class="form-check-label" for="brushing_tick">
+                    Brushing
+                </label>
+            </div>-->
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="smoking_tick" id="smoking_tick" />
+                <label class="small" class="form-check-label" for="smoking_tick">
+                    Smoking
+                </label>
+            </div> 
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="alcohol_tick" id="alcohol_tick" />
+                <label class="small" class="form-check-label" for="alcohol_tick">
+                    Alcohol
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="pan_masala_tick" id="pan_masala_tick" />
+                <label class="small" class="form-check-label" for="pan_masala_tick">
+                    Pan Masala
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="tobacco_tick" id="tobacco_tick" />
+                <label class="small" class="form-check-label" for="tobacco_tick">
+                    Tobacco Chewing
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="thumb_suck_tick" id="thumb_suck_tick" />
+                <label class="small" class="form-check-label" for="thumb_suck_tick">
+                    Thumb Sucking
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="mouth_breathe_tick" id="mouth_breathe_tick" />
+                <label class="small" class="form-check-label" for="mouth_breathe_tick">
+                    Mouth Breathe
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="tongue_thrust_tick" id="tongue_thrust_tick" />
+                <label class="small" class="form-check-label" for="tongue_thrust_tick">
+                    Tongue Thrusting
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="clench_tick" id="clench_tick" />
+                <label class="small" class="form-check-label" for="clench_tick">
+                    Clenching
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="bruxism_tick" id="bruxism_tick" />
+                <label class="small" class="form-check-label" for="bruxism_tick">
+                    Bruxism
+                </label>
+            </div>
+
+            <!-- <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="diet_tick" id="diet_tick" />
+                <label class="small" class="form-check-label" for="diet_tick">
+                    Diet
+                </label>
+            </div> -->
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="other_habit_tick" id="other_habit_tick" />
+                <label class="small" class="form-check-label" for="other_habit_tick">
+                    Others
+                </label>
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" ng-show="other_habit_tick" ng-model="other_habit">
+            </div>
+
+
+        </div>
+
+        <!-- Personal History -->
+
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left sm">Personal History</h7>
+            </div>
+        </div>
+           
+            <div class="row m-1 mt-2">
+                <div class="col-md-2 mt-3">
+                    <label class="small">Brushing Habit </label>
+                </div>
+                <div class="col-md-6">
+                    <textarea class="form-control" ng-model="brush_habit"></textarea>
+                </div>
+            </div>
+
+            <div class="row m-1 mt-2">
+                <div class="col-md-2 mt-3">
+                    <label class="small">Diet Habit </label>
+                </div>
+                <div class="col-md-6">
+                    <textarea class="form-control" ng-model="diet_habit"></textarea>
+                </div>
+            </div>
+        <!-- EXTRA ORAL -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left">Extra Oral Exam</h7>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <!-- Checked checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="tmj_extra_oral_tick"
+                    id="tmj_extra_oral_tick" />
+                <label class="small" class="form-check-label" for="tmj_extra_oral_tick">
+                    TMJ
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="masseter_extra_oral_tick"
+                    id="masseter_extra_oral_tick" />
+                <label class="small" class="form-check-label" for="masseter_extra_oral_tick">
+                    Masseter
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="lymph_nodes_extra_oral_tick"
+                    id="lymph_nodes_extra_oral_tick" />
+                <label class="small" class="form-check-label" for="lymph_nodes_extra_oral_tick">
+                    Lymph Nodes
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="others_extra_oral_tick"
+                    id="others_extra_oral_tick" />
+                <label class="small" class="form-check-label" for="others_extra_oral_tick">
+                    Others
+                </label>
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" ng-show="others_extra_oral_tick" ng-model="others_extra_oral">
+            </div>
+
+
+        </div>
+
+        <!-- EXTRA ORAL -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left">Intra-Oral Exam</h7>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <!-- Checked checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="buccal_mucosa_tick" id="buccal_mucosa_tick" />
+                <label class="small" class="form-check-label" for="buccal_mucosa_tick">
+                    Buccal/Mucosa
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="tongue_intra_oral_tick"
+                    id="tongue_intra_oral_tick" />
+                <label class="small" class="form-check-label" for="tongue_intra_oral_tick">
+                    Tongue
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="palate_intra_oral_tick"
+                    id="palate_intra_oral_tick" />
+                <label class="small" class="form-check-label" for="palate_intra_oral_tick">
+                    Palate
+                </label>
+            </div>
+
+
+        </div>
+        <div class="row m-1 mt-2">
+            <div class="col-md-1">
+                <h7 class="text-left small">BPE&nbsp;Score</h7>
+            </div>
+            <div class="col-md-2">
+                <input type="text" numbers-only class="form-control" ng-model="bpe_score" min="0">
+            </div>
+        </div>
+
+
+        <!-- Teeth Examination -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" ng-model="teeth_tick" id="teeth_tick" />
+                    <label class="small" class="form-check-label" for="teeth_tick">
+                        Teeth Examination
+                        <!-- {{a_18_to_11_teeth.value}} -->
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-1 mt-2" ng-show="teeth_tick">
+            
+            <!-- 11-18 -->
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >11</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_11">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >12</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_12">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >13</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_13">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >14</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_14">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >15</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_15">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >16</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_16">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >17</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_17">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >18</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_18">
+                  </div>
+                  </div>
+
+                              <!-- 21-28 -->
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >21</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_21">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >22</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_22">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >23</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_23">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >24</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_24">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >25</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_25">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >26</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_26">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >27</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_27">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >28</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_28">
+                  </div>
+                  </div>
+
+                              <!-- 31-38 -->
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >31</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_31">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >32</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_32">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >33</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_33">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >34</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_34">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >35</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_35">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >36</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_36">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >37</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_37">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >38</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_38">
+                  </div>
+                  </div>
+
+                        <!-- 41-48 -->
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >41</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_41">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >42</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_42">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >43</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_43">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >44</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_44">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >45</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_45">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >46</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_46">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >47</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_47">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >48</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_48">
+                  </div>
+                  </div>
+
+            <div class="col-md-4">
+                <ul>
+                    <li>D: Decayed</li>
+                    <li>M: Missing</li>
+                    <li>F: Filled</li>
+                    <li>R: RCT Fixed</li>
+                    <li>Cr: Crown</li>
+                    <li>RPD</li>
+                    <li>CA: Carvical</li>
+                    <li>I: Implant</li>
+
+                </ul>
+            </div>
+
+
+        </div>
+        <div class="row m-1 mt-2" ng-show="teeth_tick">
+            
+            <!-- 51-58 -->
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >51</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_51">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >52</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_52">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >53</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_53">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >54</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_54">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >55</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_55">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >56</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_56">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >57</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_57">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >58</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_58">
+                  </div>
+                  </div>
+
+                              <!-- 61-68 -->
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >61</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_61">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >62</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_62">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >63</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_63">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >64</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_64">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >65</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_65">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >66</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_66">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >67</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_67">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >68</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_68">
+                  </div>
+                  </div>
+
+                              <!-- 71-78 -->
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >71</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_71">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >72</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_72">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >73</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_73">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >74</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_74">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >75</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_75">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >76</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_76">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >77</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_77">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >78</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_78">
+                  </div>
+                  </div>
+
+                        <!-- 81-88 -->
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >81</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_81">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >82</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_82">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >83</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_83">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >84</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_84">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >85</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_85">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >86</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_86">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >87</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_87">
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >88</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="teeth_88">
+                  </div>
+                  </div>
+
+            <div class="col-md-4">
+                <ul>
+                    <li>D: Decayed</li>
+                    <li>M: Missing</li>
+                    <li>F: Filled</li>
+                    <li>R: RCT Fixed</li>
+                    <li>Cr: Crown</li>
+                    <li>RPD</li>
+                    <li>CA: Carvical</li>
+                    <li>I: Implant</li>
+
+                </ul>
+            </div>
+
+
+        </div>
+
+        
+
+
+
+        <!-- Treatment Plan -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left">Treatment Plan</h7>
+            </div>
+        </div>
+
+        <div class="row m-1 mt-2">
+            <div class="col-md-2 mt-3">
+                <label class="small">Emergency Management</label>
+            </div>
+            <div class="col-md-6">
+                <textarea class="form-control" ng-model="emergency_mgmt"></textarea>
+            </div>
+        </div>
+
+        <div class="row m-1 mt-2">
+            <div class="col-md-2 mt-3">
+                <label class="small">Stabilization</label>
+            </div>
+            <div class="col-md-6">
+                <textarea class="form-control" ng-model="stabilization"></textarea>
+            </div>
+        </div>
+
+
+        <div class="row m-1 mt-2">
+            <div class="col-md-2 mt-3">
+                <label class="small">Maintenance</label>
+            </div>
+            <div class="col-md-6">
+                <textarea class="form-control" ng-model="maintenance"></textarea>
+            </div>
+        </div>
+
+        <div class="row m-1 mt-2" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+            <div class="col-md-2 mt-3">
+                <label class="small">Definitive Management</label>
+            </div>
+            <div class="col-md-6">
+                <textarea class="form-control" ng-model="definitive_mgmt"></textarea>
+            </div>
+        </div>
+
+
+
+
+        <div class="row m-1 mt-2">
+            <div class="col-md-2 mt-3">
+                <label class="small">Treatment Done</label>
+            </div>
+            <div class="col-md-6">
+                <textarea class="form-control" ng-model="treatment_done"></textarea>
+            </div>
+        </div>
+
+
+
+        <div class="row m-1 ">
+            <div class="col-md-2 col-sm-2 ">
+                <button class="btn btn-sm btn-primary " ng-click="vm.submitDentalInfo(); ">Save&nbsp;Record</button>
+
+            </div>
+
+            <!-- <div class="col-md-1 col-sm-1 ml-5 ">
+                <button class="btn btn-sm btn-primary ">Next</button>
+            </div> -->
+            <div class="col-md-1 col-sm-1 ">
+              <!-- <input type="reset" value="Reset"> -->
+                <input class="btn btn-sm btn-primary" type="reset" value="Reset">
+
+            </div>
+        </div>
+
+
+
+      </form>
+    </div>
+
+
+</div>

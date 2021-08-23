@@ -1,0 +1,805 @@
+<!-- <h6 class="text-center   mt-3 font-weight-bold">{{vm.title}}</h6> -->
+
+
+<div class=" container-fluid  card  p-0 " ng-init="vm.init();">
+    <title>{{vm.pagetitle}} - Ek ek Paila </title>
+
+    <script>
+            //   $(".date-picker").nepaliDatePicker({
+            //     dateFormat: "%D, %M %d, %y",
+            //     closeOnDateSelect: true,
+            //     minDate: "सोम, जेठ १०, २०७३",
+            //     maxDate: "मंगल, जेठ ३२, २०७३"
+            //   });
+    </script>
+    <style>
+        @media print {
+
+            .table thead tr td,
+            .table tbody tr td {
+                border-width: 1px !important;
+                border-style: solid !important;
+                border-color: #000 !important;
+                font-size: 12px !important;
+                background-color: white;
+                padding: 0px;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+
+    <title>Report- {{vm.title}}</title>
+
+
+
+
+    <div class="modal-body small" ng-show="vm.notification.message">
+        <div class="alert alert-{{vm.notification.mode}}"
+            style="margin-bottom:0px; width:300px; position:fixed;bottom:30;right:0;z-index: 100;">
+            <button type="button" class="close" data-ng-click="close()">
+                <span class="glyphicon glyphicon-remove" style="font-size: small;"></span>
+            </button>
+            <div class="text-center m-1 p-1" ng-bind="vm.notification.message"></div>
+        </div>
+    </div>
+
+    <!-- <button ng-click="vm.onReportSelect()">EDIT</button> -->
+
+    <div class="container col-sm-12 col-md-12">
+
+      
+
+          <!--Title-->
+          <div class="row m-1 ">
+            <a class="fa fa-home btn btn-sm" href="#!dashboard">
+                Dashboard
+                </a>
+            <div class="col-md-12 " style="background-color: rgb(40, 40, 92);height: 35px !important; ">
+                <h5 class="text-center white-text mt-1">  {{vm.pagetitle}}</h5>
+            </div>
+        </div>
+
+
+        
+              
+    <div class="row m-1">
+
+        <div class="col-md-1 col-sm-1 small">
+            <label class="mt-3"></label> Search:
+        </div>
+  
+        <div class="col-md-4 small">
+            <div class="input-group mb-3">
+  
+                <input type="text" class="form-control mt-2 " placeholder="" aria-label=""
+                    aria-describedby="button-addon2" ng-model="mrdnum" />
+                <button class="btn btn-sm btn-primary" type="button" ng-click="vm.fetchUserReportList()"
+                    id="button-addon2">
+                    <i class="fa fa-search"></i>
+                </button>
+                <button class="btn btn-sm btn-primary" ng-click="vm.reset();">
+                    Clear </button>
+  
+                <!--        <button class="btn btn-sm btn-primary" type="button" ng-click="vm.createMrd()" id="button-addon2">
+                    <i class="fa fa-plus"></i>
+                </button> -->
+            </div>
+        </div>
+  
+  
+  
+  
+    </div>
+    <div class="col-md-6 offset-1" ng-if="loadtrue">
+        <div class="small spinner-border text-center" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+  
+    <div class="col-md-4" ng-show="noReport">
+        <p class="red-text">No Report found!</p>
+    </div>
+  
+  
+    <div class="row" ng-show="showReport">
+  
+        <table class="table table-sm table-bordered col-sm-9 offset-1">
+            <tr>
+                <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                <th class="m-1 p-1 font-weight-bold">Date</th>
+                <th class="m-1 p-1 font-weight-bold">Actions</th>
+            </tr>
+            <tr>
+                <td class="m-1 p-1">{{vm.pname}}</td>
+                <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
+                <td class="m-1 p-1">
+  
+                    <a ng-click="vm.onReportSelect()" class="m-1 p-1 blue-text">
+                        <i class="fa fa-edit"></i></a>
+  
+  <!-- 
+                    <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
+                        <i class="fa fa-print"></i></a> -->
+  
+  
+                    <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
+                        <i class="fa fa-trash"></i></a>
+  
+  
+                </td>
+  
+  
+            </tr>
+        </table>
+  
+  
+  
+  
+  
+    </div>
+
+
+        <!--KES ID NO and DATE-->
+
+        <div class="row m-1 ">
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="typeText ">MRD No:</label>
+                    <input type="text" id="formControlSm " ng-model="mrdnum" disabled class="form-control form-control-sm " />
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 ">
+                <div class="form-outline small ">
+                    <label class="form-label " for="date ">Date:</label>
+                    <input type="text" id="date " ui-mask="9999/99/99" placeholder="yyyy/MM/dd" ui-mask-placeholder-char="-"  ng-model="vm.today " class="form-control form-control-sm " />
+                </div>
+            </div>
+
+            <!-- <div class="col-md-3 col-sm-3 mt-3 ">
+                <button class="btn btn-sm btn-primary " ng-click="vm.createMrd(); ">Create new patient</button>
+            </div> -->
+        </div>
+
+
+<form>
+
+        <!-- Have you ever smoke -->
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7>Have you ever smoked cigrate on regular basis i.e.,100 or more cigrates in course of entire life?
+                </h7>
+            </div>
+        </div>
+
+
+<!-- Radio button -->
+        <div class="form-check form-check-inline small ml-4 ">
+            <input class="form-check-input" type="radio" name="smoke" id="neversmoke" value="0" ng-model="smkcig_tick"
+                ng-checked="true">
+            <label class="form-check-label" for="neversmoke">Never Smoked</label>
+        </div>
+        <div class="form-check form-check-inline small">
+            <input class="form-check-input" type="radio" name="smoke" id="pastsmoke"  value="2" ng-model="smkcig_tick"
+                ng-checked="false">
+            <label class="form-check-label" for="pastsmoke">Past Smoker</label>
+        </div>
+        <div class="form-check form-check-inline small ml-3">
+            <input class="form-check-input" type="radio" name="smoke" id="currentsmoke" value="1"
+                ng-model="smkcig_tick" ng-checked="false">
+            <label class="form-check-label" for="currentsmoke">Current Smoker</label>
+        </div>
+
+        
+
+
+
+
+        <!-- Past smoking checkbox-->
+        <div class="row mt-3 ml-2" ng-show="smkcig_tick==2">
+            <div class="col-md-4 col-sm-3">
+                <div class="form-outline small">
+                    <label class="form-label" for="typeText">If past, how old were you when you started?</label>
+                    <input type="text" numbers-only class="form-control " ng-model="smkcig_ps_age"
+                        style="width: 280px;" />
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-3">
+                <div class="form-outline small">
+                    <label class="form-label" for="date">If yes, year quit?</label>
+                    <input type="date" class="form-control " ng-model="smkcig_ps_year" style="width: 280px;" />
+                </div>
+            </div>
+
+
+        <div class="col-md-4 col-sm-3">
+                <div class="form-outline small">
+                    <label class="form-label" for="date">Averageno.of cigarettes/day?</label>
+                    <input type="text" numbers-only class="form-control " ng-model="smkcig_ps_no" style="width: 280px;" />
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-3 mt-2 ">
+                <div class="form-outline small">
+                    <label class="form-label" for="date">Number of years smoked?</label>
+                    <input type="text" numbers-only class="form-control " ng-model="smkcig_ps_yrs"
+                        style="width: 280px;" />
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-3 mt-2">
+                <div class="form-outline small">
+                    <label class="form-label" for="date">Date of Interview:</label>
+                    <input type="date" class="form-control " ng-model="smkcig_ps_ddate" style="width:280px;" />
+                </div>
+            </div>
+
+        </div>
+
+        <!-- current smoking checkbox-->
+        <div class="row mt-3 ml-2" ng-show="smkcig_tick==1">
+            <div class="col-md-4 col-sm-3">
+                <div class="form-outline small">
+                    <label class="form-label" for="typeText">If current, how old were you when you started?</label>
+                    <input type="text" numbers-only class="form-control " ng-model="smkcig_cs_age"
+                        style="width: 280px;" />
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-3">
+                <div class="form-outline small">
+                    <label class="form-label" for="date">Average no. of cigrattes/day?</label>
+                    <input type="text" numbers-only class="form-control " ng-model="smkcig_cs_no" style="width: 280px;" />
+                </div>
+            </div>
+
+
+
+            <div class="col-md-4 col-sm-3 ">
+                <div class="form-outline small">
+                    <label class="form-label" for="date">Number of years smoked?</label>
+                    <input type="text" numbers-only class="form-control " ng-model="smkcig_cs_yrs"
+                        style="width: 280px;" />
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-3 mt-2">
+                <div class="form-outline small">
+                    <label class="form-label" for="date">Date of Interview:</label>
+                    <input type="date" class="form-control " ng-model="skcig_cs_ddate" style="width:280px;" />
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <!-- Household smoker -->
+        <div class="row m-1 mt-3">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7>Did someone in the household you grew up in(spent the majority of childhood)smoke regularly?</h7>
+            </div>
+        </div>
+
+
+
+
+        <div class="form-check form-check-inline small ml-4 ">
+            <input class="form-check-input" type="radio" name="smokeOptions" ng-model="household_tick" id="smokeyes">
+            <label class="form-check-label" for="smokeyes">Yes</label>
+        </div>
+       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <div class="form-check form-check-inline small ml-4">
+            <input class="form-check-input" type="radio" name="smokeOptions" ng-model="household_tick"  id="smokeno">
+            <label class="form-check-label" for="smokeno">No</label>
+        </div>
+
+
+
+
+
+        <!-- Alcohol Consumption -->
+        <div class="row m-1 mt-3">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7>Alcohol Consumption</h7>
+            </div>
+        </div>
+
+
+        <div class="row m-1 mt-2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7>Did you or do you currently drink alcoholic beverages such as beer, wine or liquor, at least once a
+                    month?</h7>
+            </div>
+        </div>
+
+
+<!-- Radio BUtton -->
+
+        <div class="form-check form-check-inline small ml-4 ">
+            <input class="form-check-input" type="radio" name="alcoholoptions" value="0" ng-checked="true" ng-model="alccon_tick"
+                id="alcoholne">
+            <label class="form-check-label" for="alcoholne">Never</label>
+        </div>
+     &nbsp; &nbsp; &nbsp;  <div class="form-check form-check-inline small ml-4">
+            <input class="form-check-input" type="radio" name="alcoholoptions" ng-model="alccon_tick" value="1"
+                id="alcoholpr">
+            <label class="form-check-label" for="alcoholpr">Present Drinker</label>
+        </div>
+        <div class="form-check form-check-inline small ml-2">
+            <input class="form-check-input" type="radio" name="alcoholoptions" value="2" ng-model="alccon_tick"
+                id="alcoholpa">
+            <label class="form-check-label" for="alcoholpa">Past Drinker</label>
+        </div>
+
+
+
+<!-- Beverage -->
+
+        <div class="row m-1 mt-3" ng-show="alccon_tick == 1 || alccon_tick == 2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7> If yes, specify the type of beverage?</h7>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-3">
+            <div class="form-outline small">
+                <textarea class="form-control"  rows="2" cols="2" ng-show="alccon_tick ==1" ng-model="alccon_pre" placeholder="Specify beverages"
+                    style="width: 320%;"></textarea>
+                    <textarea class="form-control" rows="2" cols="2" ng-show="alccon_tick ==2" ng-model="alccon_pas" placeholder="Specify beverages"
+                    style="width: 320%;"></textarea>
+            </div>
+        </div>
+
+
+
+        <!-- Occasional Drinker -->
+        <div class="row mt-3 ml-2" ng-show="alccon_tick == 1 || alccon_tick ==2">
+            <div class="col-md-4">
+                <label class="small"> Occasional Drinker</label>
+            </div>
+            <!-- Present -->
+            <div class="col-md-4" ng-show="alccon_tick == 1">
+
+                <div class="form-check form-check-inline small ">
+                    <input class="form-check-input" type="radio" name="alccon_pre_od_tick" ng-model="alccon_pre_od_tick"
+                        id="occyes" value="1">
+                    <label class="form-check-label" for="occyes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="alccon_pre_od_tick"  ng-model="alccon_pre_od_tick"
+                         id="occno" ng-checked="true" value="0">
+                    <label class="form-check-label" for="occno">No</label>
+                </div>
+            </div>
+
+
+
+<!-- Past -->
+            <div class="col-md-4" ng-show="alccon_tick == 2">
+
+                <div class="form-check form-check-inline small ">
+                    <input class="form-check-input" type="radio" name="alccon_pas_od_tick" ng-model="alccon_pas_od_tick"
+                        id="pastoccyes" value="1">
+                    <label class="form-check-label" for="pastoccyes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="alccon_pas_od_tick"  ng-model="alccon_pas_od_tick"
+                         id="pastoccno" ng-checked="true" value="0">
+                    <label class="form-check-label" for="pastoccno">No</label>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+    <!-- Social Drinker -->
+        <div class="row mt-3 ml-2" ng-show="alccon_tick == 1|| alccon_tick == 2">
+            <div class="col-md-4">
+                <label class="small"> Social Drinker</label>
+            </div>
+            <!-- Present -->
+            <div class="col-md-4" ng-show="alccon_tick == 1" >
+
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="alccon_pre_sd_tick" value="1" ng-model="alccon_pre_sd_tick"
+                        id="presocialyes" >
+                    <label class="form-check-label" for="presocialyes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="alccon_pre_sd_tick" value="0" ng-model="alccon_pre_sd_tick"
+                         id="presocialno" ng-checked="true">
+                    <label class="form-check-label" for="presocialno">No</label>
+                </div>
+            </div>
+
+<!-- Past -->
+            <div class="col-md-4" ng-show="alccon_tick == 2">
+
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="alccon_pas_sd_tick" ng-model="alccon_pas_sd_tick"
+                        id="passocialyes" value="1">
+                    <label class="form-check-label" for="passocialyes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="alccon_pas_sd_tick" ng-checked="true" ng-model="alccon_pas_sd_tick"
+                         id="passocialno" value="0">
+                    <label class="form-check-label" for="passocialno">No</label>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- Chronic Drinker -->
+        <div class="row mt-3 ml-2" ng-show="alccon_tick == 1 || alccon_tick ==2">
+            <div class="col-md-4">
+                <label class="small"> Chronic Drinker</label>
+            </div>
+            <!-- Present -->
+            <div class="col-md-4" ng-show="alccon_tick == 1">
+
+                <div class="form-check form-check-inline small ">
+                    <input class="form-check-input" type="radio" name="alccon_pre_cd_tick" value="1" ng-model="alccon_pre_cd_tick"
+                        id="prechronicyes">
+                    <label class="form-check-label" for="prechronicyes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="alccon_pre_cd_tick" value="0" ng-model="alccon_pre_cd_tick"
+                         id="prechronicno" ng-checked="true">
+                    <label class="form-check-label" for="prechronicno">No</label>
+                </div>
+            </div>
+
+          <!-- Past -->
+            <div class="col-md-4" ng-show="alccon_tick == 2">
+
+                <div class="form-check form-check-inline small ">
+                    <input class="form-check-input" type="radio" name="alccon_pas_cd_tick" value="1" ng-model="alccon_pas_cd_tick"
+                        id="paschronicyes" >
+                    <label class="form-check-label" for="paschronicyes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="alccon_pas_cd_tick" value="0" ng-model="alccon_pas_cd_tick"
+                         id="paschronicno" ng-checked="true">
+                    <label class="form-check-label" for="paschronicno">No</label>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+        <!-- Duration -->
+        <div class="row mt-3 ml-2" ng-show="alccon_tick == 1 || alccon_tick == 2">
+            <div class="col-md-4">
+                <label class="small"> Using Since (Duration)?</label>
+            </div>
+            <!-- Present -->
+
+            <div class="col-md-4 small" ng-show="alccon_tick == 1" >
+
+                <input type="text" numbers-only ng-model="alccon_pre_usn" placeholder="year" class="form-control" />
+            </div>
+
+<!-- Past -->
+ <div class="col-md-4 small" ng-show="alccon_tick == 2">
+
+                <input type="text" numbers-only ng-model="alccon_pas_usn" placeholder="year" class="form-control" />
+            </div>
+
+
+        </div>
+
+
+                <!--Stopped drinking Duration -->
+                <div class="row mt-3 ml-2" ng-show="alccon_tick == 2">
+                    <div class="col-md-4">
+                        <label class="small"> Stopped drinking since (Duration)?</label>
+                    </div>
+                    
+        
+        <!-- Past -->
+         <div class="col-md-4 small" ng-show="alccon_tick == 2">
+        
+                        <input type="text" numbers-only ng-model="alccon_pas_stop" placeholder="year" class="form-control" />
+                    </div>
+        
+        
+                </div>
+        
+
+
+<!-- No of years -->
+        <div class="row mt-3 ml-2" ng-show="alccon_tick == 1 || alccon_tick == 2">
+            <div class="col-md-4">
+                <label class="small"> No of years since drinking?</label>
+            </div>
+            <!-- Present -->
+            <div class="col-md-4 small" ng-show="alccon_tick == 1">
+
+                <input type="text" numbers-only ng-model="alccon_pre_noyr" placeholder="Years" class="form-control" />
+            </div>
+
+<!-- Past -->
+
+            <div class="col-md-4 small" ng-show="alccon_tick == 2">
+
+                <input type="text" numbers-only ng-model="alccon_pas_noyr" placeholder="Years" class="form-control" />
+            </div>
+
+
+        </div>
+
+
+
+  <!-- Quantity -->
+        <div class="row mt-3 ml-2" ng-show="alccon_tick == 1 || alccon_tick == 2">
+            <div class="col-md-4">
+                <label class="small"> Quantity/week (Specify)</label>
+            </div>
+            <!-- Present -->
+            <div class="col-md-4 small" ng-show="alccon_tick == 1">
+
+                <input type="text" numbers-only ng-model="alccon_pre_qt" placeholder="ml" class="form-control" />
+            </div>
+
+<!-- Past -->
+            <div class="col-md-4 small" ng-show="alccon_tick == 2">
+
+                <input type="text" numbers-only ng-model="alccon_pas_qt" placeholder="ml" class="form-control" />
+            </div>
+
+        </div>
+
+
+
+
+
+<!-- Pann Use -->
+        <div class="row mt-3 ml-2" ng-show="alccon_tick == 1|| alccon_tick ==2">
+            <div class="col-md-4">
+                <label class="small"> Pann Use</label>
+            </div>
+            <!-- Present -->
+            <div class="col-md-4" ng-show="alccon_tick == 1">
+
+                <div class="form-check form-check-inline small ">
+                    <input class="form-check-input" type="radio" name="prepannoptions" ng-model="alccon_pre_pan_tick"
+                     value="1"   id="prepannyes">
+                    <label class="form-check-label" for="prepannyes">Yes</label>
+                    <input type="text" class="form-control m-1" ng-show="alccon_pre_pan_tick ==1" ng-model="alccon_pre_pan"
+                        placeholder="Doses(times/day)" />
+                </div>
+
+
+
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="prepannoptions"  ng-checked="true" ng-model="alccon_pre_pan_tick" value="0"
+                        id="prepannno">
+                    <label class="form-check-label" for="prepannno">No</label>
+                </div>
+            </div>
+
+<!-- Past -->
+            <div class="col-md-4" ng-show="alccon_tick == 2">
+
+                <div class="form-check form-check-inline small ">
+                    <input class="form-check-input" type="radio" name="paspannoptions" ng-model="alccon_pas_pan_tick" value="1"
+                        id="paspannyes">
+                    <label class="form-check-label" for="paspannyes">Yes</label>
+                    <input type="text" class="form-control m-1" ng-show="alccon_pas_pan_tick ==1" ng-model="alccon_pas_pan"
+                        placeholder="Doses(times/day)" />
+                </div>
+
+
+
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="paspannoptions" ng-checked ="true" ng-model="alccon_pas_pan_tick" value="0"
+                        id="paspannno">
+                    <label class="form-check-label" for="paspannno">No</label>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!-- Others -->
+        <div class="row m-1 mt-3"  ng-show="alccon_tick == 1|| alccon_tick ==2">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(158, 135, 135, 0.473);">
+                <h7>Others</h7>
+            </div>
+        </div>
+
+
+<!-- Biddi -->
+        <div class="row mt-3 ml-2">
+            <div class="col-md-4" ng-show="alccon_tick == 1|| alccon_tick ==2">
+                <label class="small"> Biddi</label>
+            </div>
+            <!-- Present -->
+            <div class="col-md-4" ng-show="alccon_tick == 1">
+
+                <div class="form-check form-check-inline small ">
+                    <input class="form-check-input" type="radio" name="prebiddi" ng-model="oth_pre_bd_tick" value="1"
+                        id="prebiddiyes">
+                    <label class="form-check-label" for="prebiddiyes">Yes</label>
+                    <input type="text" class="form-control m-1" ng-show="oth_pre_bd_tick ==1" ng-model="oth_pre_bd"
+                        placeholder="Doses(times/day)" />
+                </div>
+
+
+
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="biddi" ng-checked="true" ng-model="oth_pre_bd_tick" value="0"
+                        id="biddino">
+                    <label class="form-check-label" for="biddino">No</label>
+                </div>
+            </div>
+
+<!-- Past -->
+            <div class="col-md-4" ng-show="alccon_tick == 2">
+
+                <div class="form-check form-check-inline small ">
+                    <input class="form-check-input" type="radio" name="pasbiddi" ng-model="oth_pas_bd_tick" value="1"
+                        id="pasbiddiyes">
+                    <label class="form-check-label" for="pasbiddiyes">Yes</label>
+                    <input type="text" class="form-control m-1" ng-show="oth_pas_bd_tick ==1" ng-model="oth_pas_bd"
+                        placeholder="Doses(times/day)" />
+                </div>
+
+
+
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="pasbiddi" ng-checked="true"  ng-model="oth_pas_bd_tick" value="0"
+                        id="pasbiddino">
+                    <label class="form-check-label" for="pasbiddino">No</label>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+<!-- Tamakhu-->
+        <div class="row mt-3 ml-2" ng-show="alccon_tick == 1|| alccon_tick ==2">
+            <div class="col-md-4">
+                <label class="small"> Tamakhu</label>
+            </div>
+            <!-- Present -->
+            <div class="col-md-4" ng-show="alccon_tick == 1">
+
+                <div class="form-check form-check-inline small ">
+                    <input class="form-check-input" type="radio" name="pretamakhuoption" ng-model="oth_tm_tick" value="1"
+                        id="pretamakhuyes">
+                    <label class="form-check-label" for="pretamakhuyes">Yes</label>
+                    <input type="text" class="form-control m-1" ng-show="oth_tm_tick ==1" ng-model="oth_tm"
+                        placeholder="Doses(times/day)" />
+                </div>
+
+
+
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="pretamakhuoption" ng-checked="true" ng-model="oth_tm_tick" value="0"
+                        id="pretamakhuno">
+                    <label class="form-check-label" for="pretamakhuno">No</label>
+                </div>
+            </div>
+
+<!-- Past -->
+            <div class="col-md-4" ng-show="alccon_tick == 2">
+
+                <div class="form-check form-check-inline small ">
+                    <input class="form-check-input" type="radio" name="pastamakhuoption" ng-model="oth_tm_tick" value="1"
+                        id="pastamakhuyes">
+                    <label class="form-check-label" for="pastamakhuyes">Yes</label>
+                    <input type="text" class="form-control m-1" ng-show="oth_tm_tick ==1" ng-model="oth_tm"
+                        placeholder="Doses(times/day)" />
+                </div>
+
+
+
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="pastamakhuoption" ng-checked="true" ng-model="oth_tm_tick" value="0"
+                        id="pastamakhuno">
+                    <label class="form-check-label" for="pastamakhuno">No</label>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+<!-- Hukkha -->
+        <div class="row mt-3 ml-2" ng-show="alccon_tick == 1|| alccon_tick ==2">
+            <div class="col-md-4">
+                <label class="small"> Hukkha</label>
+            </div>
+            <!-- Present -->
+            <div class="col-md-4" ng-show="alccon_tick == 1">
+
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="prehukkhaoption" ng-model="oth_pre_hka_tick"  value="1"
+                        id="prehukkhayes">
+                        <label class="form-check-label" for="prehukkhayes">Yes</label>
+                        <input type="text" class="form-control m-1" ng-show="oth_pre_hka_tick ==1" ng-model="oth_pre_hka"
+                        placeholder="Doses(times/day)" />
+                    </div>
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="prehukkhaoption" ng-checked="true" ng-model="oth_pre_hka_tick"
+                        value="0" id="prehukkhano">
+                    <label class="form-check-label" for="prehukkhano">No</label>
+                </div>
+            </div>
+
+            <!-- Past -->
+            <div class="col-md-4" ng-show="alccon_tick == 2">
+
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="pashukkhaoption" ng-model="oth_pas_hka_tick"  value="1"
+                        id="pashukkhayes">
+                        <label class="form-check-label" for="pashukkhayes">Yes</label>
+                        <input type="text" class="form-control m-1" ng-show="oth_pas_hka_tick ==1" ng-model="oth_pas_hka"
+                        placeholder="Doses(times/day)" />
+                    </div>
+                <div class="form-check form-check-inline small">
+                    <input class="form-check-input" type="radio" name="pashukkhaoption" ng-checked="true" ng-model="oth_pas_hka_tick"
+                        value="0" id="pashukkhano">
+                    <label class="form-check-label" for="pashukkhano">No</label>
+                </div>
+            </div>
+        </div>
+
+
+        
+
+ <!-- Button -->
+ <div class="col-sm-6 mt-3">
+    <button class="btn btn-primary btn-sm" ng-click="vm.submitSmokingHistory();">Save Record</button>
+    <input class="btn btn-primary btn-sm" type="button" ng-click="vm.next()" value="Next">
+    <input type="reset"  class="btn btn-primary btn-sm" value="Reset">
+
+  </div>
+
+
+</form>
+
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+</div>
+</div>

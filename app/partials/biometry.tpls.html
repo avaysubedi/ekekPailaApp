@@ -1,0 +1,409 @@
+<div ng-init="vm.init();" class=" container-fluid  mt-0">
+
+    <title> {{vm.pagetitle}} - Lab Report </title>
+
+    <style>
+        .table {
+            border: none;
+        }
+
+        .noborder {
+            border-bottom: none !important;
+            border-top: none !important;
+
+        }
+    </style>
+
+    <div class="modal-body " style="padding:0px " ng-show="vm.notification.message ">
+        <div class="alert alert-{{vm.notification.mode}} "
+            style="margin-bottom:0px; width:20%; position:fixed;bottom:0;right:0;z-index: 100; ">
+            <button type="button " class="close " data-ng-click="close() ">
+                <span class="glyphicon glyphicon-remove " style="font-size: small; "></span>
+            </button>
+            <div ng-bind="vm.notification.message "></div>
+        </div>
+    </div>
+
+
+<!-- {{treatment_od_tick}} -->
+    <div class="row m-1">
+        <a class="fa fa-home btn btn-sm" href="#!dashboard">
+            Dashboard
+            </a>
+        <div class="col-md-12" style="background-color: rgb(40, 40, 92);height:35px !important;">
+            <h5 class="text-center white-text mt-1">{{vm.pagetitle}}</h5>
+        </div>
+    </div>
+
+
+    <div class="row m-2 ">
+        <div class="col-md-12" >
+
+
+            <div class="row m-1">
+
+                <div class="col-md-1 col-sm-1 small">
+                    <label class="mt-3"></label> Search:
+                </div>
+
+                <div class="col-md-4 small">
+                    <div class="input-group mb-3">
+
+                        <input type="text" class="form-control mt-2 " placeholder="" aria-label=""
+                            aria-describedby="button-addon2" ng-model="mdrsearch" />
+                        <button class="btn btn-sm btn-primary" type="button" id="button-addon2"
+                            ng-click="vm.fetchUserSummary()">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary">
+                            Clear </button>
+                    </div>
+                </div>
+
+
+
+                <!-- <button ng-click="vm.fetchUserSummary()">
+                FETCH SUMMARY
+            </button> -->
+                <!-- <p ng-show="vm.presbyopia_od_tick">PRSBYOPIA</p> -->
+
+            </div>
+
+            <div class="col-md-6 offset-1" ng-if="loadtrue">
+                <div class="small spinner-border text-center" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <div class="col-md-4" ng-show="noReport">
+                <p class="red-text">No Report found!</p>
+            </div>
+
+
+            <div class="row" ng-show="showReport">
+
+                <table class="table table-sm table-bordered col-sm-9 offset-1">
+                    <tr>
+                        <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                        <th class="m-1 p-1 font-weight-bold">Date</th>
+                        <th class="m-1 p-1 font-weight-bold">Actions</th>
+                    </tr>
+                    <tr>
+                        <td class="m-1 p-1">{{vm.pname}}</td>
+                        <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
+                        <td class="m-1 p-1">
+
+                            <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                                <i class="fa fa-edit"></i></a>
+
+
+                            <!-- <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
+                    <i class="fa fa-print"></i></a>
+-->
+
+                            <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
+                                <i class="fa fa-trash"></i></a>
+
+
+                        </td>
+
+
+                    </tr>
+                </table>
+            </div>
+            <!--MRD NO and DATE-->
+
+            <div class="row m-1">
+                <div class="col-md-3 col-sm-3">
+                    <div class="form-outline small">
+                        <label class="form-label" for="typeText">MRD No:</label>
+                        <input type="text" id="formControlSm" class="form-control form-control-sm" ng-model="mrdnum" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3">
+                    <div class="form-outline small">
+                        <label class="form-label" for="date">Date:</label>
+                        <input type="text" ui-mask="9999/99/99" placeholder="yyyy/MM/dd" ui-mask-placeholder-char="-"
+                            id="date" ng-model="vm.today" class="form-control form-control-sm" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        </div>
+
+   
+    <!--Biometry-->
+    <div class="row m-1">
+        <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+            <h7 class="text-left">Biometry</h7>
+        </div>
+    </div>
+
+    <div class="row m-1">
+        <!-- {{proptosis_od_tick}} -->
+        <!-- OD Proptosis -->
+        <div class="col-md-5">
+            <div class="col-md-1 col-sm-1 ">
+                <label class="">OD</label>
+            </div>
+            <!-- ng-show="ascanod ==1" -->
+            <div class="col-md-12" >
+
+                <label class="small">K1</label>
+                <input type="text" numbers-only ng-model="k1od" class="form-control">
+
+                
+                <label class="small">K2</label>
+                <input type="text" numbers-only ng-model="k2od" class="form-control">
+
+                <label class="small">Axial Length</label>
+                <input type="text" numbers-only ng-model="axial_od" class="form-control">
+
+                <label class="small">IOL Power</label>
+                <input type="text" numbers-only ng-model="iol_od" class="form-control">
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+        <div class="col-md-5">
+            <div class="col-md-1 col-sm-1 ">
+                <label class="">OS</label>
+            </div>
+            <div class="col-md-12" >
+
+                <label class="small">K1</label>
+                <input type="text" numbers-only ng-model="k1os" class="form-control">
+
+                
+                <label class="small">K2</label>
+                <input type="text" numbers-only ng-model="k2os" class="form-control">
+
+                <label class="small">Axial Length</label>
+                <input type="text" numbers-only ng-model="axial_os" class="form-control">
+
+                <label class="small">IOL Power</label>
+                <input type="text" numbers-only ng-model="iol_os" class="form-control">
+
+
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+        <!--CSI-->
+        <div class="row m-1">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left">Cataract Surgery Investigation</h7>
+            </div>
+        </div>
+
+          <!--Blood Report-->
+    <div class="row m-1">
+        <div class="col-md-1" >
+            <label class="text-left">Blood&nbsp;Report</label>
+        </div>
+        <div class="col-sm-4">
+            <textarea class="form-control" ng-model="blood_report"></textarea>
+        </div>
+    </div>
+    <!-- HBSAG -->
+    <div class="row m-1">
+        <div class="col-sm-1 ">
+            <label class="mt-3">
+                HbsAg
+            </label>
+        </div> 
+        <div class="col-sm-5">
+            <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="hbsag_react_tick"
+                  id="hbsagReact" ng-model="hbsag_react_tick" ng-value="true" />
+
+                
+                <label class="form-check-label" for="hbsagReact">Reactive</label>
+              </div>
+              
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  ng-model="hbsag_react_tick"
+                  name="hbsag_react_tick"
+                  id="hbsag_react_tickno"
+                  ng-value="false"
+                  ng-init="hbsag_react_tick=false"
+                />
+                <label class="form-check-label" for="hbsag_react_tickno">Non-reactive</label>
+              </div>
+              
+
+          
+        
+        </div>
+
+    </div>
+    <!-- HCV -->
+    <div class="row m-1 mt-0">
+        <div class="col-sm-1 ">
+            <label class="mt-3">
+                HCV
+            </label>
+        </div> 
+        <div class="col-sm-5">
+            <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="hcv_react_tick"
+                  id="hcv_react_tickok" ng-model="hcv_react_tick" ng-value="true" />
+
+                
+                <label class="form-check-label" for="hcv_react_tickok">Reactive</label>
+              </div>
+              
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  ng-model="hcv_react_tick"
+                  name="hcv_react_tick"
+                  id="hcv_react_tickno"
+                  ng-value="false"
+                  ng-init="hcv_react_tick=false"
+                />
+                <label class="form-check-label" for="hcv_react_tickno">Non-reactive</label>
+              </div>
+              
+
+          
+        
+        </div>
+
+    </div>
+
+     <!-- HIV -->
+     <div class="row m-1 mt-0">
+        <div class="col-sm-1 ">
+            <label class="mt-3">
+                HIV I & II
+            </label>
+        </div> 
+        <div class="col-sm-5">
+            <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="hiv_tick"
+                  id="hiv_tick" ng-model="hiv_tick" ng-value="true" />
+
+                
+                <label class="form-check-label" for="hiv_tick">Reactive</label>
+              </div>
+              
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  ng-model="hiv_tick"
+                  name="hiv_tick"
+                  id="hiv_tickno"
+                  ng-value="false"
+                  ng-init="hiv_tick=false"
+                />
+                <label class="form-check-label" for="hiv_tickno">Non-reactive</label>
+              </div>
+              
+
+          
+        
+        </div>
+
+    </div>
+
+         <!-- Blood Sugar -->
+         <div class="row m-1 mt-0">
+            <div class="col-sm-1 ">
+                <label class="mt-3">
+                    Blood&nbsp;Sugar
+                </label>
+            </div> 
+            <div class="col-sm-5">
+              
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="fbs" ng-model="bs_fbs_tickr"  />
+                    <label class="form-check-label" for="fbs">FBS</label>
+                  </div>
+                  
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" ng-model="bs_pp_tick" id="pb" />
+                    <label class="form-check-label" for="pb">PB</label>
+                  </div>
+                  
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="rbs"
+                      ng-model="bs_rbs_tick"
+                    />
+                    <label class="form-check-label" for="rbs">RBS</label>
+                  </div>  
+    
+              
+            
+            </div>
+    
+        </div>
+
+        <div class="row">
+        <div class="col-sm-1">
+            <label>Remarks</label>
+        </div>    
+        <div class="col-sm-4">
+            <textarea class="form-control" ng-model="remarks"></textarea>
+        </div>
+        </div>
+
+        
+
+        <div class="row m-1">
+            <div class="col-md-2 col-sm-2">
+                <button class="btn btn-sm btn-primary" ng-click="vm.submitOcularExaminationDetails();">Save&nbsp;Record</button>
+            </div>
+       
+            <!-- <div class="col-md-1 col-sm-1 ml-5">
+                <button class="btn btn-sm btn-primary">Next</button>
+
+
+            </div> -->
+            <div class="col-md-1 col-sm-1">
+                <button class="btn btn-sm btn-primary">Reset</button>
+
+            </div>
+        </div>
+
+

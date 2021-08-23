@@ -1,0 +1,699 @@
+<!--VITREOUS -->
+<div class="row m-1">
+    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+        <h7 class="text-left  "> Vitreous</h7>
+    </div>
+</div>
+
+<div class="row m-1">
+
+    <!-- OD HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OD
+
+                <!-- {{cornealtopographyodinterpretation}} -->
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="vitreous_od_tick" id="vitreous_od_tickno"
+                    ng-init="vitreous_od_tick=true" ng-value="true" ng-model="vitreous_od_tick" />
+                <label class="form-check-label" for="vitreous_od_tickno">Normal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="vitreous_od_tick" id="vitreous_od_tickab"
+                    ng-value="false" ng-model="vitreous_od_tick" />
+                <label class="form-check-label" for="vitreous_od_tickab">Abnormal
+
+                </label>
+            </div>
+        </div>
+
+
+        <!-- ng-show="cornealtopographyodinterpretation ==0" -->
+
+        <div class="col-md-12 mt-2 " ng-show="!vitreous_od_tick">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="vitreous_pvd_od_tick"
+                    id="vitreous_pvd_od_tick" />
+                <label class="form-check-label" for="vitreous_pvd_od_tick">
+                    PVD </label>
+            </div>
+
+
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="vitreous_vh_od_tick"
+                    id="vitreous_vh_od_tick" />
+                <label class="form-check-label" for="vitreous_vh_od_tick">
+                    VH </label>
+            </div>
+
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="vitreous_oparities_od_tick"
+                    id="vitreous_oparities_od_tick" />
+                <label class="form-check-label" for="vitreous_oparities_od_tick">
+                    Vitreous Oparities </label>
+            </div>
+
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="vitreous_other_od_tick"
+                    id="vitreous_other_od_tick" />
+                <label class="form-check-label" for="vitreous_other_od_tick">
+                    Others </label>
+            </div>
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="vitreous_other_od"
+                ng-show="vitreous_other_od_tick">
+
+        </div>
+
+
+    </div>
+
+
+    <!-- OS HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OS
+
+                <!-- {{cornealtopographyodinterpretation}} -->
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="vitreous_os_tick" id="vitreous_os_tickno"
+                    ng-init="vitreous_os_tick=true" ng-value="true" ng-model="vitreous_os_tick" />
+                <label class="form-check-label" for="vitreous_os_tickno">Normal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="vitreous_os_tick" id="vitreous_os_tickab"
+                    ng-value="false" ng-model="vitreous_os_tick" />
+                <label class="form-check-label" for="vitreous_os_tickab">Abnormal
+
+                </label>
+            </div>
+        </div>
+
+
+        <!-- ng-show="cornealtopographyodinterpretation ==0" -->
+
+        <div class="col-md-12 mt-2 " ng-show="!vitreous_os_tick">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="vitreous_pvd_os_tick"
+                    id="vitreous_pvd_os_tick" />
+                <label class="form-check-label" for="vitreous_pvd_os_tick">
+                    PVD </label>
+            </div>
+
+
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="vitreous_vh_os_tick"
+                    id="vitreous_vh_os_tick" />
+                <label class="form-check-label" for="vitreous_vh_os_tick">
+                    VH </label>
+            </div>
+
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="vitreous_oparities_os_tick"
+                    id="vitreous_oparities_os_tick" />
+                <label class="form-check-label" for="vitreous_oparities_os_tick">
+                    Vitreous Oparities </label>
+            </div>
+
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="vitreous_other_os_tick"
+                    id="vitreous_other_os_tick" />
+                <label class="form-check-label" for="vitreous_other_os_tick">
+                    Others </label>
+            </div>
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="vitreous_other_os"
+                ng-show="vitreous_other_os_tick">
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<!--Retina -->
+<div class="row m-1">
+    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+        <h7 class="text-left  "> Retina</h7>
+    </div>
+</div>
+
+<div class="row m-1">
+
+    <!-- OD HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OD
+
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="retina_od_tick" id="retina_od_ticknormal"
+                    ng-init="retina_od_tick=true" ng-value="true" ng-model="retina_od_tick" />
+                <label class="form-check-label" for="retina_od_ticknormal">Normal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="retina_od_tick" id="retina_od_tickab"
+                    ng-value="false" ng-model="retina_od_tick" />
+                <label class="form-check-label" for="retina_od_tickab">Abnormal
+
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12 mt-2 " ng-show="!retina_od_tick">
+
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="retina_od">
+
+        </div>
+
+
+    </div>
+    <!-- OS HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OS
+
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="retina_os_tick" id="retina_os_ticknormal"
+                    ng-init="retina_os_tick=true" ng-value="true" ng-model="retina_os_tick" />
+                <label class="form-check-label" for="retina_os_ticknormal">Normal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="retina_os_tick" id="retina_os_tickab"
+                    ng-value="false" ng-model="retina_os_tick" />
+                <label class="form-check-label" for="retina_os_tickab">Abnormal
+
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12 mt-2 " ng-show="!retina_os_tick">
+
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="retina_os">
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<!--Disc -->
+<div class="row m-1">
+    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+        <h7 class="text-left  "> Disc</h7>
+    </div>
+</div>
+<div class="row m-1">
+
+    <!-- OD HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OD
+
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="disc_od_tick" id="disc_od_ticknormal"
+                    ng-init="disc_od_tick=true" ng-value="true" ng-model="disc_od_tick" />
+                <label class="form-check-label" for="disc_od_ticknormal">Normal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="disc_od_tick" id="disc_od_tickab"
+                    ng-value="false" ng-model="disc_od_tick" />
+                <label class="form-check-label" for="disc_od_tickab">Abnormal
+
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12 mt-2 " ng-show="!disc_od_tick">
+
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="disc_od">
+
+        </div>
+
+
+    </div>
+    <!-- OS HERE -->
+   
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OS
+
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="disc_os_tick" id="disc_os_ticknormal"
+                    ng-init="disc_os_tick=true" ng-value="true" ng-model="disc_os_tick" />
+                <label class="form-check-label" for="disc_os_ticknormal">Normal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="disc_os_tick" id="disc_os_tickab"
+                    ng-value="false" ng-model="disc_os_tick" />
+                <label class="form-check-label" for="disc_os_tickab">Abnormal
+
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12 mt-2 " ng-show="!disc_os_tick">
+
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="disc_os">
+
+        </div>
+
+
+    </div>
+</div>
+
+<!--CUP DISC RATIO -->
+<div class="row m-1">
+    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+        <h7 class="text-left  "> CDR</h7>
+    </div>
+</div>
+
+<div class="row m-1">
+
+    <!-- OD HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OD
+
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="cdr_od_tick" id="cdr_od_ticknormal"
+                    ng-init="cdr_od_tick=true" ng-value="true" ng-model="cdr_od_tick" />
+                <label class="form-check-label" for="cdr_od_ticknormal">Normal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="cdr_od_tick" id="cdr_od_tickab"
+                    ng-value="false" ng-model="cdr_od_tick" />
+                <label class="form-check-label" for="cdr_od_tickab">Abnormal
+
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12 mt-2 " ng-show="!cdr_od_tick">
+
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="cdr_od">
+
+        </div>
+
+
+    </div>
+    <!-- OS HERE -->
+ <div class="col-md-4 ">
+    <div class="col-md-1 col-sm-1 ">
+        <label class="">OS
+
+        </label>
+    </div>
+    <div class="col-md-10 small">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="cdr_os_tick" id="cdr_os_ticknormal"
+                ng-init="cdr_os_tick=true" ng-value="true" ng-model="cdr_os_tick" />
+            <label class="form-check-label" for="cdr_os_ticknormal">Normal</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="cdr_os_tick" id="cdr_os_tickab"
+                ng-value="false" ng-model="cdr_os_tick" />
+            <label class="form-check-label" for="cdr_os_tickab">Abnormal
+
+            </label>
+        </div>
+    </div>
+
+
+
+    <div class="col-md-12 mt-2 " ng-show="!cdr_os_tick">
+
+        <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="cdr_os">
+
+    </div>
+
+
+</div>
+</div>
+
+<!--MACULA -->
+<div class="row m-1">
+    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+        <h7 class="text-left  "> Macula</h7>
+    </div>
+</div>
+
+<div class="row m-1">
+
+    <!-- OD HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OD
+
+                <!-- {{cornealtopographyodinterpretation}} -->
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="macula_od_tick" id="macula_od_tickno"
+                    ng-init="macula_od_tick=true" ng-value="true" ng-model="macula_od_tick" />
+                <label class="form-check-label" for="macula_od_tickno">Normal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="macula_od_tick" id="macula_od_tickab"
+                    ng-value="false" ng-model="macula_od_tick" />
+                <label class="form-check-label" for="macula_od_tickab">Abnormal
+
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12 mt-2 " ng-show="!macula_od_tick">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="macula_erm_od_tick"
+                    id="macula_erm_od_tick" />
+                <label class="form-check-label" for="macula_erm_od_tick">
+                    ERM </label>
+            </div>
+
+
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="macula_hole_od_tick"
+                    id="macula_hole_od_tick" />
+                <label class="form-check-label" for="macula_hole_od_tick">
+                    Macular Hole </label>
+            </div>
+
+          
+            
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="macula_hemorage_od_tick"
+                    id="macula_hemorage_od_tick" />
+                <label class="form-check-label" for="macula_hemorage_od_tick">
+                    Macular Hemorrhage </label>
+            </div>
+
+            
+            
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="macula_edema_od_tick"
+                    id="macula_edema_od_tick" />
+                <label class="form-check-label" for="macula_edema_od_tick">
+                    Macular Edema </label>
+            </div>
+
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="macula_other_od_tick"
+                    id="macula_other_od_tick" />
+                <label class="form-check-label" for="macula_other_od_tick">
+                    Others </label>
+            </div>
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="macula_other_od"
+                ng-show="macula_other_od_tick">
+
+        </div>
+
+
+    </div>
+
+
+    <!-- OS HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OS
+    
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="macula_os_tick" id="macula_os_tickno"
+                    ng-init="macula_os_tick=true" ng-value="true" ng-model="macula_os_tick" />
+                <label class="form-check-label" for="macula_os_tickno">Normal</label>
+            </div>
+    
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="macula_os_tick" id="macula_os_tickab"
+                    ng-value="false" ng-model="macula_os_tick" />
+                <label class="form-check-label" for="macula_os_tickab">Abnormal
+    
+                </label>
+            </div>
+        </div>
+    
+    
+    
+        <div class="col-md-12 mt-2 " ng-show="!macula_os_tick">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="macula_erm_os_tick"
+                    id="macula_erm_os_tick" />
+                <label class="form-check-label" for="macula_erm_os_tick">
+                    ERM </label>
+            </div>
+    
+    
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="macula_hole_os_tick"
+                    id="macula_hole_os_tick" />
+                <label class="form-check-label" for="macula_hole_os_tick">
+                    Macular Hole </label>
+            </div>
+    
+          
+            
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="macula_hemorage_os_tick"
+                    id="macula_hemorage_os_tick" />
+                <label class="form-check-label" for="macula_hemorage_os_tick">
+                    Macular Hemorrhage </label>
+            </div>
+    
+            
+            
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="macula_edema_os_tick"
+                    id="macula_edema_os_tick" />
+                <label class="form-check-label" for="macula_edema_os_tick">
+                    Macular Edema </label>
+            </div>
+    
+            <!-- Default checkbox -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="macula_other_os_tick"
+                    id="macula_other_os_tick" />
+                <label class="form-check-label" for="macula_other_os_tick">
+                    Others </label>
+            </div>
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="macula_other_os"
+                ng-show="macula_other_os_tick">
+    
+        </div>
+    
+    
+    </div>
+</div>
+
+<!--Vessels -->
+<div class="row m-1">
+    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+        <h7 class="text-left  "> Vessels</h7>
+    </div>
+</div>
+
+<div class="row m-1">
+
+    <!-- OD HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OD
+
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="vessels_od_tick" id="vessels_od_ticknormal"
+                    ng-init="vessels_od_tick=true" ng-value="true" ng-model="vessels_od_tick" />
+                <label class="form-check-label" for="vessels_od_ticknormal">Normal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="vessels_od_tick" id="vessels_od_tickab"
+                    ng-value="false" ng-model="vessels_od_tick" />
+                <label class="form-check-label" for="vessels_od_tickab">Abnormal
+
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12 mt-2 " ng-show="!vessels_od_tick">
+
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="vessels_od">
+
+        </div>
+
+
+    </div>
+    <!-- OS HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OS
+    
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="vessels_os_tick" id="vessels_os_ticknormal"
+                    ng-init="vessels_os_tick=true" ng-value="true" ng-model="vessels_os_tick" />
+                <label class="form-check-label" for="vessels_os_ticknormal">Normal</label>
+            </div>
+    
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="vessels_os_tick" id="vessels_os_tickab"
+                    ng-value="false" ng-model="vessels_os_tick" />
+                <label class="form-check-label" for="vessels_os_tickab">Abnormal
+    
+                </label>
+            </div>
+        </div>
+    
+    
+    
+        <div class="col-md-12 mt-2 " ng-show="!vessels_os_tick">
+    
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="vessels_os">
+    
+        </div>
+    
+    
+    </div>
+</div>
+
+
+<!--Periphery -->
+<div class="row m-1">
+    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+        <h7 class="text-left  "> Periphery</h7>
+    </div>
+</div>
+
+<div class="row m-1">
+
+    <!-- OD HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OD
+
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="periphery_od_tick" id="periphery_od_ticknormal"
+                    ng-init="periphery_od_tick=true" ng-value="true" ng-model="periphery_od_tick" />
+                <label class="form-check-label" for="periphery_od_ticknormal">Normal</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="periphery_od_tick" id="periphery_od_tickab"
+                    ng-value="false" ng-model="periphery_od_tick" />
+                <label class="form-check-label" for="periphery_od_tickab">Abnormal
+
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12 mt-2 " ng-show="!periphery_od_tick">
+
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="periphery_od">
+
+        </div>
+
+
+    </div>
+    <!-- OS HERE -->
+    <div class="col-md-4 ">
+        <div class="col-md-1 col-sm-1 ">
+            <label class="">OS
+    
+            </label>
+        </div>
+        <div class="col-md-10 small">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="periphery_os_tick" id="periphery_os_ticknormal"
+                    ng-init="periphery_os_tick=true" ng-value="true" ng-model="periphery_os_tick" />
+                <label class="form-check-label" for="periphery_os_ticknormal">Normal</label>
+            </div>
+    
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="periphery_os_tick" id="periphery_os_tickab"
+                    ng-value="false" ng-model="periphery_os_tick" />
+                <label class="form-check-label" for="periphery_os_tickab">Abnormal
+    
+                </label>
+            </div>
+        </div>
+    
+    
+    
+        <div class="col-md-12 mt-2 " ng-show="!periphery_os_tick">
+    
+            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="periphery_os">
+    
+        </div>
+    
+    
+    </div>
+</div>

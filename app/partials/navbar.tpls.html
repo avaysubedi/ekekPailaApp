@@ -1,0 +1,128 @@
+<!--Navbar -->
+<div ng-controller="NavbarController as vm" ng-init="vm.init();">
+<style>
+   .actives {
+        color: yellow;
+        font-weight: bold;
+
+        /* background-color:blue; */
+        /* border-color: #004085; */
+    }
+
+    .actives>a>i {
+        color: #000;
+    }
+
+    .actives>a>span {
+        color: #000;
+        font-weight: bold;
+    }
+</style>
+<nav class="mb-1 navbar navbar-expand-lg fixed-top navbar-dark mdb-color bg-primary m-0 p-0 ">
+  <a href="javascript:void(0)" class="navbar-brand white-text ml-1" ng-click="vm.showClose();" ng-show="vm.openShow" onclick="openNav();">
+    <i class="fas fa-bars"></i></a>
+    <a href="javascript:void(0)" class="navbar-brand white-text ml-1" ng-click="vm.showOpen();" ng-show="vm.closeShow" onclick="closeNav();">
+      <i class="fas fa-bars"></i></a>
+
+
+    <a class="navbar-brand white-text" href="">{{vm.companyName}}</a>
+
+    <a class="white-text font-small" href="#!dashboard" >{{vm.navText}}</a>
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+      aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-333" onclick="closeNav();">
+  <ul class="navbar-nav nav-flex-icons">
+    
+    <!-- <li class="nav-item dropdown" ng-show="vm.loggedIn ">
+      <a class="nav-link dropdown-toggle yellow-text" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Report Setup 
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item " href="#!entrylist">Report Entry</a>
+        <a class="dropdown-item " href="#!testlist">Report Print</a>
+        <a class="dropdown-item " href="#!reporttemplate">Report Template</a>
+      </div>
+    </li> -->
+
+    
+    <!-- <li class="nav-item" ng-show="vm.loggedIn" ng-class="{ actives: vm.isActive('/servicereport')}">
+        <a class="nav-link yellow-text" href="#!servicereport">Service Report</a>
+    </li> -->
+    <!-- <li class="nav-item" ng-show="vm.loggedIn" ng-class="{ actives: vm.isActive('/entrylist')}">
+      <a class="nav-link yellow-text" href="#!entrylist">Entry List</a>
+  </li>
+ 
+    <li class="nav-item" ng-show="vm.loggedIn" ng-class="{ actives: vm.isActive('/testlist')}">
+        <a class="nav-link yellow-text" href="#!testlist">Print List</a>
+    </li>
+
+    <li class="nav-item"  ng-show="vm.loggedIn" ng-class="{ actives: vm.isActive('/reporttemplate')}">
+        <a class="nav-link yellow-text" href="#!reporttemplate">Report Template</a>
+    </li> -->
+    <!-- <li class="nav-item" ng-show="vm.loggedIn">
+      <a class="nav-link yellow-text" href="#!ancreportentry">ANC Report Entry</a>
+  </li>
+  <li class="nav-item" ng-show="vm.loggedIn">
+    <a class="nav-link yellow-text" href="#!ipdbill">IPD Bill</a>
+</li> -->
+
+  </ul>
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+      
+        <li class="nav-item dropdown" ng-hide="vm.loggedIn">
+          <a class="nav-link  white-text" href="#!login" id="navbarDropdownMenuLink-333" aria-haspopup="true" aria-expanded="false">
+            Login </a>
+        </li>
+        <!-- <li class="nav-item dropdown" ng-hide="vm.loggedIn">
+          <a class="nav-link yellow-text" href="#!createuser" id="navbarDropdownMenuLink-333" aria-haspopup="true" aria-expanded="false">
+            Register </a>
+        </li> -->
+  
+        
+            
+        <li class="nav-item dropdown" ng-show="vm.loggedIn && vm.loggedInAsAdmin">
+            <a class="nav-link dropdown-toggle white-text" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Admin Task
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item " href="#!createuser">Create User</a>
+              <a class="dropdown-item " href="#!adminupdateuser">Update User</a>
+              <a class="dropdown-item " href="#!adminchangepassword">Change Employee Password</a>
+            </div>
+          </li>
+        <li class="nav-item dropdown ml-2" ng-show="vm.loggedIn">
+          <a class="nav-link dropdown-toggle white-text font-small" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user white-text"></i>{{vm.loggedInUsername}}
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+            <!-- <a class="dropdown-item" href="#!profile">Profile</a> -->
+            <a class="dropdown-item" href="#!changepassword">Change Password</a>
+
+            <a class="dropdown-item" ng-click="vm.tryLogOff()">LogOff</a>
+            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+
+
+
+
+<!-- <style>
+    .active {
+        border-bottom: 1px solid grey;
+        font-weight: bold;
+    }
+</style> -->
+
+
+
+</div>
