@@ -1,5 +1,6 @@
-app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenService', 'DateService', '$scope', '$filter', '$timeout', 'BroadcastService',
-    function ($http, UrlConfig, Config, TokenService, DateService, $scope, $filter, $timeout, BroadcastService) {
+app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenService', 'DateService',
+    '$scope', '$filter', '$timeout', 'BroadcastService', '$routeParams',
+    function ($http, UrlConfig, Config, TokenService, DateService, $scope, $filter, $timeout, BroadcastService, $routeParams) {
 
         var vm = this;
 
@@ -11,11 +12,13 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
 
 
         vm.init = function () {
+            vm.space = Config.spaceAbove;
             vm.loggedInAsAdmin = TokenService.getUserRoles().includes(Config.AdministratorRole);
             vm.loggedInAsEyeDoctor = TokenService.getUserRoles().includes(Config.EyeDoctorRole);
             vm.loggedInAsNurse = TokenService.getUserRoles().includes(Config.NurseRole);
             vm.loggedInAsDentalDoctor = TokenService.getUserRoles().includes(Config.DentalDoctotRole);
 
+            $scope.mdrsearch = $routeParams.mrdno;
 
             TokenService.navigateToLoginOnInvalidToken('dashboard');
 
@@ -39,7 +42,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                 $scope.amount = 20000;
 
             vm.grpid = Config.groupid;
-            vm.fetchMainList()
+            // vm.fetchMainList();
 
         };
 
@@ -160,21 +163,23 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
 
 
                     ////console.log(result.data);
+                    if (vm.refid !== undefined) {
+                        vm.fetchMainList();
 
-                    $http.get(UrlConfig.labReportBaseUrl() + 'api/referer/' + vm.refid,
-                        { headers: { Authorization: 'Bearer ' + token } }) //sp_id=101&dep=a
-                        .then(function (result) {
-                            vm.refererList = result.data;
-                            $scope.loadtrue = false;
+                        $http.get(UrlConfig.labReportBaseUrl() + 'api/referer/' + vm.refid,
+                            { headers: { Authorization: 'Bearer ' + token } }) //sp_id=101&dep=a
+                            .then(function (result) {
+                                vm.refererList = result.data;
+                                $scope.loadtrue = false;
 
-                            ////console.log(result.data);
-                        }, function (error) {
-                            console.log(error);
-                            // vm.notification = { mode: 'danger', message: 'Error: ' + error.data.message };
-                            $scope.loadtrue = false;
+                                ////console.log(result.data);
+                            }, function (error) {
+                                console.log(error);
+                                // vm.notification = { mode: 'danger', message: 'Error: ' + error.data.message };
+                                $scope.loadtrue = false;
 
-                        });
-
+                            });
+                    }
                 }, function (error) {
                     console.log(error);
                     vm.notification = { mode: 'danger', message: 'Error: ' + error.data.message };
@@ -186,22 +191,37 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
 
 
         vm.fetchMainList = function () {
+
             $scope.loadtrue = true;
             var token = localStorage.getItem('access_token');
             //   vm.refid = 830;
             $scope.initFil = $filter("date")(vm.initdate, "yyyy-MM-dd");
             $scope.finalFil = $filter("date")(vm.finaldate, "yyyy-MM-dd");
 
-//consid=0&init=2021/08/14&final=2021/08/14&grpid=124
-            $http.get(UrlConfig.labReportBaseUrl() + 'api/OPDBillForPrescriptionSelect?consid=0&' // + vm.refid
-             + 'init=' +
-                $scope.initFil + '&final=' + $scope.finalFil + '&grpid=' + vm.grpid,
+            //EKPAILA-HUB
+            //working 
+            // $http.get(UrlConfig.labReportBaseUrl() + 'api/OPDBillForPrescriptionSelect/' + vm.refid + '/' +
+            //     $scope.initFil + '/' + $scope.finalFil + '/' + vm.grpid,
+
+            // $http.get(UrlConfig.labReportBaseUrl() + 'api/OPDBillForPrescriptionSelect/' + 0 + '/' +
+            // $scope.initFil + '/' + $scope.finalFil + '/' + vm.grpid,
+
+
+            //DEV-MEDIPRO 
+            //consid=0&init=2021/08/14&final=2021/08/14&grpid=124
+
+            $http.get('http://192.168.50.126/medipro.api.medipro/api/OPDBillForPrescriptionSelect/0/2021-01-06/2021-08-26/124',
+
+                // $http.get(UrlConfig.labReportBaseUrl() + 'api/OPDBillForPrescriptionSelect?consid=0&' 
+                //     + 'init=' +
+                //     $scope.initFil + '&final=' + $scope.finalFil + '&grpid=' + vm.grpid,
+
                 { headers: { Authorization: 'Bearer ' + token } })
                 .then(function (result) {
                     vm.mainList = result.data;
                     $scope.loadtrue = false;
 
-                    console.log(result.data);
+                 //   console.log(result.data);
                 }, function (error) {
                     console.log(error);
                     vm.notification = { mode: 'danger', message: 'Error: ' + error.data.message };
@@ -214,9 +234,8 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
             $scope.noReport = false;
             $scope.showReport = false;
             $scope.loadtrue = true;
-            vm.UserReportList= null;
+            vm.UserReportList = null;
 
-           // vm.fetchUserSummary();
             // if ($scope.newmdr === null || $scope.newmdr === undefined) {
             //     $scope.newmdr = 0;
             // }
@@ -234,7 +253,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                     $scope.loadtrue = false;
                     vm.UserReportList = result.data;
                     if (result.data.length === 0) {
-                    //    vm.notification = { mode: 'danger', message: 'No report found' };
+                        //    vm.notification = { mode: 'danger', message: 'No report found' };
                         $scope.showNew = true;
                         $scope.noReport = true;
                     } else {
@@ -411,28 +430,21 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
         vm.fetchUserSummary = function () {
             var token = localStorage.getItem('access_token');
             var userId = TokenService.getUserId();
-//            vm.UserSummaryList = null;
 
-            $http.get(UrlConfig.labReportBaseUrl() + 'api/OcularInvestigationSummary?mrdno=' + vm.selectedRep.mrdno,
+        
+            $http.get(UrlConfig.labReportBaseUrl() + 'api/OcularInvestigationAll?mrdno=' + vm.selectedRep.mrdno,
                 { headers: { Authorization: 'Bearer ' + token } })
                 .then(function (result) {
                     vm.UserSummaryList = result.data;
-                    //     console.log(result.data);
+                    console.log(result.data);
                     //  alert(vm.result.data[0]);
                     if (vm.UserSummaryList.normal_od_tick) { vm.normal_od_tick = true; } else { vm.normal_od_tick = false; }
                     if (vm.UserSummaryList.refractive_error_od_tick) { vm.refractive_error_od_tick = true; } else { vm.refractive_error_od_tick = false; }
-                    if (vm.UserSummaryList.presbyopia_od_tick) { vm.presbyopia_od_tick = true; } else { vm.presbyopia_od_tick = false; }
                     if (vm.UserSummaryList.cataract_untreated_od_tick) { vm.cataract_untreated_od_tick = true; } else { vm.cataract_untreated_od_tick = false; }
-                    if (vm.UserSummaryList.aphakia_od_tick) { vm.aphakia_od_tick = true; } else { vm.aphakia_od_tick = false; }
-                    if (vm.UserSummaryList.cataract_surg_complications_od_tick) { vm.cataract_surg_complications_od_tick = true; } else { vm.cataract_surg_complications_od_tick = false; }
-                    if (vm.UserSummaryList.tco_od_tick) { vm.tco_od_tick = true; } else { vm.tco_od_tick = false; }
                     if (vm.UserSummaryList.phthisis_od_tick) { vm.phthisis_od_tick = true; } else { vm.phthisis_od_tick = false; }
-                    if (vm.UserSummaryList.onchcercia_od_tick) { vm.onchcercia_od_tick = true; } else { vm.onchcercia_od_tick = false; }
                     if (vm.UserSummaryList.glaucoma_od_tick) { vm.glaucoma_od_tick = true; } else { vm.glaucoma_od_tick = false; }
                     if (vm.UserSummaryList.diabetic_od_tick) { vm.diabetic_od_tick = true; } else { vm.diabetic_od_tick = false; }
-                    if (vm.UserSummaryList.armd_od_tick) { vm.armd_od_tick = true; } else { vm.armd_od_tick = false; }
                     if (vm.UserSummaryList.other_posterior_od_tick) { vm.other_posterior_od_tick = true; } else { vm.other_posterior_od_tick = false; }
-                    if (vm.UserSummaryList.cns_od === "true") { vm.cns_od = true; } else { vm.cns_od = false; }
 
                     if (vm.UserSummaryList.others_od_tick) {
                         vm.others_od_tick = true;
@@ -455,16 +467,10 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
 
                     if (vm.UserSummaryList.normal_os_tick) { vm.normal_os_tick = true; } else { vm.normal_os_tick = false; }
                     if (vm.UserSummaryList.refractive_error_os_tick) { vm.refractive_error_os_tick = true; } else { vm.refractive_error_os_tick = false; }
-                    if (vm.UserSummaryList.presbyopia_os_tick) { vm.presbyopia_os_tick = true; } else { vm.presbyopia_os_tick = false; }
                     if (vm.UserSummaryList.cataract_untreated_os_tick) { vm.cataract_untreated_os_tick = true; } else { vm.cataract_untreated_os_tick = false; }
-                    if (vm.UserSummaryList.aphakia_os_tick) { vm.aphakia_os_tick = true; } else { vm.aphakia_os_tick = false; }
-                    if (vm.UserSummaryList.cataract_surg_complications_os_tick) { vm.cataract_surg_complications_os_tick = true; } else { vm.cataract_surg_complications_os_tick = false; }
-                    if (vm.UserSummaryList.tco_os_tick) { vm.tco_os_tick = true; } else { vm.tco_os_tick = false; }
                     if (vm.UserSummaryList.phthisis_os_tick) { vm.phthisis_os_tick = true; } else { vm.phthisis_os_tick = false; }
-                    if (vm.UserSummaryList.onchcercia_os_tick) { vm.onchcercia_os_tick = true; } else { vm.onchcercia_os_tick = false; }
                     if (vm.UserSummaryList.glaucoma_os_tick) { vm.glaucoma_os_tick = true; } else { vm.glaucoma_os_tick = false; }
                     if (vm.UserSummaryList.diabetic_os_tick) { vm.diabetic_os_tick = true; } else { vm.diabetic_os_tick = false; }
-                    if (vm.UserSummaryList.armd_os_tick) { vm.armd_os_tick = true; } else { vm.armd_os_tick = false; }
                     if (vm.UserSummaryList.other_posterior_os_tick) { vm.other_posterior_os_tick = true; } else { vm.other_posterior_os_tick = false; }
                     if (vm.UserSummaryList.cns_os === "true") { vm.cns_os = true; } else { vm.cns_os = false; }
 
@@ -541,11 +547,11 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                     else { vm.subspeciality_neuropthalmo_os_tick = false; }
                     if (vm.UserSummaryList.subspeciality_none_os_tick === true) { vm.subspeciality_none_os_tick = true; }
                     else { vm.subspeciality_none_os_tick = false; }
-                    // if (vm.UserSummaryList.followup_od_tick === true) { vm.followup_od_tick = true; } else { vm.followup_od_tick = false; }
-                    // if (vm.UserSummaryList.followup_os_tick === true) { vm.followup_os_tick = true; } else { vm.followup_os_tick = false; }
 
-
-
+                    // if (vm.UserSummaryList.tx_plan !== undefined ||vm.UserSummaryList.tx_plan !== null || vm.UserSummaryList.tx_plan.length !== 0)
+                    //  { vm.tx_planShow = true; 
+                    // vm.tx_plan = vm.UserSummaryList.tx_plan;}
+                    // else { vm.tx_planShow = false; }
 
 
                 }, function (error) {
@@ -607,55 +613,6 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
 
         };
 
-        vm.PrintRecord = function () {
-            // $scope.printFalse = false;
-            printData();
-        }
-
-        function printData() {
-            $scope.full = 12;
-            $scope.IsHeadVisible = $scope.IsHeadVisible ? false : true;
-            var divToPrint = document.getElementById("report");
-
-            var htmlToPrint = '' +
-                '<style type="text/css">' +
-                '@page{margin-top:' + vm.space + '!important;}' +
-                'th, td {' +
-                'border:0.0001em solid #000;padding: 0px;font-size:12px;line-height:13px;text-align: left;font-weight:100 !important;margin-bottom:2px !important;}' +
-                '#get {display: none !important; visibility: hidden !important;} ' +
-                // 'tbody{min-height: 25em !important;}' +
-                '#name{font-weight: bold;}' +
-                '#right{text-align: right !important;}' +
-                '#left{text-align: left !important;}' +
-                '#center{text-align: center !important;}' +
-                '.text-center{text-align: center !important;}' +
-                '.rightonly{text-align: right !important;margin-left:60% !important;}' +
-                '.floatr{float: right !important}' +
-                '.pp{font-size:11px !important;}' +
-                '.f-0{margin:2px 0px !important;padding:2px 0px !important;font-weight:bold !important;}' +
-                '.b-0{margin:2px 0px !important;padding:2px 0px !important;}' +
-
-
-                // 'strong{font-weight:300 !important;text-align:left !important;}' +
-                'table {border-collapse: collapse;}' +
-                '.noborder{ border-bottom:none;}' +
-                '#noborder tr td{ border:none !important;}' +
-                '#noborder tr th{ border:none !important;}' +
-                '#bottomborder{ border-bottom:1px solid black !important;}' +
-                'span{font-size:10px !important;margin-top:10px !important;}' +
-                // '.textr{ text-align:right !important;margin-right:0px !important;right:0 !important;}' +
-
-
-
-
-
-                '</style>';
-            htmlToPrint += divToPrint.outerHTML;
-            newWin = window.open("");
-            newWin.document.write(htmlToPrint);
-            newWin.print();
-            newWin.close();
-        }
 
 
         vm.createMrd = function () {
@@ -709,6 +666,8 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
             vm.noSmoke = false;
             vm.noDental = false;
             vm.noOcularExam = false;
+            vm.noDerma = false;
+            vm.noBiometry = false;
             console.log(selected);
             vm.fetchUserSummary();
             vm.fetchUserReportList();
@@ -726,7 +685,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
         }
 
 
-        
+
         vm.getOcularExam = function () {
             var token = localStorage.getItem('access_token');
 
@@ -811,8 +770,8 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                 .then(function (result) {
                     $scope.loadtrue = false;
                     vm.visionRefraction = result.data;
-                    if (result.data.length === 0 || result.data.length !== 43) {
-                   //     vm.notification = { mode: 'danger', message: 'No report found' };
+                    if (result.data.length === 0 || result.data.length !== 47) {
+                        //     vm.notification = { mode: 'danger', message: 'No report found' };
                         // $scope.showNew = true;
                         vm.noVision = true;
                         // $scope.noReport = true;
@@ -975,7 +934,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
 
                         $scope.showReport = true;
                     }
-                    console.log(result.data);
+                 //   console.log(result.data);
                 }, function (error) {
                     console.log(error);
                     $scope.noReport = true;
@@ -1012,7 +971,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                         vm.reportDate = result.data[0].ddate;
                         $scope.showReport = true;
                     }
-                    console.log(result.data);
+                  //  console.log(result.data);
                 }, function (error) {
                     console.log(error);
                     $scope.noReport = true;
@@ -1090,7 +1049,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                         vm.reportDate = new Date(result.data[0].ddate);
                         $scope.showReport = true;
                     }
-                    console.log(result.data);
+                  //  console.log(result.data);
                 }, function (error) {
                     console.log(error);
                     $scope.noReport = true;
@@ -1125,7 +1084,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                         vm.reportDate = result.data[0].ddate;
                     }
                     $scope.showReport = true;
-                    console.log(result.data);
+                   // console.log(result.data);
                     $scope.loadtrue = false;
                 }, function (error) {
                     console.log(error);
@@ -1141,13 +1100,13 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
             $scope.loadtrue = true;
             var token = localStorage.getItem('access_token');
 
-            $http.get(UrlConfig.labReportBaseUrl() + 'api/DermatologyDetails?mrdno=' + $scope.mrdnum,
+            $http.get(UrlConfig.labReportBaseUrl() + 'api/DermatologyDetails?mrdno=' + vm.selectedRep.mrdno,
                 { headers: { Authorization: 'Bearer ' + token } })
                 .then(function (result) {
                     $scope.loadtrue = false;
                     vm.DermoReportList = result.data;
                     if (result.data.length === 0) {
-               //         vm.notification = { mode: 'danger', message: 'No report found' };
+                        //         vm.notification = { mode: 'danger', message: 'No report found' };
                         $scope.showReport = true;
                         $scope.noReport = true;
                         vm.noDerma = true;
@@ -1184,7 +1143,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
             var userId = TokenService.getUserId();
 
 
-            $http.get(UrlConfig.labReportBaseUrl() + 'api/CsiAll?mrdno=' + $scope.mrdnum,
+            $http.get(UrlConfig.labReportBaseUrl() + 'api/CsiAll?mrdno=' + vm.selectedRep.mrdno,
                 { headers: { Authorization: 'Bearer ' + token } })
                 .then(function (result) {
 
@@ -1192,8 +1151,44 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
 
                     $scope.loadtrue = false;
                     vm.biometryList = result.data;
+                  console.log(result.data)
+                    if (vm.biometryList.mrdno !== undefined) {
+                        vm.k1od = vm.biometryList.k1od
+                        vm.k1os = vm.biometryList.k1os
+                        vm.k2od = vm.biometryList.k2od
+                        vm.k2os = vm.biometryList.k2os
+                        vm.axial_od = vm.biometryList.axial_od
+                        vm.axial_os = vm.biometryList.axial_os
+                        vm.iol_od = vm.biometryList.iol_od
+                        vm.iol_os = vm.biometryList.iol_os
+                        vm.blood_report = vm.biometryList.blood_report
+                        vm.hbsag_react_tick = vm.biometryList.hbsag_react_tick
+                        vm.hcv_react_tick = vm.biometryList.hcv_react_tick
+                        vm.hiv_tick = vm.biometryList.hiv_tick
+                        vm.bs_fbs_tick = vm.biometryList.bs_fbs_tick
+                        vm.bs_pp_tick = vm.biometryList.bs_pp_tick
+                        vm.mrdno = vm.biometryList.mrdno
+                        vm.bs_rbs_tick = vm.biometryList.bs_rbs_tick
+                        vm.bs_rbs = vm.biometryList.bs_rbs
+                        vm.bs_fbs = vm.biometryList.bs_fbs
+                        vm.bs_pp = vm.biometryList.bs_pp
+                        vm.a_constant_od = vm.biometryList.a_constant_od
+                        vm.a_constant_os = vm.biometryList.a_constant_os
+                        vm.bioremarks=vm.biometryList.remarks
+
+                        // console.log("AconsOD" +vm.a_constant_od)
+                        // console.log("AconsOD from table" +vm.biometryList.a_constant_od)
+                        // console.log("AconsOs" +vm.a_constant_os)
+                        // console.log("AconsOs table" +vm.biometryList.a_constant_os)
+
+                    }
+                    if (vm.biometryList.mrdno === null || vm.biometryList.mrdno === undefined) {
+                        vm.noBiometry = true;
+                    }
+
+
                     //$scope.showReport = true;
-                     console.log(result.data);
+                    // console.log(result.data);
 
 
 
@@ -1209,43 +1204,43 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
         vm.goToOcular = function () {
             //    vm.selectedReport = report;
             window.open('#!/ocularinvestigation?mrdno=' + vm.selectedRep.inv_no +
-                '&hospid=' + vm.selectedRep.hospid+'&pname='+vm.selectedRep.pname,
+                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname,
 
                 '_self', '');
         }
         vm.goToOcularExam = function () {
             //    vm.selectedReport = report;
             window.open('#!/ocularexamination?mrdno=' + vm.selectedRep.inv_no +
-                '&hospid=' + vm.selectedRep.hospid+'&pname='+vm.selectedRep.pname,
+                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname,
 
                 '_self', '');
         }
-        
+
 
         vm.goToVision = function () {
             //    vm.selectedReport = report;
             window.open('#!/visionandrefraction?mrdno=' + vm.selectedRep.inv_no +
-                '&hospid=' + vm.selectedRep.hospid+'&pname='+vm.selectedRep.pname,
+                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname,
 
                 '_self', '');
         }
         vm.goToPast = function () {
             //    vm.selectedReport = report;
             window.open('#!/pasteyehistory?mrdno=' + vm.selectedRep.inv_no +
-                '&hospid=' + vm.selectedRep.hospid+'&pname='+vm.selectedRep.pname,
+                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname,
                 '_self', '');
         }
         vm.goToComplain = function () {
             //    vm.selectedReport = report;
             window.open('#!/chiefeyecomplain?mrdno=' + vm.selectedRep.inv_no +
-                '&hospid=' + vm.selectedRep.hospid+'&pname='+vm.selectedRep.pname,
+                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname,
                 '_self', '');
         }
 
         vm.goToSmoke = function () {
             //    vm.selectedReport = report;
             window.open('#!/smokinghistory?mrdno=' + vm.selectedRep.inv_no +
-                '&hospid=' + vm.selectedRep.hospid+'&pname='+vm.selectedRep.pname,
+                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname,
 
                 '_self', '');
         }
@@ -1253,15 +1248,15 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
         vm.goToDental = function () {
             //    vm.selectedReport = report;
             window.open('#!/dentalinfo?mrdno=' + vm.selectedRep.inv_no +
-                '&hospid=' + vm.selectedRep.hospid+'&pname='+vm.selectedRep.pname,
+                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname,
 
                 '_self', '');
         }
         vm.goToDerma = function () {
             //    vm.selectedReport = report;
             window.open('#!/dermatology?mrdno=' + vm.selectedRep.inv_no +
-                '&hospid=' + vm.selectedRep.hospid+'&pname='+vm.selectedRep.pname+
-                '&date='+vm.selectedRep.ddate,
+                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname +
+                '&date=' + vm.selectedRep.ddate,
 
                 '_self', '');
         }
@@ -1269,8 +1264,8 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
         vm.goToBiometry = function () {
             //    vm.selectedReport = report;
             window.open('#!/biometry?mrdno=' + vm.selectedRep.inv_no +
-                '&hospid=' + vm.selectedRep.hospid+'&pname='+vm.selectedRep.pname+
-                '&date='+vm.selectedRep.ddate,
+                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname +
+                '&date=' + vm.selectedRep.ddate,
 
                 '_self', '');
         }
@@ -1318,6 +1313,65 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
             $timeout(vm.resetNotification, 4000);
         }
 
+
+        vm.PrintRecord = function () {
+            if (window.confirm("Do you want to include Biometry?")) {
+                vm.biometryPrint=true;
+
+            } else {
+                vm.biometryPrint=false;
+            }
+            printData();
+        }
+
+        function printData() {
+            $scope.full = 12;
+            $scope.IsHeadVisible = $scope.IsHeadVisible ? false : true;
+            var divToPrint = document.getElementById("report");
+
+            var htmlToPrint = '' +
+                '<style type="text/css">' +
+                '@page{margin-top:' + vm.space + '!important;}' +
+                'th, td {' +
+                'border:0.0001em solid #000;padding: 0px;font-size:13px;line-height:14px;text-align: left;font-weight:100 !important;margin-bottom:2px !important;}' +
+                '#get {display: none !important; visibility: hidden !important;} ' +
+                // 'tbody{min-height: 25em !important;}' +
+                '#name{font-weight: bold;}' +
+                '#right{text-align: right !important;}' +
+                '#left{text-align: left !important;}' +
+                '#center{text-align: center !important;}' +
+                '.text-center{text-align: center !important;}' +
+                '.rightonly{text-align: right !important;margin-left:60% !important;}' +
+                '.floatr{float: right !important}' +
+                '.pp{font-size:13px !important;}' +
+                '.f-0{margin:2px 0px !important;padding:2px 0px !important;font-weight:bold !important;}' +
+                '.b-0{margin:2px 0px !important;padding:2px 0px !important;}' +
+
+
+                // 'strong{font-weight:300 !important;text-align:left !important;}' +
+                'table {border-collapse: collapse;}' +
+                '.noborder{ border-bottom:none;}' +
+                '#noborder tr td{ border:none !important;}' +
+                '#noborder tr th{ border:none !important;}' +
+                '#bottomborder{ border-bottom:1px solid black !important;}' +
+                'span{font-size:13px !important;margin-top:10px !important;}' +
+                '.pagebreak { page-break-before: always; }' +
+                // '.col-md-6 {width:50%;}'+
+                ' #sameline,#sameline1{display:inline;}'+
+                // '.col-md {width:50%;float:right}'+
+
+                // '.col-md-4{width:40%}'+
+                // '.textr{ text-align:right !important;margin-right:0px !important;right:0 !important;}' +
+                '</style>';
+            htmlToPrint += divToPrint.outerHTML;
+            newWin = window.open("");
+            newWin.document.write(htmlToPrint);
+            newWin.print();
+            newWin.close();
+        }
+
+
+
         vm.resetNotification = function () {
             vm.notification = {
                 message: '',
@@ -1326,7 +1380,8 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
         };
 
         vm.reset = function () {
-            $scope.mdrsearch = null;
+            $scope.mdrsearch = undefined;
+            vm.fetchMainList()
         };
 
 

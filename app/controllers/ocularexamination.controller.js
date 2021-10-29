@@ -1,7 +1,7 @@
 app.controller('OcularExaminationController', ['$http', 'UrlConfig', 'TokenService', 'DateService',
-    '$scope', '$filter', '$timeout', 'BroadcastService', '$routeParams','$anchorScroll',
-    function ($http, UrlConfig, TokenService, DateService, $scope, $filter, $timeout, 
-        BroadcastService, $routeParams,$anchorScroll) {
+    '$scope', '$filter', '$timeout', 'BroadcastService', '$routeParams', '$anchorScroll',
+    function ($http, UrlConfig, TokenService, DateService, $scope, $filter, $timeout,
+        BroadcastService, $routeParams, $anchorScroll) {
 
         var vm = this;
 
@@ -463,7 +463,16 @@ app.controller('OcularExaminationController', ['$http', 'UrlConfig', 'TokenServi
                 periphery_od_tick: $scope.periphery_od_tick,
                 periphery_od: $scope.periphery_od,
                 periphery_os_tick: $scope.periphery_os_tick,
-                periphery_os: $scope.periphery_os
+                periphery_os: $scope.periphery_os,
+
+                tear_film_od_tick: $scope.tear_film_od_tick,
+                tear_flim_od: $scope.tear_flim_od,
+                tear_flim_os_tick: $scope.tear_flim_os_tick,
+                tear_flim_os: $scope.tear_flim_os,
+                tbvt_od_tick: $scope.tbvt_od_tick,
+                tbvt_od: $scope.tbvt_od,
+                tbvt_os_tick: $scope.tbvt_os_tick,
+                tbvt_os: $scope.tbvt_os,
 
             }
 
@@ -477,7 +486,7 @@ app.controller('OcularExaminationController', ['$http', 'UrlConfig', 'TokenServi
                     console.log(result.data);
                     vm.notification = { mode: 'success', message: 'Payload submitted' };
                     $scope.showEdit = false;
-                    vm.reload();
+                  //  vm.reload();
                     //console.log(visionAndRefractionPayload);
                 }, function (error) {
                     console.log(error);
@@ -822,6 +831,15 @@ app.controller('OcularExaminationController', ['$http', 'UrlConfig', 'TokenServi
             $scope.periphery_os_tick = vm.ocularValues.periphery_os_tick;
             $scope.periphery_os = vm.ocularValues.periphery_os;
 
+            $scope.tear_film_od_tick = vm.ocularValues.tear_film_od_tick;
+            $scope.tear_flim_od = vm.ocularValues.tear_flim_od;
+            $scope.tear_flim_os_tick = vm.ocularValues.tear_flim_os_tick;
+            $scope.tear_flim_os = vm.ocularValues.tear_flim_os;
+            $scope.tbvt_od_tick = vm.ocularValues.tbvt_od_tick;
+            $scope.tbvt_od = vm.ocularValues.tbvt_od;
+            $scope.tbvt_os_tick = vm.ocularValues.tbvt_os_tick;
+            $scope.tbvt_os = vm.ocularValues.tbvt_os;
+
 
             if ($scope.eom_od_tick === true || $scope.eom_od_tick === "true") { $scope.eom_od_tick = "1" } if ($scope.eom_od_tick === false || $scope.eom_od_tick === 0) { $scope.eom_od_tick = "0"; }
             if ($scope.eom_os_tick === true || $scope.eom_os_tick === "true") { $scope.eom_os_tick = "1" } if ($scope.eom_os_tick === false || $scope.eom_os_tick === 0) { $scope.eom_os_tick = "0"; }
@@ -866,10 +884,10 @@ app.controller('OcularExaminationController', ['$http', 'UrlConfig', 'TokenServi
                 var userId = TokenService.getUserId();
 
                 var mrdPayload = {
-                    mrdno: vm.userMrd,
+                    mrdno: $scope.mrdnum,
                 };
                 var token = localStorage.getItem('access_token');
-                $http.post(UrlConfig.labReportBaseUrl() + 'api/OcularInvestigationDetail/delete',
+                $http.post(UrlConfig.labReportBaseUrl() + 'api/OcularExaminationDetail/delete',
                     mrdPayload, { headers: { Authorization: 'Bearer ' + token } })
 
                     .then(function (result) {
@@ -926,6 +944,12 @@ app.controller('OcularExaminationController', ['$http', 'UrlConfig', 'TokenServi
 
         };
 
+        vm.toDash = function () {
+            window.open('#!/dashboard?mrdno=' + $scope.mrdnum,
+                '_self', '');
+        }
+
+
         vm.PrintRecord = function () {
             printData();
         }
@@ -956,10 +980,10 @@ app.controller('OcularExaminationController', ['$http', 'UrlConfig', 'TokenServi
         vm.noalert = function () {
             $timeout(vm.resetNotification, 4000);
         }
-        vm.next = function(){
+        vm.next = function () {
             window.open('#!/ocularinvestigation?mrdno=' + $scope.mrdnum +
-            '&hospid=' + $scope.hospitalid,
-            '_self', '');
+                '&hospid=' + $scope.hospitalid,
+                '_self', '');
 
         }
         vm.reload = function () {
@@ -968,14 +992,14 @@ app.controller('OcularExaminationController', ['$http', 'UrlConfig', 'TokenServi
 
         vm.reloadfn = function () {
             window.open('#!/dashboard', '_self', '');
-                    // window.open();
+            // window.open();
         }
-    vm.resetNotification = function () {
-        vm.notification = {
-            message: '',
-            mode: 'info'
+        vm.resetNotification = function () {
+            vm.notification = {
+                message: '',
+                mode: 'info'
+            };
         };
-    };
 
 
     }

@@ -36,7 +36,7 @@
 
         <!--Title-->
         <div class="row m-1 ">
-            <a class="fa fa-home btn btn-sm" href="#!dashboard">
+            <a class="fa fa-home btn btn-sm btn-primary" ng-click="vm.toDash()">
                 Dashboard
                 </a>
             <div class="col-md-12 " style="background-color: rgb(40, 40, 92);height: 35px !important; ">
@@ -91,26 +91,38 @@
             <table class="table table-sm table-bordered col-sm-9 offset-1">
                 <tr>
                     <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                    <th class="m-1 p-1 font-weight-bold">Age/Sex</th>
+    
                     <th class="m-1 p-1 font-weight-bold">Date</th>
                     <th class="m-1 p-1 font-weight-bold">Actions</th>
                 </tr>
                 <tr>
                     <td class="m-1 p-1">{{vm.pname}}</td>
+                    <td class="m-1 p-1">{{vm.age}}/{{vm.gender}}</td>
+    
                     <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
                     <td class="m-1 p-1">
-
-                        <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
-                            <i class="fa fa-edit"></i></a>
-
+      
+                        <!-- <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                            <i class="fa fa-edit"></i></a> -->
+      
+      <!-- 
+                        <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
+                            <i class="fa fa-print"></i></a> -->
+                            <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                                <i class="fa fa-edit"></i></a>
+          
+      
                         <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
-                        <i class="fa fa-trash"></i></a>
-
+                            <i class="fa fa-trash"></i></a>
+      
+      
                     </td>
-
-
+      
+      
                 </tr>
             </table>
-
+      
 
 
 
@@ -354,7 +366,7 @@
                 <div class=" form-check col-md-4 ml-2">
 
                     <input class="form-control" ng-show="cutaneous_tick" ng-model="cutaneous"
-                        placeholder="Duration in months">
+                        placeholder="Duration">
                 </div>
 
                 <div class="form-check-inline ml-4">
@@ -364,7 +376,7 @@
                     </label>
                 </div>
                 <div class="col-md-4 ml-2">
-                    <input class="form-control" ng-show="oral_tick" ng-model="oral" placeholder="Duration in months">
+                    <input class="form-control" ng-show="oral_tick" ng-model="oral" placeholder="Duration">
                 </div>
 
 
@@ -377,7 +389,7 @@
 
                 <div class="col-md-4 ml-2">
                     <input class="form-control" ng-show="genital_tick" ng-model="genital"
-                        placeholder="Duration in months">
+                        placeholder="Duration">
                 </div>
 
 
@@ -389,7 +401,7 @@
                 </div>
 
                 <div class="col-md-4 ml-2">
-                    <input class="form-control" ng-show="nail_tick" ng-model="nail" placeholder="Duration in months">
+                    <input class="form-control" ng-show="nail_tick" ng-model="nail" placeholder="Duration">
                 </div>
 
 
@@ -400,7 +412,7 @@
                     </label>
                 </div>
                 <div class="col-md-4 ml-2">
-                    <input class="form-control" ng-show="scalp_tick" ng-model="scalp" placeholder="Duration in months">
+                    <input class="form-control" ng-show="scalp_tick" ng-model="scalp" placeholder="Duration">
                 </div>
 
 

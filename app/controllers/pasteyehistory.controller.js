@@ -16,7 +16,7 @@ app.controller('PastEyeHistoryController', ['$http', 'UrlConfig', 'TokenService'
 
         vm.init = function () {
             $anchorScroll();
-            $scope.loadtrue = true;
+         //   $scope.loadtrue = true;
             vm.showEdit = false;
 
             TokenService.navigateToLoginOnInvalidToken('pasteyehistory');
@@ -956,6 +956,10 @@ app.controller('PastEyeHistoryController', ['$http', 'UrlConfig', 'TokenService'
         }
 
 
+        vm.toDash = function(){
+            window.open('#!/dashboard?mrdno=' + $scope.mrdnum,
+            '_self', '');
+        }
 
 
         vm.noalert = function () {

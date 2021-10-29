@@ -1,6 +1,6 @@
-app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenService', 'DateService',
+app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'Config', 'TokenService', 'DateService',
     '$scope', '$filter', '$timeout', 'BroadcastService', '$routeParams', '$anchorScroll',
-    function ($http, UrlConfig, TokenService, DateService, $scope, $filter, $timeout,
+    function ($http, UrlConfig, Config, TokenService, DateService, $scope, $filter, $timeout,
         BroadcastService, $routeParams, $anchorScroll) {
 
         var vm = this;
@@ -10,6 +10,7 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
         //vm.selectedOpdBill = null;
 
         vm.init = function () {
+            vm.space = Config.spaceAbove;
             $anchorScroll();
             $scope.loadtrue = false;
             $scope.showEdit = false;
@@ -49,6 +50,7 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
 
             if ($scope.mrdnum !== undefined && $scope.hospitalid !== undefined) {
                 vm.fetchUserSummary();
+                vm.fetchPrintOcularList();
             }
 
         };
@@ -343,38 +345,29 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
                 gonioscopy_erpretation_os_tick: $scope.gonioscopy_erpretation_os_tick,
                 gonioscopy_erpretation_od: $scope.gonioscopy_erpretation_od,
                 gonioscopy_erpretation_os: $scope.gonioscopy_erpretation_os,
+
                 normal_od_tick: $scope.normal_od_tick,
                 refractive_error_od_tick: $scope.refractive_error_od_tick,
                 presbyopia_od_tick: $scope.presbyopia_od_tick,
                 cataract_untreated_od_tick: $scope.cataract_untreated_od_tick,
-                aphakia_od_tick: $scope.aphakia_od_tick,
-                cataract_surg_complications_od_tick: $scope.cataract_surg_complications_od_tick,
-                tco_od_tick: $scope.tco_od_tick,
                 phthisis_od_tick: $scope.phthisis_od_tick,
-                onchcercia_od_tick: $scope.onchcercia_od_tick,
                 glaucoma_od_tick: $scope.glaucoma_od_tick,
                 diabetic_od_tick: $scope.diabetic_od_tick,
-                armd_od_tick: $scope.armd_od_tick,
                 other_posterior_od_tick: $scope.other_posterior_od_tick,
-                cns_od: $scope.cns_od,
                 others_od_tick: $scope.others_od_tick,
                 others_od: $scope.others_od,
+
                 normal_os_tick: $scope.normal_os_tick,
                 refractive_error_os_tick: $scope.refractive_error_os_tick,
                 presbyopia_os_tick: $scope.presbyopia_os_tick,
                 cataract_untreated_os_tick: $scope.cataract_untreated_os_tick,
-                aphakia_os_tick: $scope.aphakia_os_tick,
-                cataract_surg_complications_os_tick: $scope.cataract_surg_complications_os_tick,
-                tco_os_tick: $scope.tco_os_tick,
                 phthisis_os_tick: $scope.phthisis_os_tick,
-                onchcercia_os_tick: $scope.onchcercia_os_tick,
                 glaucoma_os_tick: $scope.glaucoma_os_tick,
                 diabetic_os_tick: $scope.diabetic_os_tick,
-                armd_os_tick: $scope.armd_os_tick,
                 other_posterior_os_tick: $scope.other_posterior_os_tick,
-                cns_os: $scope.cns_os,
                 others_os_tick: $scope.others_os_tick,
                 others_os: $scope.others_os,
+                //EDIT 
                 medical_treatment_od_tick: $scope.medical_treatment_od_tick,
                 medical_treatment_od: $scope.medical_treatment_od,
                 surgrical_treatment_od_tick: $scope.surgrical_treatment_od_tick,
@@ -593,8 +586,50 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
                 visual_field_os_tick: $scope.visual_field_os_tick,
                 visual_field_interpret_os_tick: $scope.visual_field_interpret_os_tick,
                 visual_field_interpret_os: $scope.visual_field_interpret_os,
-                
-                tx_plan : $scope.tx_plan
+
+                schirmer_od_tick: $scope.schirmer_od_tick,
+                schirmer_od: $scope.schirmer_od,
+                schirmer_os_tick: $scope.schirmer_os_tick,
+                schirmer_os: $scope.schirmer_os,
+
+                tx_plan: $scope.tx_plan,
+                conjunc_od_tick: $scope.conjunc_od_tick,
+                conjunc_od: $scope.conjunc_od,
+                conjunc_os_tick: $scope.conjunc_os_tick,
+                conjunc_os: $scope.conjunc_os,
+                glaucoma_od: $scope.glaucoma_od,
+                glaucoma_os: $scope.glaucoma_os,
+                catar_od: $scope.catar_od,
+                catar_os: $scope.catar_os,
+                diabe_ret_od: $scope.diabe_ret_od,
+                DIabete_ret_os: $scope.diabete_ret_os,
+                hpt_od_tick: $scope.hpt_od_tick,
+                hpt_od: $scope.hpt_od,
+                hpt_os_tick: $scope.hpt_os_tick,
+                hpt_os: $scope.hpt_os,
+                poster_od: $scope.poster_od,
+                poster_os: $scope.poster_os,
+                uveal_od: $scope.uveal_od,
+                uveal_os: $scope.uveal_os,
+                pthisis_od: $scope.pthisis_od,
+                pthsis_os: $scope.pthsis_os,
+
+                anterior_od_tick: $scope.anterior_od_tick,
+                anterior_os_tick: $scope.anterior_os_tick,
+                anterior_od_text: $scope.anterior_od_text,
+                anterior_os_text: $scope.anterior_os_text,
+
+                anteriorint_os_tick: $scope.anteriorint_os_tick,
+                anteriorint_od_tick: $scope.anteriorint_od_tick,
+
+                referror_od: $scope.referror_od,
+                referror_os: $scope.referror_os,
+                uveal_od_tick: $scope.uveal_od_tick,
+                uveal_os_tick: $scope.uveal_os_tick,
+
+                treatment_od_tick: $scope.treatment_od_tick,
+                treatment_os_tick: $scope.treatment_os_tick,
+
 
             }
 
@@ -605,10 +640,13 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
                 { headers: { Authorization: 'Bearer ' + token } })
 
                 .then(function (result) {
-                    console.log(result.data);
+                    //   console.log(result.data);
                     vm.notification = { mode: 'success', message: 'Payload submitted' };
                     $scope.showEdit = false;
-                    vm.PrintRecord()();
+                    vm.fetchPrintOcularList();
+                    vm.fetchPrintVisionList();
+
+                    vm.PrintRecord();
                     // vm.reload();
                     //console.log(visionAndRefractionPayload);
                 }, function (error) {
@@ -736,38 +774,31 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
             $scope.gonioscopy_erpretation_os_tick = vm.ocularValues.gonioscopy_erpretation_os_tick;
             $scope.gonioscopy_erpretation_od = vm.ocularValues.gonioscopy_erpretation_od;
             $scope.gonioscopy_erpretation_os = vm.ocularValues.gonioscopy_erpretation_os;
+
             $scope.normal_od_tick = vm.ocularValues.normal_od_tick;
             $scope.refractive_error_od_tick = vm.ocularValues.refractive_error_od_tick;
             $scope.presbyopia_od_tick = vm.ocularValues.presbyopia_od_tick;
             $scope.cataract_untreated_od_tick = vm.ocularValues.cataract_untreated_od_tick;
-            $scope.aphakia_od_tick = vm.ocularValues.aphakia_od_tick;
-            $scope.cataract_surg_complications_od_tick = vm.ocularValues.cataract_surg_complications_od_tick;
-            $scope.tco_od_tick = vm.ocularValues.tco_od_tick;
             $scope.phthisis_od_tick = vm.ocularValues.phthisis_od_tick;
-            $scope.onchcercia_od_tick = vm.ocularValues.onchcercia_od_tick;
             $scope.glaucoma_od_tick = vm.ocularValues.glaucoma_od_tick;
             $scope.diabetic_od_tick = vm.ocularValues.diabetic_od_tick;
-            $scope.armd_od_tick = vm.ocularValues.armd_od_tick;
             $scope.other_posterior_od_tick = vm.ocularValues.other_posterior_od_tick;
-            $scope.cns_od = vm.ocularValues.cns_od;
             $scope.others_od_tick = vm.ocularValues.others_od_tick;
             $scope.others_od = vm.ocularValues.others_od;
+
             $scope.normal_os_tick = vm.ocularValues.normal_os_tick;
             $scope.refractive_error_os_tick = vm.ocularValues.refractive_error_os_tick;
             $scope.presbyopia_os_tick = vm.ocularValues.presbyopia_os_tick;
             $scope.cataract_untreated_os_tick = vm.ocularValues.cataract_untreated_os_tick;
-            $scope.aphakia_os_tick = vm.ocularValues.aphakia_os_tick;
-            $scope.cataract_surg_complications_os_tick = vm.ocularValues.cataract_surg_complications_os_tick;
-            $scope.tco_os_tick = vm.ocularValues.tco_os_tick;
             $scope.phthisis_os_tick = vm.ocularValues.phthisis_os_tick;
-            $scope.onchcercia_os_tick = vm.ocularValues.onchcercia_os_tick;
             $scope.glaucoma_os_tick = vm.ocularValues.glaucoma_os_tick;
             $scope.diabetic_os_tick = vm.ocularValues.diabetic_os_tick;
-            $scope.armd_os_tick = vm.ocularValues.armd_os_tick;
             $scope.other_posterior_os_tick = vm.ocularValues.other_posterior_os_tick;
-            $scope.cns_os = vm.ocularValues.cns_os;
+
             $scope.others_os_tick = vm.ocularValues.others_os_tick;
             $scope.others_os = vm.ocularValues.others_os;
+
+
             $scope.medical_treatment_od_tick = vm.ocularValues.medical_treatment_od_tick;
             $scope.medical_treatment_od = vm.ocularValues.medical_treatment_od;
             $scope.surgrical_treatment_od_tick = vm.ocularValues.surgrical_treatment_od_tick;
@@ -986,6 +1017,49 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
             $scope.visual_field_os_tick = vm.ocularValues.visual_field_os_tick;
             $scope.visual_field_interpret_os_tick = vm.ocularValues.visual_field_interpret_os_tick;
             $scope.visual_field_interpret_os = vm.ocularValues.visual_field_interpret_os;
+
+
+            $scope.schirmer_od_tick = vm.ocularValues.schirmer_od_tick;
+            $scope.schirmer_od = vm.ocularValues.schirmer_od;
+            $scope.schirmer_os_tick = vm.ocularValues.schirmer_os_tick;
+            $scope.schirmer_os = vm.ocularValues.schirmer_os;
+            $scope.tx_plan = vm.ocularValues.tx_plan;
+            $scope.conjunc_od_tick = vm.ocularValues.conjunc_od_tick;
+            $scope.conjunc_od = vm.ocularValues.conjunc_od;
+            $scope.conjunc_os_tick = vm.ocularValues.conjunc_os_tick;
+            $scope.conjunc_os = vm.ocularValues.conjunc_os;
+            $scope.glaucoma_od = vm.ocularValues.glaucoma_od;
+            $scope.glaucoma_os = vm.ocularValues.glaucoma_os;
+            $scope.catar_od = vm.ocularValues.catar_od;
+            $scope.catar_os = vm.ocularValues.catar_os;
+            $scope.diabe_ret_od = vm.ocularValues.diabe_ret_od;
+            $scope.diabete_ret_os = vm.ocularValues.dIabete_ret_os;
+            $scope.hpt_od_tick = vm.ocularValues.hpt_od_tick;
+            $scope.hpt_od = vm.ocularValues.hpt_od;
+            $scope.hpt_os_tick = vm.ocularValues.hpt_os_tick;
+            $scope.hpt_os = vm.ocularValues.hpt_os;
+            $scope.poster_od = vm.ocularValues.poster_od;
+            $scope.poster_os = vm.ocularValues.poster_os;
+            $scope.uveal_od_tick = vm.ocularValues.uveal_od_tick;
+            $scope.uveal_os_tick = vm.ocularValues.uveal_os_tick;
+            $scope.uveal_od = vm.ocularValues.uveal_od;
+            $scope.uveal_os = vm.ocularValues.uveal_os;
+            $scope.pthisis_od = vm.ocularValues.pthisis_od;
+            $scope.pthsis_os = vm.ocularValues.pthsis_os;
+
+            $scope.refractive_error_od_tick = vm.ocularValues.refractive_error_od_tick;
+            $scope.refractive_error_os_tick = vm.ocularValues.refractive_error_os_tick;
+            $scope.referror_od = vm.ocularValues.referror_od;
+            $scope.referror_os = vm.ocularValues.referror_os;
+
+            $scope.treatment_od_tick = vm.ocularValues.treatment_od_tick;
+            $scope.treatment_os_tick = vm.ocularValues.treatment_os_tick;
+
+
+            $scope.anterior_od_tick = vm.ocularValues.anterior_od_tick;
+            $scope.anterior_os_tick = vm.ocularValues.anterior_os_tick;
+            $scope.anterior_od_text = vm.ocularValues.anterior_od_text;
+            $scope.anterior_os_text = vm.ocularValues.anterior_os_text;
             $scope.tx_plan = vm.ocularValues.tx_plan;
 
             if ($scope.at_od_tick === true || $scope.at_od_tick === "true") { $scope.at_od_tick = "1"; } if ($scope.at_od_tick === false || $scope.at_od_tick === undefined) { $scope.at_od_tick = "0"; }
@@ -1278,7 +1352,7 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
                         }
 
                     }
-                    console.log(result.data);
+                    //     console.log(result.data);
                 }, function (error) {
                     console.log(error);
                     $scope.noReport = true;
@@ -1295,7 +1369,7 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
             var token = localStorage.getItem('access_token');
             var userId = TokenService.getUserId();
 
-            $http.get(UrlConfig.labReportBaseUrl() + 'api/OcularInvestigationSummary?mrdno=' + $scope.mrdnum,
+            $http.get(UrlConfig.labReportBaseUrl() + 'api/OcularInvestigationAll?mrdno=' + $scope.mrdnum,
                 { headers: { Authorization: 'Bearer ' + token } })
                 .then(function (result) {
                     vm.UserSummaryList = result.data;
@@ -1303,18 +1377,11 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
                     //  alert(vm.result.data[0]);
                     if (vm.UserSummaryList.normal_od_tick) { vm.normal_od_tick = true; } else { vm.normal_od_tick = false; }
                     if (vm.UserSummaryList.refractive_error_od_tick) { vm.refractive_error_od_tick = true; } else { vm.refractive_error_od_tick = false; }
-                    if (vm.UserSummaryList.presbyopia_od_tick) { vm.presbyopia_od_tick = true; } else { vm.presbyopia_od_tick = false; }
                     if (vm.UserSummaryList.cataract_untreated_od_tick) { vm.cataract_untreated_od_tick = true; } else { vm.cataract_untreated_od_tick = false; }
-                    if (vm.UserSummaryList.aphakia_od_tick) { vm.aphakia_od_tick = true; } else { vm.aphakia_od_tick = false; }
-                    if (vm.UserSummaryList.cataract_surg_complications_od_tick) { vm.cataract_surg_complications_od_tick = true; } else { vm.cataract_surg_complications_od_tick = false; }
-                    if (vm.UserSummaryList.tco_od_tick) { vm.tco_od_tick = true; } else { vm.tco_od_tick = false; }
                     if (vm.UserSummaryList.phthisis_od_tick) { vm.phthisis_od_tick = true; } else { vm.phthisis_od_tick = false; }
-                    if (vm.UserSummaryList.onchcercia_od_tick) { vm.onchcercia_od_tick = true; } else { vm.onchcercia_od_tick = false; }
                     if (vm.UserSummaryList.glaucoma_od_tick) { vm.glaucoma_od_tick = true; } else { vm.glaucoma_od_tick = false; }
                     if (vm.UserSummaryList.diabetic_od_tick) { vm.diabetic_od_tick = true; } else { vm.diabetic_od_tick = false; }
-                    if (vm.UserSummaryList.armd_od_tick) { vm.armd_od_tick = true; } else { vm.armd_od_tick = false; }
                     if (vm.UserSummaryList.other_posterior_od_tick) { vm.other_posterior_od_tick = true; } else { vm.other_posterior_od_tick = false; }
-                    if (vm.UserSummaryList.cns_od === "true") { vm.cns_od = true; } else { vm.cns_od = false; }
 
                     if (vm.UserSummaryList.others_od_tick) {
                         vm.others_od_tick = true;
@@ -1337,16 +1404,10 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
 
                     if (vm.UserSummaryList.normal_os_tick) { vm.normal_os_tick = true; } else { vm.normal_os_tick = false; }
                     if (vm.UserSummaryList.refractive_error_os_tick) { vm.refractive_error_os_tick = true; } else { vm.refractive_error_os_tick = false; }
-                    if (vm.UserSummaryList.presbyopia_os_tick) { vm.presbyopia_os_tick = true; } else { vm.presbyopia_os_tick = false; }
                     if (vm.UserSummaryList.cataract_untreated_os_tick) { vm.cataract_untreated_os_tick = true; } else { vm.cataract_untreated_os_tick = false; }
-                    if (vm.UserSummaryList.aphakia_os_tick) { vm.aphakia_os_tick = true; } else { vm.aphakia_os_tick = false; }
-                    if (vm.UserSummaryList.cataract_surg_complications_os_tick) { vm.cataract_surg_complications_os_tick = true; } else { vm.cataract_surg_complications_os_tick = false; }
-                    if (vm.UserSummaryList.tco_os_tick) { vm.tco_os_tick = true; } else { vm.tco_os_tick = false; }
                     if (vm.UserSummaryList.phthisis_os_tick) { vm.phthisis_os_tick = true; } else { vm.phthisis_os_tick = false; }
-                    if (vm.UserSummaryList.onchcercia_os_tick) { vm.onchcercia_os_tick = true; } else { vm.onchcercia_os_tick = false; }
                     if (vm.UserSummaryList.glaucoma_os_tick) { vm.glaucoma_os_tick = true; } else { vm.glaucoma_os_tick = false; }
                     if (vm.UserSummaryList.diabetic_os_tick) { vm.diabetic_os_tick = true; } else { vm.diabetic_os_tick = false; }
-                    if (vm.UserSummaryList.armd_os_tick) { vm.armd_os_tick = true; } else { vm.armd_os_tick = false; }
                     if (vm.UserSummaryList.other_posterior_os_tick) { vm.other_posterior_os_tick = true; } else { vm.other_posterior_os_tick = false; }
                     if (vm.UserSummaryList.cns_os === "true") { vm.cns_os = true; } else { vm.cns_os = false; }
 
@@ -1424,10 +1485,10 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
                     if (vm.UserSummaryList.subspeciality_none_os_tick === true) { vm.subspeciality_none_os_tick = true; }
                     else { vm.subspeciality_none_os_tick = false; }
 
-                    if (vm.UserSummaryList.tx_plan !== undefined ||vm.UserSummaryList.tx_plan !== null || vm.UserSummaryList.tx_plan.length !== 0)
-                     { vm.tx_planShow = true; 
-                    vm.tx_plan = vm.UserSummaryList.tx_plan;}
-                    else { vm.tx_planShow = false; }
+                    // if (vm.UserSummaryList.tx_plan !== undefined ||vm.UserSummaryList.tx_plan !== null || vm.UserSummaryList.tx_plan.length !== 0)
+                    //  { vm.tx_planShow = true; 
+                    // vm.tx_plan = vm.UserSummaryList.tx_plan;}
+                    // else { vm.tx_planShow = false; }
 
 
                 }, function (error) {
@@ -1437,24 +1498,101 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
 
         };
 
+        vm.getBiometry = function () {
+            $scope.loadtrue = true;
+
+            var token = localStorage.getItem('access_token');
+            var userId = TokenService.getUserId();
+
+
+            $http.get(UrlConfig.labReportBaseUrl() + 'api/CsiAll?mrdno=' + $scope.mrdnum,
+                { headers: { Authorization: 'Bearer ' + token } })
+                .then(function (result) {
+
+                    // $scope.noReport = false;
+
+                    $scope.loadtrue = false;
+                    vm.biometryList = result.data;
+                  console.log(result.data)
+                    if (vm.biometryList.mrdno !== undefined) {
+                        vm.k1od = vm.biometryList.k1od
+                        vm.k1os = vm.biometryList.k1os
+                        vm.k2od = vm.biometryList.k2od
+                        vm.k2os = vm.biometryList.k2os
+                        vm.axial_od = vm.biometryList.axial_od
+                        vm.axial_os = vm.biometryList.axial_os
+                        vm.iol_od = vm.biometryList.iol_od
+                        vm.iol_os = vm.biometryList.iol_os
+                        vm.blood_report = vm.biometryList.blood_report
+                        vm.hbsag_react_tick = vm.biometryList.hbsag_react_tick
+                        vm.hcv_react_tick = vm.biometryList.hcv_react_tick
+                        vm.hiv_tick = vm.biometryList.hiv_tick
+                        vm.bs_fbs_tick = vm.biometryList.bs_fbs_tick
+                        vm.bs_pp_tick = vm.biometryList.bs_pp_tick
+                        vm.mrdno = vm.biometryList.mrdno
+                        vm.bs_rbs_tick = vm.biometryList.bs_rbs_tick
+                        vm.bs_rbs = vm.biometryList.bs_rbs
+                        vm.bs_fbs = vm.biometryList.bs_fbs
+                        vm.bs_pp = vm.biometryList.bs_pp
+                        vm.a_constant_od = vm.biometryList.a_constant_od
+                        vm.a_constant_os = vm.biometryList.a_constant_os
+                        vm.bioremarks=vm.biometryList.remarks
+
+                        // console.log("AconsOD" +vm.a_constant_od)
+                        // console.log("AconsOD from table" +vm.biometryList.a_constant_od)
+                        // console.log("AconsOs" +vm.a_constant_os)
+                        // console.log("AconsOs table" +vm.biometryList.a_constant_os)
+
+                    }
+                    if (vm.biometryList.mrdno === null || vm.biometryList.mrdno === undefined) {
+                        vm.noBiometry = true;
+                    }
+
+
+                    //$scope.showReport = true;
+                    // console.log(result.data);
+
+
+
+
+                }, function (error) {
+                    console.log(error);
+                    vm.notification = { mode: 'danger', message: 'Error: ' + error.data.message };
+                }); vm.noalert();
+
+        };
+
+
+
+        vm.toDash = function () {
+            window.open('#!/dashboard?mrdno=' + $scope.mrdnum,
+                '_self', '');
+        }
+
         vm.PrintRecord = function () {
-            vm.fetchPrintOcularList();
-            vm.fetchPrintVisionList();
+            vm.getBiometry()
+            if (window.confirm("Do you want to include Biometry?")) {
+                vm.biometryPrint = true;
+
+            } else {
+                vm.biometryPrint = false;
+            }
             $scope.loading = true;
             $timeout(printData, 4000);
-            // $scope.printFalse = false;
         }
 
         function printData() {
+            $scope.loading = false;
+
             $scope.full = 12;
             $scope.IsHeadVisible = $scope.IsHeadVisible ? false : true;
             var divToPrint = document.getElementById("report");
-            $scope.loading = false;
+
             var htmlToPrint = '' +
                 '<style type="text/css">' +
                 '@page{margin-top:' + vm.space + '!important;}' +
                 'th, td {' +
-                'border:0.0001em solid #000;padding: 0px;font-size:12px;line-height:13px;text-align: left;font-weight:100 !important;margin-bottom:2px !important;}' +
+                'border:0.0001em solid #000;padding: 0px;font-size:13px;line-height:14px;text-align: left;font-weight:100 !important;margin-bottom:2px !important;}' +
                 '#get {display: none !important; visibility: hidden !important;} ' +
                 // 'tbody{min-height: 25em !important;}' +
                 '#name{font-weight: bold;}' +
@@ -1464,7 +1602,7 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
                 '.text-center{text-align: center !important;}' +
                 '.rightonly{text-align: right !important;margin-left:60% !important;}' +
                 '.floatr{float: right !important}' +
-                '.pp{font-size:11px !important;}' +
+                '.pp{font-size:13px !important;}' +
                 '.f-0{margin:2px 0px !important;padding:2px 0px !important;font-weight:bold !important;}' +
                 '.b-0{margin:2px 0px !important;padding:2px 0px !important;}' +
 
@@ -1475,13 +1613,14 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
                 '#noborder tr td{ border:none !important;}' +
                 '#noborder tr th{ border:none !important;}' +
                 '#bottomborder{ border-bottom:1px solid black !important;}' +
-                'span{font-size:10px !important;margin-top:10px !important;}' +
+                'span{font-size:13px !important;margin-top:10px !important;}' +
+                '.pagebreak { page-break-before: always; }' +
+                // '.col-md-6 {width:50%;}'+
+                ' #sameline,#sameline1{display:inline;}' +
+                // '.col-md {width:50%;float:right}'+
+
+                // '.col-md-4{width:40%}'+
                 // '.textr{ text-align:right !important;margin-right:0px !important;right:0 !important;}' +
-
-
-
-
-
                 '</style>';
             htmlToPrint += divToPrint.outerHTML;
             newWin = window.open("");
@@ -1489,6 +1628,8 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'TokenSer
             newWin.print();
             newWin.close();
         }
+
+       
 
         vm.Export = function () {
             $("#reporttable").table2excel({

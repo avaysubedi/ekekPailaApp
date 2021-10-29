@@ -12,12 +12,12 @@
             <div class="text-center m-1 p-1" ng-bind="vm.notification.message"></div>
         </div>
     </div>
-    
-<!-- {{treatment_od_tick}} -->
+
+    <!-- {{treatment_od_tick}} -->
     <div class="row m-1">
-        <a class="fa fa-home btn btn-sm" href="#!dashboard">
+        <a class="fa fa-home btn btn-sm btn-primary" ng-click="vm.toDash()">
             Dashboard
-            </a>
+        </a>
         <div class="col-md-12" style="background-color: rgb(40, 40, 92);height:35px !important;">
             <h5 class="text-center white-text mt-1">{{vm.pagetitle}}</h5>
         </div>
@@ -73,21 +73,27 @@
                 <table class="table table-sm table-bordered col-sm-9 offset-1">
                     <tr>
                         <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                        <th class="m-1 p-1 font-weight-bold">Age/Sex</th>
+
                         <th class="m-1 p-1 font-weight-bold">Date</th>
                         <th class="m-1 p-1 font-weight-bold">Actions</th>
                     </tr>
                     <tr>
                         <td class="m-1 p-1">{{vm.pname}}</td>
+                        <td class="m-1 p-1">{{vm.age}}/{{vm.gender}}</td>
+
                         <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
                         <td class="m-1 p-1">
 
+                            <!-- <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                                <i class="fa fa-edit"></i></a> -->
+
+                            <!-- 
+                            <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
+                                <i class="fa fa-print"></i></a> -->
                             <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
                                 <i class="fa fa-edit"></i></a>
 
-
-                            <!-- <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
-                    <i class="fa fa-print"></i></a>
--->
 
                             <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
                                 <i class="fa fa-trash"></i></a>
@@ -98,6 +104,7 @@
 
                     </tr>
                 </table>
+
             </div>
             <!--MRD NO and DATE-->
 
@@ -119,10 +126,101 @@
 
         </div>
 
+    </div>
+
+    <form>
+
+        <!-- SCHRIMER TEST -->
+
+        <div class="row m-1">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left  "> Schirmer's Test</h7>
+            </div>
         </div>
 
-        <form>
+        <div class="row m-1">
+
+            <!-- OD HERE -->
+            <div class="col-md-4 ">
+                <div class="col-md-1 col-sm-1 ">
+                    <label class="">OD
+
+                    </label>
+                </div>
+                <div class="col-md-10 small">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="schirmer_od_tick" id="schirmer_od_ticknormal"
+                            ng-init="schirmer_od_tick=true" ng-value="true" ng-checked="true"
+                            ng-model="schirmer_od_tick" />
+                        <label class="form-check-label" for="schirmer_od_ticknormal">Normal</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="schirmer_od_tick" id="schirmer_od_tickab"
+                            ng-value="false" ng-model="schirmer_od_tick" />
+                        <label class="form-check-label" for="schirmer_od_tickab">Abnormal
+
+                        </label>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-12 mt-2 " ng-show="!schirmer_od_tick">
+
+                    <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="schirmer_od">
+
+                </div>
+
+
+            </div>
+            <!-- OS HERE -->
+            <div class="col-md-4 ">
+                <div class="col-md-1 col-sm-1 ">
+                    <label class="">OS
+
+                    </label>
+                </div>
+                <div class="col-md-10 small">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="schirmer_os_tick" id="schirmer_os_ticknormal"
+                            ng-init="schirmer_os_tick=true" ng-value="true" ng-model="schirmer_os_tick"
+                            ng-checked="true" />
+                        <label class="form-check-label" for="schirmer_os_ticknormal">Normal</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="schirmer_os_tick" id="schirmer_os_tickab"
+                            ng-value="false" ng-model="schirmer_os_tick" />
+                        <label class="form-check-label" for="schirmer_os_tickab">Abnormal
+
+                        </label>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-12 mt-2 " ng-show="!schirmer_os_tick">
+
+                    <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="schirmer_os">
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
         <!--APPLANATION GONIOSVOPT-->
+
+
 
         <div ng-show="true">
             <!--APPLANATION TONOMETRYT-->
@@ -736,7 +834,8 @@
 
                 <div class="col-md-12 mt-2 " ng-show="!visual_field_interpret_od_tick">
 
-                    <textarea class="form-control" ng-model="visual_field_interpret_od" placeholder="Specify...."> </textarea>
+                    <textarea class="form-control" ng-model="visual_field_interpret_od"
+                        placeholder="Specify...."> </textarea>
 
                 </div>
 
@@ -790,31 +889,144 @@
             </div>
         </div>
         <div class="row m-1">
-            <!-- {{anterior_segment_tick}} -->
-            <!-- MASTER ANTERIOR -->
-            <div class="col-md-4 ">
 
+            <!-- OD HERE -->
+            <div class="col-md-4 ">
+                <div class="col-md-1 col-sm-1 ">
+                    <label class="">OD</label>
+                </div>
                 <div class="col-md-10 small">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="masteranterior" id="masteranterioryes"
-                            value="1" ng-model="anterior_segment_tick" />
-                        <label class="form-check-label" for="masteranterioryes">Done</label>
+                        <input class="form-check-input" type="radio" name="anterior_od_tick" id="anterior_od_tickok"
+                            ng-value="true" ng-init="anterior_od_tick=true" ng-model="anterior_od_tick" />
+                        <label class="form-check-label" for="anterior_od_tickok">Done</label>
                     </div>
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="masteranterior" id="masteranteriorno"
-                            value="0" ng-model="anterior_segment_tick" ng-checked="true" />
-                        <label class="form-check-label" for="masteranteriorno">Not Done</label>
+                        <input class="form-check-input" type="radio" name="anterior_od_tick" id="anterior_od_tickno"
+                            ng-value="false" ng-model="anterior_od_tick" />
+                        <label class="form-check-label" for="anterior_od_tickno">Not Done</label>
                     </div>
                 </div>
 
 
 
 
+
+            </div>
+
+            <!-- OS HERE -->
+            <div class="col-md-4">
+
+                <div class="col-md-1 col-sm-1 ">
+                    <label>OS</label>
+                </div>
+                <div class="col-md-10 small">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="anterior_os_tick" ng-model="anterior_os_tick"
+                            id="anterior_os_tickok" ng-value="true" ng-init="anterior_os_tick=true" />
+                        <label class="form-check-label" for="anterior_os_tickok">Done</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="anterior_os_tick" ng-model="anterior_os_tick"
+                            id="anterior_os_tickno" ng-value="false" />
+                        <label class="form-check-label" for="anterior_os_tickno">Not Done</label>
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+        <!-- Interpretation-->
+        <div class="row m-1">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                <h7 class="text-left ">Interpretation</h7>
             </div>
         </div>
 
-        <div ng-show="anterior_segment_tick ==1">
+
+        <div class="row m-1">
+
+            <!-- OD HERE -->
+            <div class="col-md-4 ">
+                <div class="col-md-1 col-sm-1 ">
+                    <label class="">OD
+                        <!-- {{cornealtopographyodinterpretation}} -->
+                    </label>
+                </div>
+                <div class="col-md-10 small">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="anteriorint_od_tick "
+                            id="anteriorint_od_tickok" ng-value="true" ng-init="anteriorint_od_tick =true"
+                            ng-model="anteriorint_od_tick" />
+                        <label class="form-check-label" for="anteriorint_od_tickok">Normal</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="anteriorint_od_tick "
+                            id="anteriorint_od_tickno" ng-value="false" ng-model="anteriorint_od_tick " />
+                        <label class="form-check-label" for="anteriorint_od_tickno">Abnormal
+
+                        </label>
+                    </div>
+                </div>
+
+
+                <!-- ng-show="cornealtopographyodinterpretation ==0" -->
+
+                <div class="col-md-12 mt-2 " ng-show="!anteriorint_od_tick">
+
+                    <textarea class="form-control" ng-model="anterior_od_text" placeholder="Specify...."> </textarea>
+
+                </div>
+
+
+            </div>
+
+            <!-- OS HERE -->
+            <div class="col-md-4 ">
+                <div class="col-md-1 col-sm-1 ">
+                    <label class="">OS</label>
+                </div>
+                <div class="col-md-10 small">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="anteriorint_os_tick"
+                            id="anteriorint_os_tickok" ng-value="true" ng-init="anteriorint_os_tick=true"
+                            ng-model="anteriorint_os_tick" />
+                        <label class="form-check-label" for="anteriorint_os_tickok">Normal</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="anteriorint_os_tick"
+                            id="anteriorint_os_tickno" ng-value="false" ng-model="anteriorint_os_tick" />
+                        <label class="form-check-label" for="anteriorint_os_tickno">Abnormal
+
+                        </label>
+                    </div>
+                </div>
+
+
+                <!-- ng-show="cornealtopographyosinterpretation ==0" -->
+
+                <div class="col-md-12 mt-2 " ng-show="!anteriorint_os_tick">
+
+                    <textarea class="form-control" ng-model="anteriorint_os_text" placeholder="Specify...."> </textarea>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div>
             <!--Corneal Topography-->
             <div class="row m-1">
                 <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
@@ -1026,7 +1238,7 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="ct_erpretation_od_tick"
                                 id="cornealtopographyodinterpretationnormal" value="1"
-                                ng-model="ct_erpretation_od_tick" />
+                                ng-init="ct_erpretation_od_tick='1'" ng-model="ct_erpretation_od_tick" />
                             <label class="form-check-label" for="cornealtopographyodinterpretationnormal">Normal</label>
                         </div>
 
@@ -1061,8 +1273,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="ct_erpretation_os_tick"
-                                id="cornealtopographyosinterpretationnormal" value="1"
-                                ng-model="ct_erpretation_os_tick" />
+                                id="cornealtopographyosinterpretationnormal" value="1" ng-model="ct_erpretation_os_tick"
+                                ng-init="ct_erpretation_os_tick='1'" />
                             <label class="form-check-label" for="cornealtopographyosinterpretationnormal">Normal</label>
                         </div>
 
@@ -1120,72 +1332,6 @@
                         </div>
                     </div>
 
-                    <!-- ng-show="ascanod ==1" -->
-                    <div class="col-md-12 mt-3" ng-show="ascan_od_tick ==1">
-
-                        <label class="small">Ac Depth</label>
-                        <input type="text" numbers-only ng-model="ascan_acp_od" class="form-control">
-
-                        <label class="small">Axial Length</label>
-                        <input type="text" numbers-only ng-model="ascan_al_od" class="form-control">
-
-                        <label class="small">IOL Power</label>
-                        <input type="text" numbers-only ng-model="ascan_iolpower_od" class="form-control">
-
-
-                        <label class="small">Length Thickness</label>
-                        <input type="text" numbers-only ng-model="ascan_lt_od" class="form-control">
-
-
-                    </div>
-
-                    <!-- ng-show="ascanod ==0" -->
-
-                    <div class="col-md-12  mt-3" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);"
-                        ng-show="ascan_od_tick ==0">
-                        <h7 class="text-left  ">If not done,specify reason</h7>
-                    </div>
-
-                    <div class="col-md-12 " ng-show="ascan_od_tick ==0">
-
-                        <!-- Default checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="ascan_mh_od_tick" />
-                            <label class="form-check-label" ng-model="ascan_mh_od_tick" for="ascan_mh_od_tick">
-                                Media Haze </label>
-                        </div>
-
-                        <!-- Checked checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" ng-model="ascan_pc_od_tick"
-                                id="ascan_pc_od_tick" />
-                            <label class="form-check-label" for="ascan_pc_od_tick">
-                                Poor cooperation
-                            </label>
-                        </div>
-
-                        <!-- Checked checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" ng-model="ascan_nf_od_tick"
-                                id="ascan_nf_od_tick" />
-                            <label class="form-check-label" for="ascan_nf_od_tick">
-                                No fixation
-                            </label>
-                        </div>
-
-                        <!-- Checked checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" ng-model="ascan_other_od_tick"
-                                id="ascan_other_od_tick" />
-                            <label class="form-check-label" for="ascan_other_od_tick">
-                                Others
-                            </label>
-                        </div>
-                        <!-- {{othersod}} -->
-                        <input type="text" class="form-control ml-4" ng-model="ascan_other_od"
-                            ng-show="ascan_other_od_tick == true">
-
-                    </div>
 
 
                 </div>
@@ -1213,83 +1359,12 @@
 
                     </div>
 
-                    <!-- ng-show="ascanos ==1" -->
-                    <div class="col-md-12 mt-3" ng-show="ascan_os_tick ==1">
-
-                        <label class="small">Ac Depth</label>
-                        <input type="text" numbers-only ng-model="ascan_acp_os" class="form-control">
-
-                        <label class="small">Axial Length</label>
-                        <input type="text" numbers-only ng-model="ascan_al_os" class="form-control">
-
-                        <label class="small">IOL Power</label>
-                        <input type="text" numbers-only ng-model="ascan_iolpower_os" class="form-control">
-
-                        <label class="small">Length Thickness</label>
-                        <input type="text" numbers-only ng-model="ascan_lt_os" class="form-control">
 
 
-
-                    </div>
-
-
-
-
-                    <!-- ng-show="ascanos ==0" -->
-
-                    <div class="col-md-12  mt-3" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);"
-                        ng-show="ascan_os_tick ==0">
-                        <h7 class="text-left  ">If not done,specify reason</h7>
-                    </div>
-
-                    <div class="col-md-12 " ng-show="ascan_os_tick ==0">
-
-                        <!-- Default checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" ng-model="ascan_mh_os_tick" type="checkbox"
-                                id="ascan_mh_os_tick" />
-                            <label class="form-check-label" for="ascan_mh_os_tick">
-                                Media Haze </label>
-                        </div>
-
-                        <!-- Checked checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" ng-model="ascan_pc_os_tick"
-                                id="ascan_pc_os_tick" />
-                            <label class="form-check-label" for="ascan_pc_os_tick">
-                                Poor cooperation
-                            </label>
-                        </div>
-
-                        <!-- Checked checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" ng-model="ascan_nf_os_tick"
-                                id="ascan_nf_os_tick" />
-                            <label class="form-check-label" for="ascan_nf_os_tick">
-                                No fixation
-                            </label>
-                        </div>
-
-                        <!-- Checked checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" ng-model="ascan_other_os_tick"
-                                id="ascan_other_os_tick" />
-                            <label class="form-check-label" for="ascan_other_os_tick">
-                                Others
-                            </label>
-                        </div>
-                        <!-- {{othersod}} -->
-                        <input type="text" ng-model="ascan_other_os" class="form-control ml-4"
-                            ng-show="ascan_other_os_tick == true">
-
-                    </div>
 
                 </div>
 
-                <div class="col-md-4 small">
-                    <label>A Scan Upload</label>
-                    <input type="file">
-                </div>
+
 
             </div>
             <!--A Scan-->
@@ -1310,7 +1385,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="ascanodinterpretation"
-                                id="ascanodinterpretationnormal" value="1" ng-model="ascan_erpretation_od_tick" />
+                                ng-init="ascan_erpretation_od_tick='1'" id="ascanodinterpretationnormal" value="1"
+                                ng-model="ascan_erpretation_od_tick" />
                             <label class="form-check-label" for="ascanodinterpretationnormal">Normal</label>
                         </div>
 
@@ -1344,7 +1420,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="ascanosinterpretation"
-                                id="ascanosinterpretationnormal" value="1" ng-model="ascan_erpretation_os_tick" />
+                                ng-init="ascan_erpretation_os_tick='1'" id="ascanosinterpretationnormal" value="1"
+                                ng-model="ascan_erpretation_os_tick" />
                             <label class="form-check-label" for="ascanosinterpretationnormal">Normal</label>
                         </div>
 
@@ -1623,6 +1700,7 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="anterioroct_erpretation_od_tick"
                                 id="anteriorsegmentoctodinterpretationnormal" value="1"
+                                ng-init="anterioroct_erpretation_od_tick='1'"
                                 ng-model="anterioroct_erpretation_od_tick" />
                             <label class="form-check-label"
                                 for="anteriorsegmentoctodinterpretationnormal">Normal</label>
@@ -1659,6 +1737,7 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="anterioroct_erpretation_os_tick"
                                 id="anteriorsegmentoctosinterpretationnormal" value="1"
+                                ng-init="anterioroct_erpretation_os_tick='1'"
                                 ng-model="anterioroct_erpretation_os_tick" />
                             <label class="form-check-label"
                                 for="anteriorsegmentoctosinterpretationnormal">Normal</label>
@@ -1943,7 +2022,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="bscan_erpretation_od_tick"
-                                id="bscanodinterpretationnormal" value="1" ng-model="bscan_erpretation_od_tick" />
+                                ng-init="bscan_erpretation_od_tick='1'" id="bscanodinterpretationnormal" value="1"
+                                ng-model="bscan_erpretation_od_tick" />
                             <label class="form-check-label" for="bscanodinterpretationnormal">Normal</label>
                         </div>
 
@@ -1977,7 +2057,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="bscan_erpretation_os_tick"
-                                id="bscanosinterpretationnormal" value="1" ng-model="bscan_erpretation_os_tick" />
+                                ng-init="bscan_erpretation_os_tick='1'" id="bscanosinterpretationnormal" value="1"
+                                ng-model="bscan_erpretation_os_tick" />
                             <label class="form-check-label" for="bscanosinterpretationnormal">Normal</label>
                         </div>
 
@@ -2185,8 +2266,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="funudus_erpretation_od_tick"
-                                id="fundusphotographodinterpretationnormal" value="1"
-                                ng-model="funudus_erpretation_od_tick" />
+                                ng-init="funudus_erpretation_od_tick='1'" id="fundusphotographodinterpretationnormal"
+                                value="1" ng-model="funudus_erpretation_od_tick" />
                             <label class="form-check-label" for="fundusphotographodinterpretationnormal">Normal</label>
                         </div>
 
@@ -2220,8 +2301,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="funudus_erpretation_os_tick"
-                                id="fundusphotographosinterpretationnormal" value="1"
-                                ng-model="funudus_erpretation_os_tick" />
+                                ng-init="funudus_erpretation_os_tick='1'" id="fundusphotographosinterpretationnormal"
+                                value="1" ng-model="funudus_erpretation_os_tick" />
                             <label class="form-check-label" for="fundusphotographosinterpretationnormal">Normal</label>
                         </div>
 
@@ -2429,7 +2510,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="disc_erpretation_od_tick"
-                                id="disc_interpretationodticknormal" value="1" ng-model="disc_erpretation_od_tick" />
+                                ng-init="disc_erpretation_od_tick='1'" id="disc_interpretationodticknormal" value="1"
+                                ng-model="disc_erpretation_od_tick" />
                             <label class="form-check-label" for="disc_interpretationodticknormal">Normal</label>
                         </div>
 
@@ -2462,7 +2544,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="disc_erpretation_os_tick"
-                                id="disc_interpretationosticknnormal" value="1" ng-model="disc_erpretation_os_tick" />
+                                ng-init="disc_erpretation_os_tick='1'" id="disc_interpretationosticknnormal" value="1"
+                                ng-model="disc_erpretation_os_tick" />
                             <label class="form-check-label" for="disc_interpretationosticknnormal">Normal</label>
                         </div>
 
@@ -2662,8 +2745,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="fdp_erpretation_od_tick"
-                                id="fundusphotographodinterpretationnormal" value="1"
-                                ng-model="fdp_erpretation_od_tick" />
+                                ng-init="fdp_erpretation_od_tick='1'" id="fundusphotographodinterpretationnormal"
+                                value="1" ng-model="fdp_erpretation_od_tick" />
                             <label class="form-check-label" for="fundusphotographodinterpretationnormal">Normal</label>
                         </div>
 
@@ -2697,7 +2780,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="fdp_erpretation_os_tick"
-                                id="fdpphotographosinterpretationnormal" value="1" ng-model="fdp_erpretation_os_tick" />
+                                ng-init="fdp_erpretation_os_tick='1'" id="fdpphotographosinterpretationnormal" value="1"
+                                ng-model="fdp_erpretation_os_tick" />
                             <label class="form-check-label" for="fdpphotographosinterpretationnormal">Normal</label>
                         </div>
 
@@ -3006,8 +3090,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="post_erpretation_od_tick"
-                                id="posteriorsegmentoctodinterpretationnormal" value="1"
-                                ng-model="post_erpretation_od_tick" />
+                                ng-init="post_erpretation_od_tick='1'" id="posteriorsegmentoctodinterpretationnormal"
+                                value="1" ng-model="post_erpretation_od_tick" />
                             <label class="form-check-label"
                                 for="posteriorsegmentoctodinterpretationnormal">Normal</label>
                         </div>
@@ -3042,8 +3126,8 @@
                     <div class="col-md-10 small">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="post_erpretation_os_tick"
-                                id="posteriorsegmentoctosinterpretationnormal" value="1"
-                                ng-model="post_erpretation_os_tick" />
+                                ng-init="post_erpretation_os_tick='1'" id="posteriorsegmentoctosinterpretationnormal"
+                                value="1" ng-model="post_erpretation_os_tick" />
                             <label class="form-check-label"
                                 for="posteriorsegmentoctosinterpretationnormal">Normal</label>
                         </div>
@@ -3085,13 +3169,13 @@
         </div>
         <div class="row m-1">
 
-            <!-- OD HERE Posterior -->
             <div class="col-md-4 ">
                 <div class="col-md-1 col-sm-1 ">
                     <label class="">OD</label>
                 </div>
 
                 <div class="col-md-12 ">
+
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" ng-model="normal_od_tick" id="normal_od_tick" />
                         <label class="form-check-label" for="normal_od_tick">
@@ -3105,15 +3189,30 @@
                             id="refractive_error_od_tick" />
                         <label class="form-check-label" for="refractive_error_od_tick">
                             Refractive error </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="refractive_error_od_tick"
+                            ng-model="referror_od">
                     </div>
 
-                    <!-- Checked checkbox -->
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="presbyopia_od_tick"
-                            id="presbyopia_od_tick" />
-                        <label class="form-check-label" for="presbyopia_od_tick">
-                            Presbyopia
-                        </label>
+                        <input class="form-check-input" type="checkbox" ng-model="conjunc_od_tick"
+                            id="conjunc_od_tick" />
+                        <label class="form-check-label" for="conjunc_od_tick">
+                            Conjunctivitis </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="conjunc_od_tick"
+                            ng-model="conjunc_od">
+                    </div>
+
+
+
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" ng-model="glaucoma_od_tick"
+                            id="glaucoma_od_tick" />
+                        <label class="form-check-label" for="glaucoma_od_tick">
+                            Glaucoma </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="glaucoma_od_tick"
+                            ng-model="glaucoma_od">
+
                     </div>
 
                     <!-- Checked checkbox -->
@@ -3121,57 +3220,11 @@
                         <input class="form-check-input" type="checkbox" ng-model="cataract_untreated_od_tick"
                             id="cataract_untreated_od_tick" />
                         <label class="form-check-label" for="cataract_untreated_od_tick">
-                            Cataract untreated
+                            Cataract
                         </label>
-                    </div>
+                        <input type="text" class="form-control form-control-sm" ng-show="cataract_untreated_od_tick"
+                            ng-model="catar_od">
 
-                    <!-- Checked checkbox -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="aphakia_od_tick"
-                            id="aphakia_od_tick" />
-                        <label class="form-check-label" for="aphakia_od_tick">
-                            Aphakia untreated
-                        </label>
-                    </div>
-
-                    <!-- Default checkbox -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="cataract_surg_complications_od_tick"
-                            id="cataract_surg_complications_od_tick" />
-                        <label class="form-check-label" for="cataract_surg_complications_od_tick">
-                            Cataract Surgrical Complications </label>
-                    </div>
-
-                    <!-- Checked checkbox -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="tco_od_tick" id="tco_od_tick" />
-                        <label class="form-check-label" for="tco_od_tick">
-                            Trachomatous Corneal Opacity
-                        </label>
-                    </div>
-
-
-                    <!-- Checked checkbox -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="phthisis_od_tick"
-                            id="phthisis_od_tick" />
-                        <label class="form-check-label" for="phthisis_od_tick">
-                            Phthisis
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="onchcercia_od_tick"
-                            id="onchcercia_od_tick" />
-                        <label class="form-check-label" for="onchcercia_od_tick">
-                            Onchocerciasis </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="glaucoma_od_tick"
-                            id="glaucoma_od_tick" />
-                        <label class="form-check-label" for="glaucoma_od_tick">
-                            Glaucoma </label>
                     </div>
 
                     <div class="form-check">
@@ -3179,24 +3232,51 @@
                             id="diabetic_od_tick" />
                         <label class="form-check-label" for="diabetic_od_tick">
                             Diabetic Retinopathy </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="diabetic_od_tick"
+                            ng-model="diabe_ret_od">
+
                     </div>
+
+
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="armd_od_tick" id="armd_od_tick" />
-                        <label class="form-check-label" for="armd_od_tick">
-                            ARMD </label>
+                        <input class="form-check-input" type="checkbox" ng-model="hpt_od_tick" id="hpt_od_tick" />
+                        <label class="form-check-label" for="hpt_od_tick">
+                            Hypertensive Retinopathy </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="hpt_od_tick" ng-model="hpt_od">
+
                     </div>
+
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" ng-model="other_posterior_od_tick"
                             id="other_posterior_od_tick" />
                         <label class="form-check-label" for="other_posterior_od_tick">
-                            Other posterior segment diseases </label>
+                            Posterior segment diseases </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="other_posterior_od_tick"
+                            ng-model="poster_od">
+
                     </div>
 
+
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="cns_od" id="cns_od" />
-                        <label class="form-check-label" for="cns_od">
-                            All other globe/CNS abnormalities </label>
+                        <input class="form-check-input" type="checkbox" ng-model="uveal_od_tick" id="uveal_od_tick" />
+                        <label class="form-check-label" for="uveal_od_tick">
+                            Uveal disease </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="uveal_od_tick"
+                            ng-model="uveal_od">
+
                     </div>
+
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" ng-model="phthisis_od_tick"
+                            id="phthisis_od_tick" />
+                        <label class="form-check-label" for="phthisis_od_tick">
+                            Phthisis
+                        </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="phthisis_od_tick"
+                            ng-model="pthisis_od">
+                    </div>
+
 
 
 
@@ -3209,8 +3289,6 @@
                     <input type="text" class="form-control ml-4" ng-model="others_od" ng-show="others_od_tick == true">
 
                 </div>
-
-
             </div>
 
             <!-- OS HERE -->
@@ -3234,15 +3312,30 @@
                             id="refractive_error_os_tick" />
                         <label class="form-check-label" for="refractive_error_os_tick">
                             Refractive error </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="refractive_error_os_tick"
+                            ng-model="referror_os">
                     </div>
 
-                    <!-- Checked checkbox -->
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="presbyopia_os_tick"
-                            id="presbyopia_os_tick" />
-                        <label class="form-check-label" for="presbyopia_os_tick">
-                            Presbyopia
-                        </label>
+                        <input class="form-check-input" type="checkbox" ng-model="conjunc_os_tick"
+                            id="conjunc_os_tick" />
+                        <label class="form-check-label" for="conjunc_os_tick">
+                            Conjunctivitis </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="conjunc_os_tick"
+                            ng-model="conjunc_os">
+                    </div>
+
+
+
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" ng-model="glaucoma_os_tick"
+                            id="glaucoma_os_tick" />
+                        <label class="form-check-label" for="glaucoma_os_tick">
+                            Glaucoma </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="glaucoma_os_tick"
+                            ng-model="glaucoma_os">
+
                     </div>
 
                     <!-- Checked checkbox -->
@@ -3250,94 +3343,63 @@
                         <input class="form-check-input" type="checkbox" ng-model="cataract_untreated_os_tick"
                             id="cataract_untreated_os_tick" />
                         <label class="form-check-label" for="cataract_untreated_os_tick">
-                            Cataract untreated
+                            Cataract
                         </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="cataract_untreated_os_tick"
+                            ng-model="catar_os">
+
                     </div>
 
-                    <!-- Checked checkbox -->
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="aphakia_os_tick"
-                            id="aphakia_os_tick" />
-                        <label class="form-check-label" for="aphakia_os_tick">
-                            Aphakia untreated
-                        </label>
+                        <input class="form-check-input" type="checkbox" ng-model="diabetic_os_tick"
+                            id="diabetic_os_tick" />
+                        <label class="form-check-label" for="diabetic_os_tick">
+                            Diabetic Retinopathy </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="diabetic_os_tick"
+                            ng-model="diabete_ret_os">
+
                     </div>
 
-                    <!-- Default checkbox -->
+
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="cataract_surg_complications_os_tick"
-                            id="cataract_surg_complications_os_tick" />
-                        <label class="form-check-label" for="cataract_surg_complications_os_tick">
-                            Cataract Surgrical Complications </label>
+                        <input class="form-check-input" type="checkbox" ng-model="hpt_os_tick" id="hpt_os_tick" />
+                        <label class="form-check-label" for="hpt_os_tick">
+                            Hypertensive Retinopathy </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="hpt_os_tick" ng-model="hpt_os">
+
                     </div>
 
-                    <!-- Checked checkbox -->
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="tco_os_tick" id="tco_os_tick" />
-                        <label class="form-check-label" for="tco_os_tick">
-                            Trachomatous Corneal Opacity
-                        </label>
+                        <input class="form-check-input" type="checkbox" ng-model="other_posterior_os_tick"
+                            id="other_posterior_os_tick" />
+                        <label class="form-check-label" for="other_posterior_os_tick">
+                            Posterior segment diseases </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="other_posterior_os_tick"
+                            ng-model="poster_os">
+
                     </div>
 
-                    <!-- Checked checkbox -->
-                    <!-- <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" 
-                                        id="NonTrachomatousCornealOpacityos" />
-                                    <label class="form-check-label" for="NonTrachomatousCornealOpacityos">
-                                       Non Trachomatous Corneal Opacity </label>
-                                </div> -->
 
-                    <!-- Checked checkbox -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" ng-model="uveal_os_tick" id="uveal_os_tick" />
+                        <label class="form-check-label" for="uveal_os_tick">
+                            Uveal disease </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="uveal_os_tick"
+                            ng-model="uveal_os">
+
+                    </div>
+
+
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" ng-model="phthisis_os_tick"
                             id="phthisis_os_tick" />
                         <label class="form-check-label" for="phthisis_os_tick">
                             Phthisis
                         </label>
+                        <input type="text" class="form-control form-control-sm" ng-show="phthisis_os_tick"
+                            ng-model="pthsis_os">
                     </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="onchcercia_os_tick"
-                            id="onchcercia_os_tick" />
-                        <label class="form-check-label" for="onchcercia_os_tick">
-                            Onchocerciasis </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="glaucoma_os_tick"
-                            id="glaucoma_os_tick" />
-                        <label class="form-check-label" for="glaucoma_os_tick">
-                            Glaucoma </label>
-                    </div>
-                    <!-- <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" 
-                                        id="NonTrachomatousCornealOpacityos" />
-                                    <label class="form-check-label" for="NonTrachomatousCornealOpacityos">
-                                        Trachomatous Corneal Opacity </label>
-                                </div> -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="diabetic_os_tick"
-                            id="diabetic_os_tick" />
-                        <label class="form-check-label" for="diabetic_os_tick">
-                            Diabetic Retinopathy </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="armd_os_tick" id="armd_os_tick" />
-                        <label class="form-check-label" for="armd_os_tick">
-                            ARMD </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="other_posterior_os_tick"
-                            id="other_posterior_os_tick" />
-                        <label class="form-check-label" for="other_posterior_os_tick">
-                            Other posterior segment diseases </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="cns_os" id="cns_os" />
-                        <label class="form-check-label" for="cns_os">
-                            All other globe/CNS abnormalities </label>
-                    </div>
 
 
 
@@ -3377,15 +3439,14 @@
                 </div>
                 <div class="col-md-12 small" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="treatment_od_tick" 
-                        id="treatment_od_yes"
+                        <input class="form-check-input" type="radio" name="treatment_od_tick" id="treatment_od_yes"
                             ng-value="true" ng-model="treatment_od_tick" />
                         <label class="form-check-label" for="treatment_od_yes">Yes</label>
                     </div>
 
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="treatment_od_tick" id="treatment_od_no"
-                            ng-value="false" ng-checked="true" ng-model="treatment_od_tick" ng-checked="true" />
+                            ng-value="false" ng-init="treatment_od_tick=false" ng-model="treatment_od_tick" />
                         <label class="form-check-label" for="treatment_od_no">No</label>
                     </div>
                 </div>
@@ -3393,8 +3454,8 @@
                 <div ng-show="treatment_od_tick">
                     <div class="col-md-12 ml-0 ">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" ng-model="medical_treatment_od_tick"
-                                id="medical_treatment_od_tick" />
+                            <input class="form-check-input" type="checkbox" ng-value="true"
+                                ng-model="medical_treatment_od_tick" id="medical_treatment_od_tick" />
                             <label class="form-check-label" for="medical_treatment_od_tick">
                                 Medical </label>
 
@@ -3410,7 +3471,7 @@
                             <input class="form-check-input" type="checkbox" ng-model="surgrical_treatment_od_tick "
                                 id="surgrical_treatment_od_tick " />
                             <label class="form-check-label" for="surgrical_treatment_od_tick ">
-                                Surgrical </label>
+                                Surgical </label>
 
                             <textarea class="form-control" ng-show="surgrical_treatment_od_tick  == true"
                                 ng-model="surgrical_treatment_od"></textarea>
@@ -3502,15 +3563,15 @@
 
                 </div>
 
-                <div class="col-md-12 ml-0 ">
+                <div class="col-md-12 ml-0 " ng-show="false">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" ng-model="followup_od_tick "
                             id="followup_od_tick " />
                         <label class="form-check-label" for="followup_od_tick ">
-                            Regular Follow up </label>
+                            Follow up </label>
 
                         <textarea class="form-control" ng-show="followup_od_tick  == true"
-                            ng-model="followup_od"></textarea>
+                            ng-model="followup_os"></textarea>
 
                     </div>
                 </div>
@@ -3535,7 +3596,7 @@
 
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="treatment_os_tick" id="treatment_os_no"
-                            ng-value="false" ng-model="treatment_os_tick" ng-checked="true" />
+                            ng-value="false" ng-model="treatment_os_tick" ng-init="treatment_os_tick=false" />
                         <label class="form-check-label" for="treatment_os_no">No</label>
                     </div>
                 </div>
@@ -3561,7 +3622,7 @@
                             <input class="form-check-input" type="checkbox" ng-model="surgrical_treatment_os_tick "
                                 id="surgrical_treatment_os_tick " />
                             <label class="form-check-label" for="surgrical_treatment_os_tick ">
-                                Surgrical </label>
+                                Surgical </label>
 
                             <textarea class="form-control" ng-show="surgrical_treatment_os_tick  == true"
                                 ng-model="surgrical_treatment_os"></textarea>
@@ -3653,7 +3714,7 @@
                 </div>
 
 
-                <div class="col-md-12 ml-0 ">
+                <div class="col-md-12 ml-0 " ng-show="false">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" ng-model="followup_os_tick "
                             id="followup_os_tick " />
@@ -3668,26 +3729,40 @@
 
 
             </div>
+
+            <div class="col-md-12 ml-0 mt-4 ">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" ng-model="followup_od_tick "
+                        id="followup_od_tick " />
+                    <label class="form-check-label" for="followup_od_tick ">
+                        Follow up </label>
+
+                    <textarea class="form-control" ng-show="followup_od_tick  == true"
+                        ng-model="followup_os"></textarea>
+
+                </div>
+            </div>
         </div>
 
-<div class="row m-1">
-    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
-    </div>
-    <div class="col-sm-2">
-        <label>Treatment&nbsp;Plan</label>
-    </div>
-    <div class="col-sm-4">
-        <textarea class="form-control mt-2" ng-model="tx_plan">
+        <div class="row m-1">
+            <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+            </div>
+            <div class="col-sm-2">
+                <label>Treatment&nbsp;Plan</label>
+            </div>
+            <div class="col-sm-4">
+                <textarea class="form-control mt-2" ng-model="tx_plan">
 
         </textarea>
-    </div>
-</div>
+            </div>
+        </div>
 
-        
+
 
         <div class="row m-1">
             <div class="col-md-2 col-sm-2">
-                <button class="btn btn-sm btn-primary" ng-click="vm.submitOcularExaminationDetails();">Save&nbsp;Record</button>
+                <button class="btn btn-sm btn-primary"
+                    ng-click="vm.submitOcularExaminationDetails();">Save&nbsp;Record</button>
             </div>
             <div class="small spinner-border text-center" ng-show="loading" role="status">
                 <span class="sr-only">Loading...</span>
@@ -3707,357 +3782,556 @@
     </form>
 
 
-        
-        <!-- ng-show="showReport" -->
-        <div class="col-md-12 offset-1 m-1" id="report" ng-show="false">
-            <div id="center" ng-show="False">
-                <h3 class="text-center black-text font-weight-bold ">Summary Report</h3>
-            </div>
-            <div class="col-md-11 ">
-                <table class="table-condensed table table-sm offset-1 mb-0 pb-0" id="noborder"
-                    style="width:95% !important;">
+    <div class="col-md-11 offset-1 m-1" id="report" ng-show="false">
+        <div id="center" ng-show="False">
+            <h3 class="text-center black-text font-weight-bold ">Summary Report</h3>
+        </div>
+        <div class="col-md-11 offset-1 ">
+            <table class="table-condensed table table-sm offset-1 mb-0 pb-0" id="noborder"
+                style="width:95% !important;">
 
-                    <tr>
-                        <td class="m-1 p-1 text-left noborder " colspan="30 " style="width: 670px; ">
+                <tr>
+                    <td class="m-1 p-1 text-left noborder " colspan="30 " style="width: 670px; ">
 
-                            Mrd No: &nbsp;&nbsp; {{vm.userMrd}}
-                            </th>
-                            <!-- <td colspan="5 ">
+                        Mrd No: &nbsp;&nbsp; {{vm.userMrd}}
+                        </th>
+                        <!-- <td colspan="5 ">
 
                         </td> -->
-                        <td class="m-1 p-1 noborder pp ">
+                    <td class="m-1 p-1 noborder pp ">
 
-                            Name:
-                        </td>
+                        Name:
+                    </td>
 
-                        <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
-                            {{vm.pname}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="m-1 p-1 text-left noborder " colspan="30 ">
+                    <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                        {{vm.pname}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="m-1 p-1 text-left noborder " colspan="30 ">
 
-                            Date: &nbsp;&nbsp; {{vm.reportDate | date:'yyyy/MM/dd'}}
-                        </td>
-                        <td class="m-1 p-1 noborder pp ">
+                        Date: &nbsp;&nbsp; {{vm.reportDate | date:'yyyy/MM/dd'}}
+                    </td>
+                    <td class="m-1 p-1 noborder pp ">
 
-                            Age:
-                        </td>
-                        <td class="m-1 p-1 noborder ">
-                            {{vm.age | placeholder}}
-                        </td>
+                        Age:
+                    </td>
+                    <td class="m-1 p-1 noborder ">
+                        {{vm.age | placeholder}}
+                    </td>
 
-                    </tr>
+                </tr>
 
-                    <tr>
-                        <th class="m-1 p-1 text-left noborder " id="left " colspan="30 ">
-                            <strong>Use of Glasses</strong>
+                <tr>
+                    <th class="m-1 p-1 text-left noborder " id="left " colspan="30 ">
+                        <strong>Use of Glasses</strong>
+                    </th>
+                    <td class="m-1 p-1 noborder pp ">
+                        Gender:
+                    </td>
+                    <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                        {{vm.gender}}
+                    </td>
+
+
+
+                </tr>
+                <tr>
+                    <td class="m-1 p-1 text-left noborder " colspan="30 ">
+                        Distance: &nbsp; {{vm.distanceGlasses}}
+                    </td>
+                    <td class="m-1 p-1 noborder pp ">
+                        Address:
+                    </td>
+                    <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                        {{vm.address}}
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td class="m-1 p-1 text-left noborder " colspan="30 ">
+                        Near: &nbsp; {{vm.nearGlasses}}
+                    </td>
+
+                    <td class="m-1 p-1 noborder pp ">
+
+                        Contact&nbsp;no:
+                    </td>
+                    <td class="m-1 p-1 noborder pp ">
+                        {{vm.contact | placeholder}}
+                    </td>
+                </tr>
+
+
+            </table>
+        </div>
+        <!-- ACUITY -->
+        <div class="col-md-10 offset-1 ">
+            <!-- <h4 class="text-left black-text font-weight-bold " ng-show="false">Visual Acuity</h4> -->
+
+            <table class="table-condensed offset-1 table table-sm table-bordered " style="width: 95% !important; ">
+                <tr>
+                    <th class="m-1 p-1 font-weight-bold " rowspan="2 ">Visual Acuity</th>
+                    <th class="m-1 p-1 text-center font-weight-bold " colspan="2 ">OD</th>
+                    <th class="m-1 p-1 text-center font-weight-bold " colspan="2 ">OS</th>
+                </tr>
+                <tr>
+                    <!-- <th class="m-1 p-1 "></th> -->
+                    <th class="m-1 p-1 text-center font-weight-bold ">PVA</th>
+                    <!-- <th class="m-1 p-1 text-center font-weight-bold ">UVA</th> -->
+                    <th class="m-1 p-1 text-center font-weight-bold ">PHVA</th>
+
+                    <th class="m-1 p-1 text-center font-weight-bold ">PVA</th>
+                    <!-- <th class="m-1 p-1 text-center font-weight-bold ">UVA</th> -->
+                    <th class="m-1 p-1 text-center font-weight-bold ">PHVA</th>
+                </tr>
+
+                <tr>
+                    <th class="m-1 p-1 ">Distance</th>
+                    <td class="m-1 p-1 text-center ">{{vm.pvaDistanceOd |placeholder}}</th>
+                        <!-- <td class="m-1 p-1 text-center ">{{vm.uvaDistanceOd |placeholder}}</th> -->
+                    <td class="m-1 p-1 text-center ">{{vm.pvDistanceOd |placeholder}}</th>
+
+                    <td class="m-1 p-1 text-center ">{{vm.pvaDistanceOs |placeholder}}</th>
+                        <!-- <td class="m-1 p-1 text-center ">{{vm.uvaDistanceOs |placeholder}}</th> -->
+                    <td class="m-1 p-1 text-center ">{{vm.pvDistanceOs |placeholder}}</th>
+
+                </tr>
+                <tr>
+                    <th class="m-1 p-1 ">Near</th>
+                    <td class="m-1 p-1 text-center ">{{vm.pvaNearOd |placeholder}}</th>
+
+                        <!-- <td class="m-1 p-1 text-center ">{{vm.uvaNearOd |placeholder}}</th> -->
+
+                    <td class="m-1 p-1 text-center "> {{vm.pvNearOd|placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">
+                        {{vm.pvaNearOs}} </th>
+                    <td class="m-1 p-1 text-center ">
+                        {{vm.pvNearOs}} </th>
+                        <!-- <td class="m-1 p-1 text-center ">{{vm.uvaNearOs |placeholder}}</th> -->
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div class="col-md-10 offset-1 ">
+            <table class="table-condensed offset-1 table table-sm table-bordered " style="width: 95% !important; ">
+                <tr>
+
+                    <th class="m-1 p-1 font-weight-bold text-left " style="border-bottom: none !important; "
+                        colspan="1 ">Glass prescription</th>
+                    <th class="m-1 p-1 text-center font-weight-bold " colspan="4 ">OD</th>
+                    <th class="m-1 p-1 text-center font-weight-bold " colspan="4 ">OS</th>
+                </tr>
+                <tr>
+                    <th class="m-1 p-1 noborder " style="border-top: none !important; "></th>
+                    <th class="m-1 p-1 text-center font-weight-bold ">SPH</th>
+                    <th class="m-1 p-1 text-center font-weight-bold ">CYL</th>
+                    <th class="m-1 p-1 text-center font-weight-bold ">Axis</th>
+                    <th class="m-1 p-1 text-center font-weight-bold ">BCVA</th>
+
+                    <th class="m-1 p-1 text-center font-weight-bold ">SPH</th>
+                    <th class="m-1 p-1 text-center font-weight-bold ">CYL</th>
+                    <th class="m-1 text-center p-1 font-weight-bold ">Axis</th>
+                    <th class="m-1 p-1 text-center font-weight-bold ">BCVA</th>
+                </tr>
+
+                <tr>
+                    <th class="m-1 p-1 ">Distance</th>
+                    <td class="m-1 p-1 text-center ">{{vm.sphericalDistanceOdValue | placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.cylindricalDistanceOdValue | placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.axisDistanceOd | placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.vancDistanceOd | placeholder}}</th>
+
+                    <td class="m-1 p-1 text-center ">{{vm.sphericalDistanceOsValue | placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.cylindricalDistanceOsValue | placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.axisDistanceOs | placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.vancDistanceOs | placeholder}}</th>
+
+                </tr>
+                <tr>
+                    <th class="m-1 p-1 ">Near</th>
+                    <td class="m-1 p-1 text-center ">{{vm.sphericalNearOdValue | placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">
                         </th>
-                        <td class="m-1 p-1 noborder pp ">
-                            Gender:
-                        </td>
-                        <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
-                            {{vm.gender}}
-                        </td>
+                    <td class="m-1 p-1 ">
+                        </th>
+                    <td class="m-1 p-1 text-center ">{{vm.vancNearOd | placeholder}}</th>
 
+                    <td class="m-1 p-1 text-center ">{{vm.sphericalNearOsValue | placeholder}}</th>
+                    <td class="m-1 p-1 ">
+                        </th>
+                    <td class="m-1 p-1 ">
+                        </th>
+                    <td class="m-1 p-1 text-center ">{{vm.vancNearOs | placeholder}}</th>
+                </tr>
+            </table>
+        </div>
+
+        <span ng-show="false">Note: Kindly note the power prescribed for near vision glass is net value, not an
+            addition to distance glass</span>
+
+        <br>
+        <br>
+        <div ng-if="vm.biometryPrint">
+            <!-- BIOMETRY -->
+            <div class="row">
+                <h4 class="text-left black-text font-weight-bold" ng-show="false">Biometry</h4>
+
+                <table class="table-condensed  table table-sm table-bordered " style="width: 50% !important; ">
+                    <tr>
+                        <th class="m-1 p-1 text-center font-weight-bold " style="width: 40% !important;"></th>
+
+                        <th class="m-1 p-1 text-center font-weight-bold ">OD</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">OS</th>
+                    </tr>
+
+                    <tr>
+                        <th class="m-1 p-1 text-center font-weight-bold ">K1</th>
+                        <td class="m-1 p-1 text-center ">{{vm.k1od |placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.k1os |placeholder}}</th>
 
 
                     </tr>
                     <tr>
-                        <td class="m-1 p-1 text-left noborder " colspan="30 ">
-                            Distance: &nbsp; {{vm.distanceGlasses}}
-                        </td>
-                        <td class="m-1 p-1 noborder pp ">
-                            Address:
-                        </td>
-                        <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
-                            {{vm.address}}
-                        </td>
-
+                        <th class="m-1 p-1 text-center font-weight-bold ">K2</th>
+                        <td class="m-1 p-1 text-center ">{{vm.k2od |placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.k2os |placeholder}}</th>
+                    </tr>
+                    <tr>
+                        <th class="m-1 p-1 text-center font-weight-bold ">Axial Length</th>
+                        <td class="m-1 p-1 text-center ">{{vm.axial_od |placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.axial_os |placeholder}}</th>
 
                     </tr>
                     <tr>
-                        <td class="m-1 p-1 text-left noborder " colspan="30 ">
-                            Near: &nbsp; {{vm.nearGlasses}}
-                        </td>
+                        <th class="m-1 p-1 text-center font-weight-bold ">IOL Power</th>
+                        <td class="m-1 p-1 text-center ">{{vm.iol_od |placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.iol_os |placeholder}}</th>
 
-                        <td class="m-1 p-1 noborder pp ">
+                    </tr>
+                    <tr>
+                        <th class="m-1 p-1 text-center font-weight-bold ">A Constant</th>
+                        <td class="m-1 p-1 text-center ">{{vm.a_constant_od |placeholder}}</th>
+                        <td class="m-1 p-1 text-center ">{{vm.a_constant_os |placeholder}}</th>
+                    </tr>
 
-                            Contact&nbsp;no:
-                        </td>
-                        <td class="m-1 p-1 noborder pp ">
-                            {{vm.contact | placeholder}}
-                        </td>
+
                     </tr>
 
 
                 </table>
             </div>
-            <!-- ACUITY -->
-            <div class="col-md-11 ">
-                <!-- <h4 class="text-left black-text font-weight-bold " ng-show="false">Visual Acuity</h4> -->
 
-                <table class="table-condensed offset-1 table table-sm table-bordered " style="width: 95% !important; ">
-                    <tr>
-                        <th class="m-1 p-1 font-weight-bold " rowspan="2 ">Visual Acuity</th>
-                        <th class="m-1 p-1 text-center font-weight-bold " colspan="2 ">OD</th>
-                        <th class="m-1 p-1 text-center font-weight-bold " colspan="2 ">OS</th>
-                    </tr>
-                    <tr>
-                        <!-- <th class="m-1 p-1 "></th> -->
-                        <th class="m-1 p-1 text-center font-weight-bold ">PVA</th>
-                        <!-- <th class="m-1 p-1 text-center font-weight-bold ">UVA</th> -->
-                        <th class="m-1 p-1 text-center font-weight-bold ">PHVA</th>
 
-                        <th class="m-1 p-1 text-center font-weight-bold ">PVA</th>
-                        <!-- <th class="m-1 p-1 text-center font-weight-bold ">UVA</th> -->
-                        <th class="m-1 p-1 text-center font-weight-bold ">PHVA</th>
-                    </tr>
+            <!-- BLOOD REPORT -->
+            <div class="row">
+                <p class="m-0 p-0 pp">
+                    <span class="font-weight-bold f-0 pp">Blood Report:</span>{{vm.blood_report}}
+                </p>
+
+                <table class="table-condensed  table table-sm table-bordered " style="width: 50% !important; ">
+
+                    <!-- <tr>
+                    <th class="m-1 p-1 text-center font-weight-bold "> </th>
+                    <th class="m-1 p-1 text-center font-weight-bold"></th>
+
+                </tr> -->
+
 
                     <tr>
-                        <th class="m-1 p-1 ">Distance</th>
-                        <td class="m-1 p-1 text-center ">{{vm.pvaDistanceOd |placeholder}}</th>
-                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaDistanceOd |placeholder}}</th> -->
-                        <td class="m-1 p-1 text-center ">{{vm.pvDistanceOd |placeholder}}</th>
-
-                        <td class="m-1 p-1 text-center ">{{vm.pvaDistanceOs |placeholder}}</th>
-                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaDistanceOs |placeholder}}</th> -->
-                        <td class="m-1 p-1 text-center ">{{vm.pvDistanceOs |placeholder}}</th>
-
-                    </tr>
-                    <tr>
-                        <th class="m-1 p-1 ">Near</th>
-                        <td class="m-1 p-1 text-center ">{{vm.pvaNearOd |placeholder}}</th>
-
-                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaNearOd |placeholder}}</th> -->
-
-                        <td class="m-1 p-1 text-center "> {{vm.pvNearOd|placeholder}}</th>
+                        <th class="m-1 p-1 text-center font-weight-bold ">HbsAg</th>
                         <td class="m-1 p-1 text-center ">
-                            {{vm.pvaNearOs}} </th>
-                        <td class="m-1 p-1 text-center ">
-                            {{vm.pvNearOs}} </th>
-                            <!-- <td class="m-1 p-1 text-center ">{{vm.uvaNearOs |placeholder}}</th> -->
+                            <p ng-if="vm.hbsag_react_tick"> Reactive </p>
+                            <p ng-if="!vm.hbsag_react_tick">Non-Reactive </p>
+                            </th>
                     </tr>
+                    <tr>
+                        <th class="m-1 p-1 text-center font-weight-bold ">HCV</th>
+                        <td class="m-1 p-1 text-center ">
+                            <p ng-if="vm.hcv_react_tick"> Reactive </p>
+                            <p ng-if="!vm.hcv_react_tick">Non-Reactive </p>
+                            </th>
+                    </tr>
+                    <tr>
+                        <th class="m-1 p-1 text-center font-weight-bold ">HIV I & II</th>
+                        <td class="m-1 p-1 text-center ">
+                            <p ng-if="vm.hiv_tick"> Reactive </p>
+                            <p ng-if="!vm.hiv_tick">Non-Reactive </p>
+                            </th>
+                    </tr>
+                    <tr ng-if="vm.bs_fbs_tick">
+                        <th class="m-1 p-1 text-center font-weight-bold ">Blood Sugar- FBS</th>
+                        <td class="m-1 p-1 text-center ">
+                            <p>{{vm.bs_fbs}} </p>
+                            </th>
+                    </tr>
+                    <tr ng-if="vm.bs_pp_tick">
+                        <th class="m-1 p-1 text-center font-weight-bold ">Blood Sugar- PP</th>
+                        <td class="m-1 p-1 text-center ">
+                            <p>{{vm.bs_pp}} </p>
+                            </th>
+                    </tr>
+                    <tr ng-if="vm.bs_rbs_tick">
+                        <th class="m-1 p-1 text-center font-weight-bold ">Blood Sugar- RBS</th>
+                        <td class="m-1 p-1 text-center ">
+                            <p>{{vm.bs_rbs}} </p>
+                            </th>
+                    </tr>
+
+
+
+
+
+                    </tr>
+
+
                 </table>
-            </div>
-            <br>
-            <div class="col-md-11 ">
-                <table class="table-condensed offset-1 table table-sm table-bordered " style="width: 95% !important; ">
-                    <tr>
 
-                        <th class="m-1 p-1 font-weight-bold text-left " style="border-bottom: none !important; "
-                            colspan="1 ">Glass prescription</th>
-                        <th class="m-1 p-1 text-center font-weight-bold " colspan="4 ">OD</th>
-                        <th class="m-1 p-1 text-center font-weight-bold " colspan="4 ">OS</th>
-                    </tr>
-                    <tr>
-                        <th class="m-1 p-1 noborder " style="border-top: none !important; "></th>
-                        <th class="m-1 p-1 text-center font-weight-bold ">SPH</th>
-                        <th class="m-1 p-1 text-center font-weight-bold ">CYL</th>
-                        <th class="m-1 p-1 text-center font-weight-bold ">Axis</th>
-                        <th class="m-1 p-1 text-center font-weight-bold ">BCVA</th>
-
-                        <th class="m-1 p-1 text-center font-weight-bold ">SPH</th>
-                        <th class="m-1 p-1 text-center font-weight-bold ">CYL</th>
-                        <th class="m-1 text-center p-1 font-weight-bold ">Axis</th>
-                        <th class="m-1 p-1 text-center font-weight-bold ">BCVA</th>
-                    </tr>
-
-                    <tr>
-                        <th class="m-1 p-1 ">Distance</th>
-                        <td class="m-1 p-1 text-center ">{{vm.sphericalDistanceOdValue | placeholder}}</th>
-                        <td class="m-1 p-1 text-center ">{{vm.cylindricalDistanceOdValue | placeholder}}</th>
-                        <td class="m-1 p-1 text-center ">{{vm.axisDistanceOd | placeholder}}</th>
-                        <td class="m-1 p-1 text-center ">{{vm.vancDistanceOd | placeholder}}</th>
-
-                        <td class="m-1 p-1 text-center ">{{vm.sphericalDistanceOsValue | placeholder}}</th>
-                        <td class="m-1 p-1 text-center ">{{vm.cylindricalDistanceOsValue | placeholder}}</th>
-                        <td class="m-1 p-1 text-center ">{{vm.axisDistanceOs | placeholder}}</th>
-                        <td class="m-1 p-1 text-center ">{{vm.vancDistanceOs | placeholder}}</th>
-
-                    </tr>
-                    <tr>
-                        <th class="m-1 p-1 ">Near</th>
-                        <td class="m-1 p-1 text-center ">{{vm.sphericalNearOdValue | placeholder}}</th>
-                        <td class="m-1 p-1 text-center ">
-                            </th>
-                        <td class="m-1 p-1 ">
-                            </th>
-                        <td class="m-1 p-1 text-center ">{{vm.vancNearOd | placeholder}}</th>
-
-                        <td class="m-1 p-1 text-center ">{{vm.sphericalNearOsValue | placeholder}}</th>
-                        <td class="m-1 p-1 ">
-                            </th>
-                        <td class="m-1 p-1 ">
-                            </th>
-                        <td class="m-1 p-1 text-center ">{{vm.vancNearOs | placeholder}}</th>
-                    </tr>
-                </table>
-            </div>
-
-            <span ng-show="false">Note: Kindly note the power prescribed for near vision glass is net value, not an
-                addition to distance glass</span>
-
-            <div class="col-md-11 offset-1">
-                <h4 class="text-left black-text font-weight-bold " ng-show="false">Diagnosis</h4>
-                <h5 class="text-left font-weight-bold f-0 p-0">OD</h5>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.normal_od_tick">Normal</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.refractive_error_od_tick">Refractive Error</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.presbyopia_od_tick">Presbyopia</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_untreated_od_tick">Cataract Untreated</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.aphakia_od_tick">Aphakia</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_surg_complications_od_tick">
-                    Cataract Surg Complications</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.tco_od_tick">Tco</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.phthisis_od_tick">Phthisis</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.onchcercia_od_tick">Onchcercia</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.glaucoma_od_tick">Glaucoma</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.diabetic_od_tick">Diabetic </p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.armd_od_tick">Armd </p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.other_posterior_od_tick">Other Posterior</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.cns_od">Cns</p>
-
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.others_od_tick">Others:</p>{{vm.others_od}}
-                </span>
-
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.medical_treatment_od_tick">Medical Treatment:</p>
-                    {{vm.medical_treatment_od}}
-                </span>
-
-
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.surgrical_treatment_od_tick">Surgrical Treatment:</p>
-                    {{vm.surgrical_treatment_od}}
-                </span>
-
-                
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.laser_treatment_od_tick">Laser Treatment:</p>
-                    {{vm.laser_treatment_od}}
-                </span>
-
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.subspeciality_referal_od_tick">Sub speciality Refer:
-                    </p>
-                    <span class="b-0 pp" ng-if="vm.subspec_corena_od_tick"> Corena</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_retina_od_tick"> Retina,</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_glaucoma_od_tick"> Glaucoma,</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_opal_od_tick"> Opal,</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_referr_od_tick"> Referr,</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_squint_od_tick"> Squint,</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_uvea_od_tick"> Uvea,</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_neuropthalmo_od_tick"> Neuropthalmology,</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_none_od_tick"> None</span>
-
-                </span>
-
-
-
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.followup_od != null">Follow up:</p>
-                    {{vm.followup_od}}
-                </span>
-
-
-                <br>
-                <h5 class="text-left font-weight-bold f-0 p-0">OS</h5>
-
-                <p class="font-weight-bold f-0 pp" ng-if="vm.normal_os_tick">Normal</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.refractive_error_os_tick">Refractive Error</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.presbyopia_os_tick">Presbyopia</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_untreated_os_tick">Cataract Untreated</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.aphakia_os_tick">Aphakia</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.cataract_surg_complications_os_tick">
-                    Cataract Surg Complications</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.tco_os_tick">Tco</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.phthisis_os_tick">Phthisis</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.onchcercia_os_tick">Onchcercia</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.glaucoma_os_tick">Glaucoma</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.diabetic_os_tick">Diabetic</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.armd_os_tick">Armd</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.other_posterior_os_tick">Other Posterior</p>
-                <p class="font-weight-bold f-0 pp" ng-if="vm.cns_os">Cns</p>
-
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.others_os_tick">Others:</p>
-                    {{vm.others_os}}
-                </span>
-
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.medical_treatment_os_tick">Medical Treatment:</p>
-                    {{vm.medical_treatment_os}}
-                </span>
-
-
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.surgrical_treatment_os_tick">Surgrical Treatment:</p>
-                    {{vm.surgrical_treatment_os}}
-                </span>
-
-                
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.laser_treatment_os_tick">Laser Treatment:</p>
-                    {{vm.laser_treatment_os}}
-                </span>
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.subspeciality_referal_os_tick">Sub speciality Refer:
-                    </p>
-                    <span class=" b-0 pp" ng-if="vm.subspec_corena_os_tick"> Corena</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_retina_os_tick"> Retina</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_glaucoma_os_tick"> Glaucoma</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_opal_os_tick"> Opal</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_referr_os_tick"> Referr</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_squint_os_tick"> Squint</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_uvea_os_tick"> Uvea</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_neuropthalmo_os_tick"> Neuropthalmology</span>
-                    <span class=" b-0 pp" ng-if="vm.subspeciality_none_os_tick"> None</span>
-    
-
-                </span>
-
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.followup_os != null">Follow up:</p>
-                    {{vm.followup_os}}
-                </span>
-
-
-                <span class="m-0 p-0">
-                    <p class="font-weight-bold f-0 pp" ng-if="vm.tx_planShow">Treatment Plan</p>
-                    {{vm.tx_plan}}
-                </span>
-
-
-
+                <p class="m-0 p-0 pp">
+                    <span class="font-weight-bold f-0 pp">Remarks:</span>{{vm.bioremarks}}
+                </p>
 
             </div>
+
+        </div>
+
+        <div class="col-md-6 rightonly">
+            <img src="../imports/img/signs/ref/ref1.png" style="width:2cm;height:1cm;">
+
+        </div>
+        <div class="col-md-6 rightonly">
+            <span style="border-top: 1px black solid;">Signature of Refractionist</span>
         </div>
 
 
+        <div class="pagebreak" ng-if="vm.biometryPrint"></div>
+
+
+        <!-- DIAGNOSIS -->
+        <div class="col-md-10 offset-2" ng-show="false">
+            <h4 class="text-left black-text font-weight-bold " ng-show="false">Diagnosis</h4>
+            <h5 class="text-left font-weight-bold f-0 p-0">OD</h5>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.normal_od_tick">Normal</p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.refractive_error_od_tick">Refractive Error:
+                {{vm.UserSummaryList.referror_od}} </p>
+
+            <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.conjunc_od_tick">Conjunctivitis:
+                {{vm.UserSummaryList.conjunc_od}} </p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.glaucoma_od_tick">Glaucoma: {{vm.UserSummaryList.glaucoma_od}}
+            </p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.cataract_untreated_od_tick">Cataract:
+                {{vm.UserSummaryList.catar_od}} </p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.diabetic_od_tick">Diabetic Retinopathy:
+                {{vm.UserSummaryList.diabe_ret_od}} </p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.hpt_od_tick">Hypertensive Retinopathy:
+                {{vm.UserSummaryList.hpt_od}} </p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.other_posterior_od_tick">Posterior Segment Disease:
+                {{vm.UserSummaryList.poster_od}}</p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.uveal_od_tick">Uveal Disease:
+                {{vm.UserSummaryList.uveal_od}} </p>
+
+            <p class="font-weight-bold b-0 pp" ng-if="vm.phthisis_od_tick">Phthisis: {{vm.UserSummaryList.pthisis_od}}
+            </p>
 
 
 
+            <p class="font-weight-bold b-0 pp" ng-if="vm.others_od_tick">{{vm.others_od}}
+            </p>
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0" ng-if="vm.others_od_tick">Others:</span>{{vm.others_od}}
+            </p>
+            <!-- <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.others_od_tick">Others:</p>{{vm.others_od}}
+            </span> -->
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0"
+                    ng-if="vm.medical_treatment_od_tick">Medical Treatment:</span>{{vm.medical_treatment_od}}
+            </p>
+            <!-- <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.medical_treatment_od_tick">Medical Treatment:</p>
+                {{vm.medical_treatment_od}}
+            </span> -->
 
-        <style>
-            @media print {
-    
-                .table thead tr td,
-                .table tbody tr td {
-                    border-width: 1px !important;
-                    border-style: solid !important;
-                    border-color: #000 !important;
-                    font-size: 12px !important;
-                    background-color: white;
-                    padding: 0px;
-                    -webkit-print-color-adjust: exact;
-                }
-            }
-        </style>
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0"
+                    ng-if="vm.surgrical_treatment_od_tick">Surgrical Treatment:</span>{{vm.surgrical_treatment_od}}
+            </p>
+
+            <!-- <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.surgrical_treatment_od_tick">Surgrical Treatment:</p>
+                {{vm.surgrical_treatment_od}}
+            </span> -->
+
+
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0"
+                    ng-if="vm.laser_treatment_od_tick">Laser Treatment:</span>{{vm.laser_treatment_od}}
+            </p>
+
+            <!-- 
+            <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.laser_treatment_od_tick">Laser Treatment:</p>
+                {{vm.laser_treatment_od}}
+            </span> -->
+
+            <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.subspeciality_referal_od_tick">Sub speciality Refer:
+                </p>
+                <span class="b-0 pp" ng-if="vm.subspec_corena_od_tick"> Corena</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_retina_od_tick"> Retina</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_glaucoma_od_tick"> Glaucoma,</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_opal_od_tick"> Opal,</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_referr_od_tick"> Referr,</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_squint_od_tick"> Squint,</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_uvea_od_tick"> Uvea,</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_neuropthalmo_od_tick"> Neuropthalmology,</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_none_od_tick"> None</span>
+
+            </span>
 
 
 
+            <!-- <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.followup_od != null">Follow up:</p>
+                {{vm.followup_od}}
+            </span> -->
 
+
+            <br>
+            <h5 class="text-left font-weight-bold f-0 p-0">OS</h5>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.normal_os_tick">Normal</p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.refractive_error_os_tick">Refractive Error:
+                {{vm.UserSummaryList.referror_os}} </p>
+
+            <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.conjunc_os_tick">Conjunctivitis:
+                {{vm.UserSummaryList.conjunc_os}} </p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.glaucoma_os_tick">Glaucoma: {{vm.UserSummaryList.glaucoma_os}}
+            </p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.cataract_untreated_os_tick">Cataract:
+                {{vm.UserSummaryList.catar_os}} </p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.diabetic_os_tick">Diabetic Retinopathy:
+                {{vm.UserSummaryList.dIabete_ret_os}} </p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.hpt_os_tick">Hypertensive Retinopathy:
+                {{vm.UserSummaryList.hpt_os}} </p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.other_posterior_os_tick">Posterior Segment Disease:
+                {{vm.UserSummaryList.poster_os}}</p>
+            <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.uveal_os_tick">Uveal Disease:
+                {{vm.UserSummaryList.uveal_od}} </p>
+
+            <p class="font-weight-bold b-0 pp" ng-if="vm.phthisis_os_tick">Phthisis: {{vm.UserSummaryList.pthsis_os}}
+            </p>
+
+
+
+            <p class="font-weight-bold b-0 pp" ng-if="vm.others_os_tick">{{vm.others_os}}
+            </p>
+
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0" ng-if="vm.others_os_tick">Others:</span>{{vm.others_os}}
+            </p>
+
+            <!-- <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.others_os_tick">Others:</p>
+                {{vm.others_os}}
+            </span> -->
+
+            <!-- <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.medical_treatment_os_tick">Medical Treatment:</p>
+                {{vm.medical_treatment_os}}
+            </span> -->
+            <!-- 
+            <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.surgrical_treatment_os_tick">Surgrical Treatment:</p>
+                {{vm.surgrical_treatment_os}}
+            </span> -->
+
+
+            <!-- <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.laser_treatment_os_tick">Laser Treatment:</p>
+                {{vm.laser_treatment_os}}
+            </span> -->
+
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0"
+                    ng-if="vm.medical_treatment_os_tick">Medical Treatment:</span>{{vm.medical_treatment_os}}
+            </p>
+
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0"
+                    ng-if="vm.surgrical_treatment_os_tick">Surgrical Treatment:</span>{{vm.surgrical_treatment_os}}
+            </p>
+
+
+
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0"
+                    ng-if="vm.laser_treatment_os_tick">Laser Treatment:</span>{{vm.laser_treatment_os}}
+            </p>
+
+            <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.subspeciality_referal_os_tick">Sub speciality Refer:
+                </p>
+                <span class=" b-0 pp" ng-if="vm.subspec_corena_os_tick"> Corena</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_retina_os_tick"> Retina</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_glaucoma_os_tick"> Glaucoma</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_opal_os_tick"> Opal</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_referr_os_tick"> Referr</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_squint_os_tick"> Squint</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_uvea_os_tick"> Uvea</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_neuropthalmo_os_tick"> Neuropthalmology</span>
+                <span class=" b-0 pp" ng-if="vm.subspeciality_none_os_tick"> None</span>
+
+
+            </span>
+            <!-- <span class="m-0 p-0">
+                <p class="font-weight-bold f-0 pp" ng-if="vm.followup_os != null">Follow up:</p>
+                {{vm.followup_os}}
+            </span> -->
+
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0" ng-if="vm.followup_os != null">Follow up:</span>{{vm.followup_os}}
+            </p>
+
+
+            <br>
+            <div class="col-md-6 rightonly">
+                <img src="../imports/img/signs/doc/doc1.png" style="width:2cm;height:1cm;">
+
+            </div>
+            <div class="col-md-6 rightonly" ng-show="false">
+                <span style="border-top: 1px black solid;">Signature of Doctor</span>
+            </div>
+
+        </div>
 
 
     </div>
+
+
+
+
+
+
+    <style>
+        @media print {
+
+            .table thead tr td,
+            .table tbody tr td {
+                border-width: 1px !important;
+                border-style: solid !important;
+                border-color: #000 !important;
+                font-size: 12px !important;
+                background-color: white;
+                padding: 0px;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+
+
+
+
+
+
+</div>

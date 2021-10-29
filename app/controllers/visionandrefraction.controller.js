@@ -46,6 +46,7 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
                     vm.notification = { mode: 'danger', message: 'Error: ' + error.data.message };
                 });
 
+         
 
             $scope.anterior_segment_tick = false;
             $scope.ct_od_tick = false;
@@ -264,6 +265,7 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
             if ($scope.mrdnum !== undefined && $scope.hospitalid !== undefined) {
                 vm.fetchVisionReport();
                 vm.fetchUserReportList();
+                vm.fetchUserBiometrySummary()
             }
             $scope.axis_distance_od = 0;
             $scope.axis_distance_os = 0;
@@ -327,30 +329,30 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
         ]
 
         $scope.nearVisionValues = [{
-            name: '1(N-6)',
-            value: '(N-6)'
+            name: '1(N/6)',
+            value: '(N/6)'
         },
         {
-            name: '2(N-8)',
-            value: '(N-8)'
+            name: '2(N/8)',
+            value: '(N/8)'
         }, {
-            name: '3(N-10)',
-            value: '(N-10)'
+            name: '3(N/10)',
+            value: '(N/10)'
         }, {
-            name: '4(N-12)',
-            value: '(N-12)'
+            name: '4(N/12)',
+            value: '(N/12)'
         }, {
-            name: '5(N-14)',
-            value: '(N-14)'
+            name: '5(N/14)',
+            value: '(N/14)'
         }, {
-            name: '6(N-18)',
-            value: '(N-18)'
+            name: '6(N/18)',
+            value: '(N/18)'
         }, {
-            name: '7(N-24)',
-            value: '(N-24)'
+            name: '7(N/24)',
+            value: '(N/24)'
         }, {
-            name: '8(N-36)',
-            value: '(N-36)'
+            name: '8(N/36)',
+            value: '(N/36)'
         }
         ];
 
@@ -443,6 +445,10 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
 
 
 
+        vm.toDash = function () {
+            window.open('#!/dashboard?mrdno=' + $scope.mrdnum,
+                '_self', '');
+        }
 
 
         // PRINT
@@ -463,6 +469,7 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
                 .then(function (result) {
                     $scope.loadtrue = false;
                     vm.UserReportList = result.data;
+                    console.log(result.data)
                     if (result.data.length === 0) {
                         vm.notification = { mode: 'danger', message: 'No report found' };
                         $scope.showNew = true;
@@ -625,6 +632,12 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
                             vm.pgSphNearOsValue = "+" + result.data[42].result;
                         }
 
+                        vm.visacu_preglass_near_od = result.data[43].result;
+                        vm.visacu_preglass_distance_od = result.data[44].result;
+                        vm.visacu_preglass_near_os = result.data[45].result;
+                        vm.visacu_preglass_distance_os = result.data[46].result;
+
+
                     }
                     console.log(result.data);
                 }, function (error) {
@@ -771,6 +784,19 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
                     else { vm.subspeciality_neuropthalmo_os_tick = false; }
                     if (vm.UserSummaryList.subspeciality_none_os_tick === true) { vm.subspeciality_none_os_tick = true; }
                     else { vm.subspeciality_none_os_tick = false; }
+
+                }, function (error) {
+                    console.log(error);
+                    vm.notification = { mode: 'danger', message: 'Error: ' + error.data.message };
+                });
+
+            $http.get(UrlConfig.labReportBaseUrl() + 'api/visionandrefractionall?mrdno=' + $scope.mrdnum,
+                { headers: { Authorization: 'Bearer ' + token } })
+                .then(function (result) {
+                    vm.VisionReportList = result.data;
+                    //  console.log(result.data);
+                    //  alert(vm.result.data[0]);
+
 
                 }, function (error) {
                     console.log(error);
@@ -985,14 +1011,27 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
                 vanc_near_od: $scope.vancnearod.name.value,
                 vanc_near_os: $scope.vancnearos.name.value,
 
+                visacu_preglass_near_od: $scope.visacu_preglass_near_od.name.value,
+                visacu_preglass_distance_od: $scope.visacu_preglass_distance_od.name.name,
+                visacu_preglass_near_os: $scope.visacu_preglass_near_os.name.value,
+                visacu_preglass_distance_os: $scope.visacu_preglass_distance_os.name.name,
+
                 mrdno: $scope.mrdnum,
                 ddate: $filter("date")(new Date(), "yyyy/MM/dd"),
                 hospid: $scope.hospitalid
 
             };
+            if (vm.edit === true) {
+                vm.postUrl = 'api/VisionandRefractionAll/Update'
+            }
+            else {
+                vm.postUrl = 'api/VisionandRefractionAll/'
+
+            }
+
             var token = localStorage.getItem('access_token');
             $http.post(UrlConfig.labReportBaseUrl() + //'http://192.168.50.126/medipro.api.medicom/api/VisionandRefractionAll',   //
-                'api/VisionandRefractionAll',
+                vm.postUrl,
                 visionAndRefractionPayload, { headers: { Authorization: 'Bearer ' + token } })
 
                 .then(function (result) {
@@ -1288,106 +1327,106 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
             }
 
             $scope.pvanearod.name.name = vm.pvaNearOd;
-            if ($scope.pvanearod.name.name === "(N-6)") {
+            if ($scope.pvanearod.name.name === "(N/6)") {
                 $scope.pvanearod.name = $scope.nearVisionValues[0];
             }
-            if ($scope.pvanearod.name.name === "(N-8)") {
+            if ($scope.pvanearod.name.name === "(N/8)") {
                 $scope.pvanearod.name = $scope.nearVisionValues[1];
             }
-            if ($scope.pvanearod.name.name === "(N-10)") {
+            if ($scope.pvanearod.name.name === "(N/10)") {
                 $scope.pvanearod.name = $scope.nearVisionValues[2];
             }
-            if ($scope.pvanearod.name.name === "(N-12)") {
+            if ($scope.pvanearod.name.name === "(N/12)") {
                 $scope.pvanearod.name = $scope.nearVisionValues[3];
             }
-            if ($scope.pvanearod.name.name === "(N-14)") {
+            if ($scope.pvanearod.name.name === "(N/14)") {
                 $scope.pvanearod.name = $scope.nearVisionValues[4];
             }
-            if ($scope.pvanearod.name.name === "(N-18)") {
+            if ($scope.pvanearod.name.name === "(N/18)") {
                 $scope.pvanearod.name = $scope.nearVisionValues[5];
             }
-            if ($scope.pvanearod.name.name === "(N-24)") {
+            if ($scope.pvanearod.name.name === "(N/24)") {
                 $scope.pvanearod.name = $scope.nearVisionValues[6];
             }
-            if ($scope.pvanearod.name.name === "(N-36)") {
+            if ($scope.pvanearod.name.name === "(N/36)") {
                 $scope.pvanearod.name = $scope.nearVisionValues[7];
             }
 
             $scope.pvnearod.name.name = vm.pvNearOd;
-            if ($scope.pvnearod.name.name === "(N-6)") {
+            if ($scope.pvnearod.name.name === "(N/6)") {
                 $scope.pvnearod.name = $scope.nearVisionValues[0];
             }
-            if ($scope.pvnearod.name.name === "(N-8)") {
+            if ($scope.pvnearod.name.name === "(N/8)") {
                 $scope.pvnearod.name = $scope.nearVisionValues[1];
             }
-            if ($scope.pvnearod.name.name === "(N-10)") {
+            if ($scope.pvnearod.name.name === "(N/10)") {
                 $scope.pvnearod.name = $scope.nearVisionValues[2];
             }
-            if ($scope.pvnearod.name.name === "(N-12)") {
+            if ($scope.pvnearod.name.name === "(N/12)") {
                 $scope.pvnearod.name = $scope.nearVisionValues[3];
             }
-            if ($scope.pvnearod.name.name === "(N-14)") {
+            if ($scope.pvnearod.name.name === "(N/14)") {
                 $scope.pvnearod.name = $scope.nearVisionValues[4];
             }
-            if ($scope.pvnearod.name.name === "(N-18)") {
+            if ($scope.pvnearod.name.name === "(N/18)") {
                 $scope.pvnearod.name = $scope.nearVisionValues[5];
             }
-            if ($scope.pvnearod.name.name === "(N-24)") {
+            if ($scope.pvnearod.name.name === "(N/24)") {
                 $scope.pvnearod.name = $scope.nearVisionValues[6];
             }
-            if ($scope.pvnearod.name.name === "(N-36)") {
+            if ($scope.pvnearod.name.name === "(N/36)") {
                 $scope.pvnearod.name = $scope.nearVisionValues[7];
             }
 
             $scope.pvanearos.name.name = vm.pvaNearOs;
-            if ($scope.pvanearos.name.name === "(N-6)") {
+            if ($scope.pvanearos.name.name === "(N/6)") {
                 $scope.pvanearos.name = $scope.nearVisionValues[0];
             }
-            if ($scope.pvanearos.name.name === "(N-8)") {
+            if ($scope.pvanearos.name.name === "(N/8)") {
                 $scope.pvanearos.name = $scope.nearVisionValues[1];
             }
-            if ($scope.pvanearos.name.name === "(N-10)") {
+            if ($scope.pvanearos.name.name === "(N/10)") {
                 $scope.pvanearos.name = $scope.nearVisionValues[2];
             }
-            if ($scope.pvanearos.name.name === "(N-12)") {
+            if ($scope.pvanearos.name.name === "(N/12)") {
                 $scope.pvanearos.name = $scope.nearVisionValues[3];
             }
-            if ($scope.pvanearos.name.name === "(N-14)") {
+            if ($scope.pvanearos.name.name === "(N/14)") {
                 $scope.pvanearos.name = $scope.nearVisionValues[4];
             }
-            if ($scope.pvanearos.name.name === "(N-18)") {
+            if ($scope.pvanearos.name.name === "(N/18)") {
                 $scope.pvanearos.name = $scope.nearVisionValues[5];
             }
-            if ($scope.pvanearos.name.name === "(N-24)") {
+            if ($scope.pvanearos.name.name === "(N/24)") {
                 $scope.pvanearos.name = $scope.nearVisionValues[6];
             }
-            if ($scope.pvanearos.name.name === "(N-36)") {
+            if ($scope.pvanearos.name.name === "(N/36)") {
                 $scope.pvanearos.name = $scope.nearVisionValues[7];
             }
 
             $scope.pvnearos.name.name = vm.pvNearOs;
-            if ($scope.pvnearos.name.name === "(N-6)") {
+            if ($scope.pvnearos.name.name === "(N/6)") {
                 $scope.pvnearos.name = $scope.nearVisionValues[0];
             }
-            if ($scope.pvnearos.name.name === "(N-8)") {
+            if ($scope.pvnearos.name.name === "(N/8)") {
                 $scope.pvnearos.name = $scope.nearVisionValues[1];
             }
-            if ($scope.pvnearos.name.name === "(N-10)") {
+            if ($scope.pvnearos.name.name === "(N/10)") {
                 $scope.pvnearos.name = $scope.nearVisionValues[2];
             }
-            if ($scope.pvnearos.name.name === "(N-12)") {
+            if ($scope.pvnearos.name.name === "(N/12)") {
                 $scope.pvnearos.name = $scope.nearVisionValues[3];
             }
-            if ($scope.pvnearos.name.name === "(N-14)") {
+            if ($scope.pvnearos.name.name === "(N/14)") {
                 $scope.pvnearos.name = $scope.nearVisionValues[4];
             }
-            if ($scope.pvnearos.name.name === "(N-18)") {
+            if ($scope.pvnearos.name.name === "(N/18)") {
                 $scope.pvnearos.name = $scope.nearVisionValues[5];
             }
-            if ($scope.pvnearos.name.name === "(N-24)") {
+            if ($scope.pvnearos.name.name === "(N/24)") {
                 $scope.pvnearos.name = $scope.nearVisionValues[6];
             }
-            if ($scope.pvnearos.name.name === "(N-36)") {
+            if ($scope.pvnearos.name.name === "(N/36)") {
                 $scope.pvnearos.name = $scope.nearVisionValues[7];
             }
 
@@ -1535,54 +1574,54 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
             }
 
             $scope.vancnearod.name.name = vm.vancNearOd;
-            if ($scope.vancnearod.name.name === "(N-6)") {
+            if ($scope.vancnearod.name.name === "(N/6)") {
                 $scope.vancnearod.name = $scope.nearVisionValues[0];
             }
-            if ($scope.vancnearod.name.name === "(N-8)") {
+            if ($scope.vancnearod.name.name === "(N/8)") {
                 $scope.vancnearod.name = $scope.nearVisionValues[1];
             }
-            if ($scope.vancnearod.name.name === "(N-10)") {
+            if ($scope.vancnearod.name.name === "(N/10)") {
                 $scope.vancnearod.name = $scope.nearVisionValues[2];
             }
-            if ($scope.vancnearod.name.name === "(N-12)") {
+            if ($scope.vancnearod.name.name === "(N/12)") {
                 $scope.vancnearod.name = $scope.nearVisionValues[3];
             }
-            if ($scope.vancnearod.name.name === "(N-14)") {
+            if ($scope.vancnearod.name.name === "(N/14)") {
                 $scope.vancnearod.name = $scope.nearVisionValues[4];
             }
-            if ($scope.vancnearod.name.name === "(N-18)") {
+            if ($scope.vancnearod.name.name === "(N/18)") {
                 $scope.vancnearod.name = $scope.nearVisionValues[5];
             }
-            if ($scope.vancnearod.name.name === "(N-24)") {
+            if ($scope.vancnearod.name.name === "(N/24)") {
                 $scope.vancnearod.name = $scope.nearVisionValues[6];
             }
-            if ($scope.vancnearod.name.name === "(N-36)") {
+            if ($scope.vancnearod.name.name === "(N/36)") {
                 $scope.vancnearod.name = $scope.nearVisionValues[7];
             }
 
             $scope.vancnearos.name.name = vm.vancNearOs;
-            if ($scope.vancnearos.name.name === "(N-6)") {
+            if ($scope.vancnearos.name.name === "(N/6)") {
                 $scope.vancnearos.name = $scope.nearVisionValues[0];
             }
-            if ($scope.vancnearos.name.name === "(N-8)") {
+            if ($scope.vancnearos.name.name === "(N/8)") {
                 $scope.vancnearos.name = $scope.nearVisionValues[1];
             }
-            if ($scope.vancnearos.name.name === "(N-10)") {
+            if ($scope.vancnearos.name.name === "(N/10)") {
                 $scope.vancnearos.name = $scope.nearVisionValues[2];
             }
-            if ($scope.vancnearos.name.name === "(N-12)") {
+            if ($scope.vancnearos.name.name === "(N/12)") {
                 $scope.vancnearos.name = $scope.nearVisionValues[3];
             }
-            if ($scope.vancnearos.name.name === "(N-14)") {
+            if ($scope.vancnearos.name.name === "(N/14)") {
                 $scope.vancnearos.name = $scope.nearVisionValues[4];
             }
-            if ($scope.vancnearos.name.name === "(N-18)") {
+            if ($scope.vancnearos.name.name === "(N/18)") {
                 $scope.vancnearos.name = $scope.nearVisionValues[5];
             }
-            if ($scope.vancnearos.name.name === "(N-24)") {
+            if ($scope.vancnearos.name.name === "(N/24)") {
                 $scope.vancnearos.name = $scope.nearVisionValues[6];
             }
-            if ($scope.vancnearos.name.name === "(N-36)") {
+            if ($scope.vancnearos.name.name === "(N/36)") {
                 $scope.vancnearos.name = $scope.nearVisionValues[7];
             }
 
@@ -1602,99 +1641,265 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
             $scope.pg_spherical_near_os = vm.pgSphNearOs;
             $scope.pg_spherical_near_os_value = vm.pgSphNearOsV;
 
+            //NEW ADDED PRESNETING GLSS VISUAL ACUITY
+            $scope.visacu_preglass_distance_od.name.name = vm.visacu_preglass_distance_od;
+
+            if ($scope.visacu_preglass_distance_od.name.name === "6/6(0)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[0];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "6/9(0.18)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[1];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "6/12(0.30)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[2];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name == "6/18(0.48)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[3];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "6/24(0.60)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[4];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "6/36(0.78)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[5];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "6/60(1)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[6];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "5/60(1.08)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[7];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "4/60(1.18)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[8];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "3/60(1.30)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[9];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "2/60(1.48)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[10];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "1/60(1.78)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[11];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "1/2/60(2.08)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[12];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "PL+VE, PR Inaccurate (2.50)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[13];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "PL+VE, PR Accurate (2.20)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[14];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "Counting Finger and Close to Face (2.90)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[15];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "Follows Light(2.20)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[16];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "Light Perception(3.70)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[17];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "Hand Movement (3.70)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[18];
+            }
+            if ($scope.visacu_preglass_distance_od.name.name === "NPL(4.00)") {
+                $scope.visacu_preglass_distance_od.name = $scope.distanceVisionValues[19];
+            }
+
+
+            $scope.visacu_preglass_near_od.name.name = vm.visacu_preglass_near_od;
+
+            if ($scope.visacu_preglass_near_od.name.name === "(N/6)") {
+                $scope.visacu_preglass_near_od.name = $scope.nearVisionValues[0];
+            }
+            if ($scope.visacu_preglass_near_od.name.name === "(N/8)") {
+                $scope.visacu_preglass_near_od.name = $scope.nearVisionValues[1];
+            }
+            if ($scope.visacu_preglass_near_od.name.name === "(N/10)") {
+                $scope.visacu_preglass_near_od.name = $scope.nearVisionValues[2];
+            }
+            if ($scope.visacu_preglass_near_od.name.name === "(N/12)") {
+                $scope.visacu_preglass_near_od.name = $scope.nearVisionValues[3];
+            }
+            if ($scope.visacu_preglass_near_od.name.name === "(N/14)") {
+                $scope.visacu_preglass_near_od.name = $scope.nearVisionValues[4];
+            }
+            if ($scope.visacu_preglass_near_od.name.name === "(N/18)") {
+                $scope.visacu_preglass_near_od.name = $scope.nearVisionValues[5];
+            }
+            if ($scope.visacu_preglass_near_od.name.name === "(N/24)") {
+                $scope.visacu_preglass_near_od.name = $scope.nearVisionValues[6];
+            }
+            if ($scope.visacu_preglass_near_od.name.name === "(N/36)") {
+                $scope.visacu_preglass_near_od.name = $scope.nearVisionValues[7];
+            }
+
+
+
+
+            $scope.visacu_preglass_distance_os.name.name = vm.visacu_preglass_distance_os;
+
+            if ($scope.visacu_preglass_distance_os.name.name === "6/6(0)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[0];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "6/9(0.18)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[1];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "6/12(0.30)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[2];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name == "6/18(0.48)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[3];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "6/24(0.60)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[4];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "6/36(0.78)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[5];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "6/60(1)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[6];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "5/60(1.08)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[7];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "4/60(1.18)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[8];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "3/60(1.30)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[9];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "2/60(1.48)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[10];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "1/60(1.78)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[11];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "1/2/60(2.08)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[12];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "PL+VE, PR Inaccurate (2.50)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[13];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "PL+VE, PR Accurate (2.20)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[14];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "Counting Finger and Close to Face (2.90)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[15];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "Follows Light(2.20)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[16];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "Light Perception(3.70)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[17];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "Hand Movement (3.70)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[18];
+            }
+            if ($scope.visacu_preglass_distance_os.name.name === "NPL(4.00)") {
+                $scope.visacu_preglass_distance_os.name = $scope.distanceVisionValues[19];
+            }
+
+
+
+
+            $scope.visacu_preglass_near_os.name.name = vm.visacu_preglass_near_os;
+
+            if ($scope.visacu_preglass_near_os.name.name === "(N/6)") {
+                $scope.visacu_preglass_near_os.name = $scope.nearVisionValues[0];
+            }
+            if ($scope.visacu_preglass_near_os.name.name === "(N/8)") {
+                $scope.visacu_preglass_near_os.name = $scope.nearVisionValues[1];
+            }
+            if ($scope.visacu_preglass_near_os.name.name === "(N/10)") {
+                $scope.visacu_preglass_near_os.name = $scope.nearVisionValues[2];
+            }
+            if ($scope.visacu_preglass_near_os.name.name === "(N/12)") {
+                $scope.visacu_preglass_near_os.name = $scope.nearVisionValues[3];
+            }
+            if ($scope.visacu_preglass_near_os.name.name === "(N/14)") {
+                $scope.visacu_preglass_near_os.name = $scope.nearVisionValues[4];
+            }
+            if ($scope.visacu_preglass_near_os.name.name === "(N/18)") {
+                $scope.visacu_preglass_near_os.name = $scope.nearVisionValues[5];
+            }
+            if ($scope.visacu_preglass_near_os.name.name === "(N/24)") {
+                $scope.visacu_preglass_near_os.name = $scope.nearVisionValues[6];
+            }
+            if ($scope.visacu_preglass_near_os.name.name === "(N/36)") {
+                $scope.visacu_preglass_near_os.name = $scope.nearVisionValues[7];
+            }
+
+
+
+
+
+
+
+
+
+
+
         };
 
-        //edit
-        vm.editReport = function () {
+
+        //BIOMETRY STARTS FROMM HERE
+
+        
+        vm.submitBiometryDetails = function () {
+
+            if ($scope.showEdit === true) {
+                vm.url = "api/CsiAll/Update"
+            }
+            else {
+                vm.url = "api/CsiAll"
+            }
 
 
             var userId = TokenService.getUserId();
-
             var visionAndRefractionPayload = {
-                distance_glasses_tick: $scope.distanceglassestick,
-                near_glasses_tick: $scope.nearglassestick,
-                glasses_regularity_tick: $scope.glassesregularitytick,
-
-                pva_distance_od: $scope.pvadistanceod.name.name,
-                // uva_distance_od: $scope.uvadistanceod.name.name,
-                pv_distance_od: $scope.pvdistanceod.name.name,
-
-                pva_distance_os: $scope.pvadistanceos.name.name,
-                // uva_distance_os: $scope.uvadistanceos.name.name,
-                pv_distance_os: $scope.pvdistanceos.name.name,
-
-                pva_near_od: $scope.pvanearod.name.value,
-                //  uva_near_od: $scope.uvanearod.name.value,
-                pv_near_od: $scope.pvnearod.name.value,
-
-                pva_near_os: $scope.pvanearos.name.value,
-                // uva_near_os: $scope.uvanearos.name.value,
-                pv_near_os: $scope.pvnearos.name.value,
-
-                //PRESENTING GLASSES NEW ADD
-                pg_spherical_distance_od: $scope.pg_spherical_distance_od,
-                pg_spherical_distance_od_value: $scope.pg_spherical_distance_od_value,
-                pg_cylindrical_distance_od: $scope.pg_cylindrical_distance_od,
-                pg_cylindrical_distance_od_value: $scope.pg_cylindrical_distance_od_value,
-                pg_axis_distance_od: $scope.pg_axis_distance_od,
-                pg_axis_distance_os: $scope.pg_axis_distance_os,
-                pg_spherical_distance_os: $scope.pg_spherical_distance_os,
-                pg_spherical_distance_os_value: $scope.pg_spherical_distance_os_value,
-                pg_cylindrical_distance_os: $scope.pg_cylindrical_distance_os,
-                pg_cylindrical_distance_os_value: $scope.pg_cylindrical_distance_os_value,
-                pg_spherical_near_od: $scope.pg_spherical_near_od,
-                pg_spherical_near_od_value: $scope.pg_spherical_near_od_value,
-                pg_spherical_near_os: $scope.pg_spherical_near_os,
-                pg_spherical_near_os_value: $scope.pg_spherical_near_os_value,
-
-
-                spherical_distance_od: $scope.sphericaldistanceod,
-                spherical_distance_od_value: $scope.sphericaldistanceodvalue,
-                cylindrical_distance_od: $scope.cylindricaldistanceod,
-                cylindrical_distance_od_value: $scope.cylindricaldistanceodvalue,
-
-                axis_distance_od: $scope.axisdistanceod,
-                axis_distance_os: $scope.axisdistanceos,
-
-                spherical_distance_os: $scope.sphericaldistanceos,
-                spherical_distance_os_value: $scope.sphericaldistanceosvalue,
-
-                cylindrical_distance_os: $scope.cylindricaldistanceos,
-                cylindrical_distance_os_value: $scope.cylindricaldistanceosvalue,
-
-                spherical_near_od: $scope.sphericalnearod,
-                spherical_near_od_value: $scope.sphericalnearodvalue,
-                spherical_near_os: $scope.sphericalnearos,
-                spherical_near_os_value: $scope.sphericalnearosvalue,
-
-                vanc_distance_od: $scope.vancdistanceod.name.name,
-                vanc_distance_os: $scope.vancdistanceos.name.name,
-                vanc_near_od: $scope.vancnearod.name.value,
-                vanc_near_os: $scope.vancnearos.name.value,
-
                 mrdno: $scope.mrdnum,
                 ddate: $filter("date")(new Date(), "yyyy/MM/dd"),
-                hospid: $scope.hospitalid
+                hospid: $scope.hospitalid,
 
-            };
+                k1od: $scope.k1od,
+                k1os: $scope.k1os,
+                k2od: $scope.k2od,
+                k2os: $scope.k2os,
+                axial_od: $scope.axial_od,
+                axial_os: $scope.axial_os,
+                iol_od: $scope.iol_od,
+                iol_os: $scope.iol_os,
+                blood_report: $scope.blood_report,
+                hbsag_react_tick: $scope.hbsag_react_tick,
+                hcv_react_tick: $scope.hcv_react_tick,
+                hiv_tick: $scope.hiv_tick,
+                bs_fbs_tick: $scope.bs_fbs_tick,
+                bs_pp_tick: $scope.bs_pp_tick,
+                bs_rbs_tick: $scope.bs_rbs_tick,
+                remarks: $scope.remarks,
 
+                bs_rbs_tick: $scope.bs_rbs_tick,
+                bs_rbs: $scope.bs_rbs,
+                bs_fbs: $scope.bs_fbs,
+                bs_pp: $scope.bs_pp,
+                a_constant_od: $scope.a_constant_od,
+                a_constant_os: $scope.a_constant_os,
+
+            }
+
+          //  console.log(visionAndRefractionPayload);
             var token = localStorage.getItem('access_token');
-            $http.post(UrlConfig.labReportBaseUrl() + //'http://192.168.50.126/medipro.api.medicom/api/VisionandRefractionAll',   //
-                'api/VisionandRefractionAll/Update',
-                visionAndRefractionPayload, { headers: { Authorization: 'Bearer ' + token } })
+            $http.post(UrlConfig.labReportBaseUrl() + vm.url,
+                visionAndRefractionPayload,
+                { headers: { Authorization: 'Bearer ' + token } })
 
                 .then(function (result) {
-                    console.log(result.data);
                     vm.notification = { mode: 'success', message: 'Payload submitted' };
-                    //  vm.reload();
-                    console.log(visionAndRefractionPayload);
+                    $scope.showEdit = false;
+                    $anchorScroll()
+                
                 }, function (error) {
                     console.log(error);
-
-                    // vm.notification = { mode: 'danger', message: 'Error' +error.statusText };
-
-
-
                     var allErrors = error.data.message;
                     if (error.data.modelState) {
                         for (var msg in error.data.modelState) {
@@ -1706,6 +1911,100 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
                 });
             vm.noalert();
         };
+
+        vm.fetchUserBiometrySummary = function () {
+            $scope.loadtrue = true;
+
+            var token = localStorage.getItem('access_token');
+            var userId = TokenService.getUserId();
+
+
+            $http.get(UrlConfig.labReportBaseUrl() + 'api/CsiAll?mrdno=' + $scope.mrdnum,
+                { headers: { Authorization: 'Bearer ' + token } })
+                .then(function (result) {
+
+                    // $scope.noReport = false;
+
+                    $scope.loadtrue = false;
+                    vm.ocularValues = result.data;
+                    $scope.showReport = true;
+                    console.log(result.data);
+
+
+
+
+                }, function (error) {
+                    console.log(error);
+                    vm.notification = { mode: 'danger', message: 'Error: ' + error.data.message };
+                }); vm.noalert();
+
+        };
+
+        vm.onBiometryReportSelected = function () {
+            $scope.showEdit = true;
+
+            $scope.mdrno = vm.ocularValues.mrdno;
+            $scope.k1os = vm.ocularValues.k1os;
+            $scope.k1od = vm.ocularValues.k1od;
+
+            $scope.k2od = vm.ocularValues.k2od;
+            $scope.k2os = vm.ocularValues.k2os;
+            $scope.axial_od = vm.ocularValues.axial_od;
+            $scope.axial_os = vm.ocularValues.axial_os;
+            $scope.iol_od = vm.ocularValues.iol_od;
+            $scope.iol_os = vm.ocularValues.iol_os;
+            $scope.blood_report = vm.ocularValues.blood_report;
+            $scope.hbsag_react_tick = vm.ocularValues.hbsag_react_tick;
+            $scope.hcv_react_tick = vm.ocularValues.hcv_react_tick;
+            $scope.hiv_tick = vm.ocularValues.hiv_tick;
+            $scope.bs_fbs_tick = vm.ocularValues.bs_fbs_tick;
+            $scope.bs_pp_tick = vm.ocularValues.bs_pp_tick;
+            $scope.bs_rbs_tick = vm.ocularValues.bs_rbs_tick;
+            $scope.remarks = vm.ocularValues.remarks;
+
+            $scope.bs_rbs_tick = vm.ocularValues.bs_rbs_tick;
+            $scope.bs_rbs = vm.ocularValues.bs_rbs;
+            $scope.bs_fbs = vm.ocularValues.bs_fbs;
+            $scope.bs_pp = vm.ocularValues.bs_pp;
+            $scope.a_constant_od = vm.ocularValues.a_constant_od;
+            $scope.a_constant_os = vm.ocularValues.a_constant_os;
+
+
+        }
+
+        vm.deleteBiometryRecord = function () {
+            if (confirm('Are you sure you want to delete this record?')) {
+                var userId = TokenService.getUserId();
+
+                var mrdPayload = {
+                    mrdno: $scope.mrdnum,
+                };
+                var token = localStorage.getItem('access_token');
+                $http.post(UrlConfig.labReportBaseUrl() + 'api/Csidetails/delete',
+                    mrdPayload, { headers: { Authorization: 'Bearer ' + token } })
+
+                    .then(function (result) {
+                        // console.log(result.data);
+                        vm.notification = { mode: 'success', message: 'MRD report deleted' };
+                        vm.fetchUserReportList();
+                        vm.reset();
+                    }, function (error) {
+                        var allErrors = error.data.message;
+                        if (error.data.modelState) {
+                            for (var msg in error.data.modelState) {
+                                allErrors += ('' + error.data.modelState[msg][0]);
+                            }
+                        }
+                        vm.notification = { mode: 'danger', message: 'Error: ' + allErrors };
+                    });
+
+            } else {
+                return;
+                //vm.selectedTemplate = null;
+                // Do nothing!
+            }
+        }
+
 
 
         vm.PrintRecord = function () {
@@ -1761,6 +2060,7 @@ app.controller('VisionAndRefractionController', ['$http', 'UrlConfig', 'Config',
         vm.next = function () {
             vm.reloadfn();
         }
+
 
         vm.Export = function () {
             $("#reporttable").table2excel({

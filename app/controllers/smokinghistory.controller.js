@@ -355,6 +355,12 @@ app.controller('SmokingHistoryController', ['$http', 'Config', 'UrlConfig', 'Tok
 
         }
 
+        
+        vm.toDash = function(){
+            window.open('#!/dashboard?mrdno=' + $scope.mrdnum,
+            '_self', '');
+        }
+
         vm.reload = function () {
             $timeout(vm.reloadfn, 3000);
         };

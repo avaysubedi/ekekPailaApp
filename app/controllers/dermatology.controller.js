@@ -1060,6 +1060,10 @@ app.controller('DermatologyController', ['$http', 'UrlConfig', 'Config', 'TokenS
             location.reload();
         }
 
+        vm.toDash = function(){
+            window.open('#!/dashboard?mrdno=' + $scope.mrdnum,
+            '_self', '');
+        }
 
         vm.resetNotification = function () {
             vm.notification = {

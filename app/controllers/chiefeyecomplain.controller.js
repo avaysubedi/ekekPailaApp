@@ -63,6 +63,7 @@ app.controller('ChiefEyeComplainController', ['$http', 'UrlConfig', 'TokenServic
                         vm.gender = result.data[0].sex;
                         vm.age = result.data[0].age;
                         vm.reportDate = result.data[0].ddate;
+                        
                         $scope.showReport = true;
                     }
                     console.log(result.data);
@@ -370,8 +371,13 @@ app.controller('ChiefEyeComplainController', ['$http', 'UrlConfig', 'TokenServic
             window.open('#!/pasteyehistory?mrdno=' + $scope.mrdnum +
             '&hospid=' + $scope.hospitalid,
             '_self', '');
-
         }
+
+        vm.toDash = function(){
+            window.open('#!/dashboard?mrdno=' + $scope.mrdnum,
+            '_self', '');
+        }
+
 
         vm.reload = function () {
             $timeout(vm.reloadfn, 3000);

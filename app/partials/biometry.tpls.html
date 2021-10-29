@@ -1,7 +1,7 @@
-<div ng-init="vm.init();" class=" container-fluid  mt-0">
+<div ng-init="vm.init();" class="card container-fluid  mt-0">
 
-    <title> {{vm.pagetitle}} - Lab Report </title>
-
+    <!-- <title> {{vm.pagetitle}} - Lab Report </title> -->
+<!-- 
     <style>
         .table {
             border: none;
@@ -12,22 +12,13 @@
             border-top: none !important;
 
         }
-    </style>
+    </style> -->
 
-    <div class="modal-body " style="padding:0px " ng-show="vm.notification.message ">
-        <div class="alert alert-{{vm.notification.mode}} "
-            style="margin-bottom:0px; width:20%; position:fixed;bottom:0;right:0;z-index: 100; ">
-            <button type="button " class="close " data-ng-click="close() ">
-                <span class="glyphicon glyphicon-remove " style="font-size: small; "></span>
-            </button>
-            <div ng-bind="vm.notification.message "></div>
-        </div>
-    </div>
 
 
 <!-- {{treatment_od_tick}} -->
     <div class="row m-1">
-        <a class="fa fa-home btn btn-sm" href="#!dashboard">
+        <a class="fa fa-home btn btn-sm btn-primary" ng-click="vm.toDash();">
             Dashboard
             </a>
         <div class="col-md-12" style="background-color: rgb(40, 40, 92);height:35px !important;">
@@ -164,6 +155,8 @@
                 <label class="small">IOL Power</label>
                 <input type="text" numbers-only ng-model="iol_od" class="form-control">
 
+                <label class="small">A Constant</label>
+                <input type="text" numbers-only ng-model="a_constant_od" class="form-control" >
 
 
             </div>
@@ -192,6 +185,8 @@
                 <label class="small">IOL Power</label>
                 <input type="text" numbers-only ng-model="iol_os" class="form-control">
 
+                <label class="small">A Constant</label>
+                <input type="text" numbers-only ng-model="a_constant_os" class="form-control" >
 
 
             </div>
@@ -354,15 +349,18 @@
             <div class="col-sm-5">
               
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="fbs" ng-model="bs_fbs_tickr"  />
+                    <input class="form-check-input" type="checkbox" id="fbs" ng-model="bs_fbs_tick"  />
                     <label class="form-check-label" for="fbs">FBS</label>
+                    <input ng-show="bs_fbs_tick" class="form-control customform ml-2" ng-model="bs_fbs" >
                   </div>
-                  
+                  <br>
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" ng-model="bs_pp_tick" id="pb" />
-                    <label class="form-check-label" for="pb">PB</label>
+                    <label class="form-check-label " for="pb">PP&nbsp;&nbsp;  </label>
+                    <input ng-show="bs_pp_tick" class="form-control customform ml-2" ng-model="bs_pp" >
+
                   </div>
-                  
+                    <br>
                   <div class="form-check form-check-inline">
                     <input
                       class="form-check-input"
@@ -371,6 +369,8 @@
                       ng-model="bs_rbs_tick"
                     />
                     <label class="form-check-label" for="rbs">RBS</label>
+                    <input ng-show="bs_rbs_tick" class="form-control customform ml-2" ng-model="bs_rbs" >
+
                   </div>  
     
               
@@ -407,3 +407,4 @@
         </div>
 
 
+</div>

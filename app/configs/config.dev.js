@@ -10,7 +10,7 @@ app.constant('Config', {
     NurseRole: 'nurse',
     DentalDoctotRole: 'dentaldoctor',
     DermaDoctorRole:'dermadoctor',
-    spaceAbove: '0em',
+    spaceAbove: '10em',
     groupid:124 //102
 });
 

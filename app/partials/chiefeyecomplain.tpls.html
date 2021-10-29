@@ -38,7 +38,7 @@
     <div class="container col-sm-12 col-md-12">
         <!--Title-->
         <div class="row m-1 ">
-            <a class="fa fa-home btn btn-sm" href="#!dashboard">
+            <a class="fa fa-home btn btn-sm btn-primary" ng-click="vm.toDash()">
                 Dashboard
                 </a>
             <div class="col-md-12 " style="background-color: rgb(40, 40, 92);height: 35px !important; ">
@@ -90,11 +90,15 @@
         <table class="table table-sm table-bordered col-sm-9 offset-1">
             <tr>
                 <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                <th class="m-1 p-1 font-weight-bold">Age/Sex</th>
+
                 <th class="m-1 p-1 font-weight-bold">Date</th>
                 <th class="m-1 p-1 font-weight-bold">Actions</th>
             </tr>
             <tr>
                 <td class="m-1 p-1">{{vm.pname}}</td>
+                <td class="m-1 p-1">{{vm.age}}/{{vm.gender}}</td>
+
                 <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
                 <td class="m-1 p-1">
   
@@ -240,9 +244,9 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_devi_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_devi_od" />
-                                    <P class="small text-right">Days</P>
+                                    <!--    <P class="small text-right">Days</P> -->
                             </td>
 
                             <!-- OD NO -->
@@ -272,9 +276,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_devi_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_devi_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -312,7 +317,8 @@
                                 <div class="col-md-12 mt-3" ng-show="cheye_pain_od_tick ==1">
                                     <input type="text" class="form-control" placeholder="Duration"
                                         ng-model="cheye_pain_od" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -343,7 +349,8 @@
                                 <div class="col-md-12 mt-3" ng-show="cheye_pain_os_tick ==1">
                                     <input type="text" class="form-control" placeholder="Duration"
                                         ng-model="cheye_pain_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -379,9 +386,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_red_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_red_od" /></textarea>
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -410,9 +418,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_red_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_red_os" /></textarea>
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -448,9 +457,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_water_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_water_od" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -481,7 +491,8 @@
                                 <div class="col-md-12 mt-3" ng-show="cheye_water_os_tick ==1">
                                     <input type="text" class="form-control" placeholder="Duration"
                                         ng-model="cheye_water_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -520,9 +531,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_fbsen_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_fbsen_od" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -551,9 +563,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_fbsen_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_fbsen_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -588,9 +601,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_itch_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_itch_od" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -619,9 +633,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_itch_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_itch_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -655,9 +670,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_ptb_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_ptb_od" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -686,9 +702,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_ptb_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_ptb_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -724,9 +741,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_flo_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_flo_od" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -755,9 +773,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_flo_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_flo_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -792,9 +811,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_fla_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_fla_od" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -823,9 +843,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_fla_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_fla_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -864,9 +885,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_dip_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_dip_od">
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -895,9 +917,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_dip_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_dip_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -934,9 +957,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_sco_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_sco_od" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -965,9 +989,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_sco_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_sco_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -1004,9 +1029,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_colha_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_colha_od" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -1035,9 +1061,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_colha_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_colha_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OS NO -->
@@ -1072,9 +1099,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_oth_od_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_oth_od" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
                             </td>
 
                             <!-- OD NO -->
@@ -1103,9 +1131,10 @@
 
                                 <!-- ng-show=od ==1" -->
                                 <div class="col-md-12 mt-3" ng-show="cheye_oth_os_tick ==1">
-                                    <input type="text" numbers-only class="form-control" placeholder="Duration"
+                                    <input type="text"  class="form-control" placeholder="Duration"
                                         ng-model="cheye_oth_os" />
-                                    <P class="small text-right">Days</P>
+                                      <!-- <P class="small text-right">Days</P> -->
+
 
                             </td>
 

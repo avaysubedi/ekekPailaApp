@@ -58,7 +58,7 @@
   
             <!--Title-->
             <div class="row m-1 ">
-              <a class="fa fa-home btn btn-sm" href="#!dashboard">
+              <a class="fa fa-home btn btn-sm btn-primary" ng-click="vm.toDash()" >
                 Dashboard
                 </a>
               <div class="col-md-12 " style="background-color: rgb(40, 40, 92);height: 35px !important; ">
@@ -111,37 +111,42 @@
 
   <div class="row" ng-show="showReport">
 
-      <table class="table table-sm table-bordered col-sm-9 offset-1">
-          <tr>
-              <th class="m-1 p-1 font-weight-bold">Patient name</th>
-              <th class="m-1 p-1 font-weight-bold">Date</th>
-              <th class="m-1 p-1 font-weight-bold">Actions</th>
-          </tr>
-          <tr>
-              <td class="m-1 p-1">{{vm.pname}}</td>
-              <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
-              <td class="m-1 p-1">
+ 
+    <table class="table table-sm table-bordered col-sm-9 offset-1">
+      <tr>
+          <th class="m-1 p-1 font-weight-bold">Patient name</th>
+          <th class="m-1 p-1 font-weight-bold">Age/Sex</th>
 
-                  <!-- <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
-                      <i class="fa fa-edit"></i></a> -->
+          <th class="m-1 p-1 font-weight-bold">Date</th>
+          <th class="m-1 p-1 font-weight-bold">Actions</th>
+      </tr>
+      <tr>
+          <td class="m-1 p-1">{{vm.pname}}</td>
+          <td class="m-1 p-1">{{vm.age}}/{{vm.gender}}</td>
+
+          <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
+          <td class="m-1 p-1">
+
+              <!-- <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                  <i class="fa fa-edit"></i></a> -->
 
 <!-- 
-                  <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
-                      <i class="fa fa-print"></i></a> -->
-
-                      <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
-                        <i class="fa fa-edit"></i></a>
-
-
-                  <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
-                      <i class="fa fa-trash"></i></a>
+              <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
+                  <i class="fa fa-print"></i></a> -->
+                  <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                      <i class="fa fa-edit"></i></a>
 
 
-              </td>
+              <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
+                  <i class="fa fa-trash"></i></a>
 
 
-          </tr>
-      </table>
+          </td>
+
+
+      </tr>
+  </table>
+
 
 
 
@@ -383,7 +388,7 @@
 
             <!-- Retina -->
             <tr>
-              <th scope="row">3. Retina</th>
+              <th scope="row">3. Retinal Disease</th>
 
               <!-- OD Yes -->
               <td colspan="">
@@ -520,7 +525,7 @@
             <!-- Corneak -->
             <tr>
 
-              <th scope="row">5. Corneak</th>
+              <th scope="row">5. Corneal disease</th>
               <td colspan="">
                 <!-- OD YES -->
                 <div class="col-md-10 small">
@@ -589,7 +594,7 @@
             <!-- Opal Related -->
             <tr>
 
-              <th scope="row">6. Opal Related</th>
+              <th scope="row">6. Opal Related Disease</th>
               <!-- OD YES -->
               <td colspan="">
                 <div class="col-md-10 small">
@@ -656,7 +661,7 @@
 
             <!-- Uveal -->
             <tr>
-              <th scope="row">7. Uveal</th>
+              <th scope="row">7. Uveal Disease</th>
               <!-- OD YES -->
               <td colspan="">
                 <div class="col-md-10 small">
@@ -726,7 +731,7 @@
 
             <!-- Neuro Opthlemtic-->
             <tr>
-              <th scope="row">8. Neuro Ophthlmic</th>
+              <th scope="row">8. Neuro Ophthalmic Disease</th>
               <!-- OD YES -->
               <td colspan="">
                 <div class="col-md-10 small">
@@ -1721,7 +1726,7 @@
 
             <!-- Retina -->
             <tr>
-              <th scope="row">3. Retina</th>
+              <th scope="row">3. Retinal disease</th>
 
               <!-- OD Yes -->
               <td colspan="">
@@ -1872,7 +1877,7 @@
             <!-- Corneal -->
             <tr>
 
-              <th scope="row">5. Corneal</th>
+              <th scope="row">5. Corneal disease</th>
               <!-- OD YES -->
               <td colspan="">
                 <div class="col-md-10 small">
@@ -1945,7 +1950,7 @@
             <!-- Opal Related -->
             <tr>
 
-              <th scope="row">6. Opal Related</th>
+              <th scope="row">6. Opal Related Disease</th>
               <!-- OD YES -->
               <td colspan="">
                 <div class="col-md-10 small">
@@ -2017,7 +2022,7 @@
 
             <!-- Uveal -->
             <tr>
-              <th scope="row">7. Uveal</th>
+              <th scope="row">7. Uveal Disease</th>
               <!-- OD YES -->
               <td colspan="">
                 <div class="col-md-10 small">
@@ -2094,7 +2099,7 @@
 
             <!-- Neuro Opthlemtic-->
             <tr>
-              <th scope="row">8. Neuro Ophthlmic</th>
+              <th scope="row">8. Neuro Ophthalmic disease</th>
               <!-- OD YES -->
               <td colspan="">
                 <div class="col-md-10 small">
@@ -2249,7 +2254,7 @@
 
         <div class="row m-1">
           <div class="col-md-6">
-            <input class=" form-control" placeholder="OD" ng-show="surg_od_tick ==1" ng-model="surg_remarks_od">
+            <input class=" form-control" placeholder="Specify" ng-show="surg_od_tick ==1" ng-model="surg_remarks_od">
           </div>
           <div class="col-md-6" ng-show="surg_os_tick ==1">
             <input class=" form-control" placeholder="OS" ng-show="surg_os_tick ==1" ng-model="surg_remarks_os">
@@ -2279,7 +2284,7 @@
     <div class="row m-1">
       <div class="col-md-4">
         <div class="col-md-1 col-sm-1">
-          <label class="">OD</label>
+          <!-- <label class="">OD</label> -->
         </div>
         <div class="col-md-10 small">
           <div class="form-check form-check-inline">
@@ -2299,7 +2304,7 @@
       </div>
 
       <!-- OS HERE -->
-      <div class="col-md-4">
+      <div class="col-md-4" ng-show="false">
         <div class="col-md-1 col-sm-1">
           <label class="">OS</label>
         </div>
@@ -2331,14 +2336,10 @@
           <thead>
             <tr>
               <th scope="col" class="font-weight-bold"></th>
-              <th scope="col" colspan="2" class="font-weight-bold">OD</th>
-              <th scope="col" colspan="2" class="font-weight-bold">OS</th>
             </tr>
             <tr>
               <th scope="col" class="font-weight-bold" style="width: 20%;" >Systemic Illness</th>
               <th scope="col" class="font-weight-bold" style="width: 10%;" >Yes</th>
-              <th scope="col" class="font-weight-bold" style="width: 10%;">No</th>
-              <th scope="col" class="font-weight-bold" style="width: 10%;">Yes</th>
               <th scope="col" class="font-weight-bold" style="width: 10%;">No</th>
 
             </tr>
@@ -2377,7 +2378,7 @@
 
 
               <!-- OS YES -->
-              <td >
+              <td ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="hyperos" id="hypertosdone" value="1"
@@ -2393,7 +2394,7 @@
               </td>
 
               <!-- OS NO -->
-              <td >
+              <td ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="hyperos" id="hypertosnotdone" value="0"
@@ -2410,7 +2411,7 @@
 
             <!-- Diabeitics -->
             <tr>
-              <th scope="row">2. Diabetic Mellitus</th>
+              <th scope="row">2. Diabetes Mellitus</th>
               <!-- OD YES -->
               <td>
                 <div class="col-md-10 small">
@@ -2441,7 +2442,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="diabos" id="diabtosdone" value="1"
@@ -2457,7 +2458,7 @@
               </td>
 
               <!-- OS NO -->
-              <td >
+              <td  ng-show="false" >
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="diabos" id="diabtosnotdone" value="0"
@@ -2474,7 +2475,7 @@
 
             <!-- Asthama -->
             <tr>
-              <th scope="row">3. Asthama</th>
+              <th scope="row">3. Asthma</th>
               <!-- OD YES -->
               <td>
                 <div class="col-md-10 small">
@@ -2505,7 +2506,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="asthaos" id="asthatosdone" value="1"
@@ -2521,7 +2522,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td  ng-show="false"> 
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="asthaos" id="asthatosnotdone" value="0"
@@ -2537,7 +2538,7 @@
 
             <!-- Cardiac-->
             <tr>
-              <th scope="row">4. Cardiac</th>
+              <th scope="row">4. Cardiac Disease</th>
               <!-- OD YES -->
               <td>
                 <div class="col-md-10 small">
@@ -2568,7 +2569,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="systill_cardc_os_tick" id="cardctosdone" value="1"
@@ -2584,7 +2585,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td   ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="systill_cardc_os_tick" id="cardctosnotdone" value="0"
@@ -2600,7 +2601,7 @@
 
             <!-- Thyroid-->
             <tr>
-              <th scope="row">5. Thyroid</th>
+              <th scope="row">5. Thyroid Disorder</th>
               <!-- OD YES -->
               <td>
                 <div class="col-md-10 small">
@@ -2631,7 +2632,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="thyos" id="thytosdone" value="1"
@@ -2647,7 +2648,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="thyos" id="thytosnotdone" value="0"
@@ -2663,7 +2664,7 @@
 
             <!-- Cerebovascular Accident-->
             <tr>
-              <th scope="row">6. Cerebovascular Accident</th>
+              <th scope="row">6. Cerebrovascular Accident</th>
               <!-- OD YES -->
               <td>
                 <div class="col-md-10 small">
@@ -2694,7 +2695,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">  
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="cerebos" id="cerebtosdone" value="1"
@@ -2710,7 +2711,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td  ng-show="false"> 
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="cerebos" id="cerebtosnotdone" value="0"
@@ -2757,7 +2758,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="hyperlos" id="hyperltosdone" value="1"
@@ -2773,7 +2774,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="hyperlos" id="hyperltosnotdone" value="0"
@@ -2821,7 +2822,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="kidneyos" id="kidneytosdone" value="1"
@@ -2837,7 +2838,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td  ng-show="false"> 
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="kidneyos" id="kidtosnotdone" value="0"
@@ -2886,7 +2887,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="anemiaos" id="anemiatosdone" value="1"
@@ -2902,7 +2903,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline"ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="anemiaos" id="anemiatosnotdone" value="0"
@@ -2950,7 +2951,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false"> 
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="eyeprobos" id="eyeprobtosdone" value="1"
@@ -2966,7 +2967,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td  ng-show="false"> 
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="eyeprobos" id="eyeprobtosnotdone" value="0"
@@ -2983,7 +2984,7 @@
 
             <!-- Rheumatological -->
             <tr>
-              <th scope="row">10. Rheumatological </th>
+              <th scope="row">10. Rheumatological Disease </th>
               <!-- OD YES -->
               <td>
                 <div class="col-md-10 small">
@@ -3014,7 +3015,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="rheuos" id="rheutosdone" value="1"
@@ -3030,7 +3031,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="rheuos" id="rheutosnotdone" value="0"
@@ -3046,9 +3047,9 @@
 
             <!-- Infectious -->
             <tr>
-              <th scope="row">11. Infectious </th>
+              <th scope="row">11. Infectious Disease </th>
               <!-- OD YES -->
-              <td>
+              <td >
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_od_tick ==1" >
                     <input class="form-check-input" type="radio" name="infod" id="inftoddone" value="1"
@@ -3077,7 +3078,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="infos" id="inftosdone" value="1"
@@ -3093,7 +3094,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="infos" id="inftosnotdone" value="0"
@@ -3141,7 +3142,7 @@
 
 
               <!-- OS YES -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="oth" id="othtosd" value="1"
@@ -3157,7 +3158,7 @@
               </td>
 
               <!-- OS NO -->
-              <td>
+              <td  ng-show="false">
                 <div class="col-md-10 small">
                   <div class="form-check form-check-inline" ng-show="systill_os_tick ==1">
                     <input class="form-check-input" type="radio" name="oth" id="othtosnotd" value="0"
@@ -3187,8 +3188,9 @@
 
         <div class="row m-1">
           <div class="col-md-6">
-            <input class=" form-control" placeholder="OD" ng-show="systill_od_tick ==1" ng-model="systill_medi_od">
-          </div>
+            
+            <textarea class=" form-control" placeholder="Specify" ng-show="systill_od_tick ==1" ng-model="systill_medi_od">
+          </textarea></div>
           <div class="col-md-6" ng-show="systill_os_tick ==1">
             <input class=" form-control" placeholder="OS" ng-show="systill_os_tick ==1" ng-model="systill_medi_os">
           </div>
@@ -3207,8 +3209,8 @@
 
         <div class="row m-1">
           <div class="col-md-6">
-            <input class=" form-control" placeholder="OD" ng-show="systill_od_tick ==1" ng-model="systill_remarks_od">
-          </div>
+            <textarea class=" form-control" placeholder="Specify" ng-show="systill_od_tick ==1" ng-model="systill_remarks_od">
+        </textarea>  </div>
           <div class="col-md-6" ng-show="systill_os_tick ==1">
             <input class=" form-control" placeholder="OS" ng-show="systill_os_tick ==1" ng-model="systill_remarks_os">
           </div>
@@ -3225,7 +3227,7 @@
     <!-- History of steriod use -->
     <div class="row m-1 mt-2">
       <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
-        <h7 class="text-left">History of Steriod Use</h7>
+        <h7 class="text-left">History of Steroid Use</h7>
       </div>
     </div>
 
@@ -4189,7 +4191,7 @@
 
             <!-- Corneal -->
             <tr>
-              <th scope="row">5. Corneal</th>
+              <th scope="row">5. Corneal disease</th>
 
               <!-- OD Yes -->
               <td colspan="">
@@ -4291,7 +4293,7 @@
 
             <!-- Opal Related -->
             <tr>
-              <th scope="row">6. Opal Related</th>
+              <th scope="row">6. Opal Related Disease</th>
 
               <!-- OD Yes -->
               <td colspan="">
@@ -4716,7 +4718,7 @@
 
 
         <!-- Family History Of An Eye Problem -->
-        <div class="row m-1">
+        <div class="row m-1" ng-show="false">
           <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
             <h7>Family history of any eye problem</h7>
           </div>
@@ -4724,7 +4726,7 @@
 
 
         <!-- OD -->
-        <div class="row m-1">
+        <div class="row m-1" ng-show="false"> 
           <div class="col-md-4">
             <div class="col-md-1 col-sm-1">
               <label class="">OD</label>

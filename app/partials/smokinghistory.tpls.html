@@ -51,7 +51,7 @@
 
           <!--Title-->
           <div class="row m-1 ">
-            <a class="fa fa-home btn btn-sm" href="#!dashboard">
+            <a class="fa fa-home btn btn-sm btn-primary" ng-click="vm.toDash()" >
                 Dashboard
                 </a>
             <div class="col-md-12 " style="background-color: rgb(40, 40, 92);height: 35px !important; ">
@@ -103,24 +103,31 @@
   
     <div class="row" ng-show="showReport">
   
+
         <table class="table table-sm table-bordered col-sm-9 offset-1">
             <tr>
                 <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                <th class="m-1 p-1 font-weight-bold">Age/Sex</th>
+
                 <th class="m-1 p-1 font-weight-bold">Date</th>
                 <th class="m-1 p-1 font-weight-bold">Actions</th>
             </tr>
             <tr>
                 <td class="m-1 p-1">{{vm.pname}}</td>
+                <td class="m-1 p-1">{{vm.age}}/{{vm.gender}}</td>
+
                 <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
                 <td class="m-1 p-1">
   
-                    <a ng-click="vm.onReportSelect()" class="m-1 p-1 blue-text">
-                        <i class="fa fa-edit"></i></a>
+                    <!-- <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                        <i class="fa fa-edit"></i></a> -->
   
   <!-- 
                     <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
                         <i class="fa fa-print"></i></a> -->
-  
+                        <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                            <i class="fa fa-edit"></i></a>
+      
   
                     <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
                         <i class="fa fa-trash"></i></a>
@@ -131,6 +138,7 @@
   
             </tr>
         </table>
+  
   
   
   

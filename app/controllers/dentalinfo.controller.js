@@ -510,6 +510,11 @@ app.controller('DentalInfoController', ['UrlConfig', 'TokenService', 'Configurat
             location.reload();
         }
 
+        
+        vm.toDash = function(){
+            window.open('#!/dashboard?mrdno=' + $scope.mrdnum,
+            '_self', '');
+        }
 
         vm.noalert = function () {
             $timeout(vm.resetNotification, 4000);

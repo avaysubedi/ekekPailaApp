@@ -33,7 +33,7 @@
         <div class="col-md-12" ng-show="vm.sideside">
             <!--Title-->
             <div class="row m-1">
-                <a class="fa fa-home btn btn-sm" href="#!dashboard">
+                <a class="fa fa-home btn btn-sm btn-primary" ng-click="vm.toDash()">
                     Dashboard
                     </a>
                 <div class="col-md-12" style="background-color: rgb(40, 40, 92);height:35px !important;">
@@ -88,34 +88,42 @@
 
             <div class="row" ng-show="showReport">
 
-                <table class="table table-sm table-bordered col-sm-9 offset-1">
-                    <tr>
-                        <th class="m-1 p-1 font-weight-bold">Patient name</th>
-                        <th class="m-1 p-1 font-weight-bold">Date</th>
-                        <th class="m-1 p-1 font-weight-bold">Actions</th>
-                    </tr>
-                    <tr>
-                        <td class="m-1 p-1">{{vm.pname}}</td>
-                        <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
-                        <td class="m-1 p-1">
+               
+        <table class="table table-sm table-bordered col-sm-9 offset-1">
+            <tr>
+                <th class="m-1 p-1 font-weight-bold">Patient name</th>
+                <th class="m-1 p-1 font-weight-bold">Age/Sex</th>
 
-                            <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
-                                <i class="fa fa-edit"></i></a>
+                <th class="m-1 p-1 font-weight-bold">Date</th>
+                <th class="m-1 p-1 font-weight-bold">Actions</th>
+            </tr>
+            <tr>
+                <td class="m-1 p-1">{{vm.pname}}</td>
+                <td class="m-1 p-1">{{vm.age}}/{{vm.gender}}</td>
 
-
-                            <!-- <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
-                        <i class="fa fa-print"></i></a>
- -->
-
-                            <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
-                                <i class="fa fa-trash"></i></a>
-
-
-                        </td>
-
-
-                    </tr>
-                </table>
+                <td class="m-1 p-1">{{vm.reportDate | date:'yyyy/MM/dd'}}</td>
+                <td class="m-1 p-1">
+  
+                    <!-- <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                        <i class="fa fa-edit"></i></a> -->
+  
+  <!-- 
+                    <a ng-click="vm.PrintRecord()" class="m-1 p-1 green-text">
+                        <i class="fa fa-print"></i></a> -->
+                        <a ng-click="vm.onReportSelected()" class="m-1 p-1 blue-text">
+                            <i class="fa fa-edit"></i></a>
+      
+  
+                    <a ng-click="vm.deleteRecord()" class="m-1 p-1 red-text">
+                        <i class="fa fa-trash"></i></a>
+  
+  
+                </td>
+  
+  
+            </tr>
+        </table>
+  
             </div>
 
 
@@ -219,7 +227,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="eom_od_tick='1'"
                                     name="eom_od_tick" id="eom_od_yestick" ng-model="eom_od_tick" />
                                 <label class="form-check-label" for="eom_od_yestick">Normal</label>
                             </div>
@@ -247,7 +255,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="eom_os_tick" ng-checked="true"
+                                <input class="form-check-input" type="radio" name="eom_os_tick" ng-init="eom_os_tick='1'"
                                     ng-model="eom_os_tick" id="eom_os_tickdone" ng-checked="true" value="1" />
                                 <label class="form-check-label" for="eom_os_tickdone">Normal</label>
                             </div>
@@ -283,8 +291,8 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
-                                    name="lid_od_tick" id="lid_od_yestick" ng-model="lid_od_tick" />
+                                <input class="form-check-input" type="radio" value="1" 
+                                    name="lid_od_tick" id="lid_od_yestick" ng-model="lid_od_tick" ng-init="lid_od_tick='1'"/>
                                 <label class="form-check-label" for="lid_od_yestick">Normal</label>
                             </div>
 
@@ -403,7 +411,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="lid_os_tick='1'"
                                     name="lid_os_tick" id="lid_os_yestick" ng-model="lid_os_tick" />
                                 <label class="form-check-label" for="lid_os_yestick">Normal</label>
                             </div>
@@ -554,6 +562,167 @@
                     </div>
                 </div>
 
+                <!-- <tear film -->
+                    
+                <div class="row m-1">
+                    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                        <h7 class="text-left  "> Tear film</h7>
+                    </div>
+                </div>
+
+                <div class="row m-1">
+
+                    <!-- OD HERE -->
+                    <div class="col-md-4 ">
+                        <div class="col-md-1 col-sm-1 ">
+                            <label class="">OD
+
+                            </label>
+                        </div>
+                        <div class="col-md-10 small">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tear_film_od_tick"
+                                    id="tear_film_od_ticknormal" ng-init="tear_film_od_tick=true" ng-value="true" 
+                                    ng-checked="true"
+                                    ng-model="tear_film_od_tick" />
+                                <label class="form-check-label" for="tear_film_od_ticknormal">Normal</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tear_film_od_tick" id="tear_film_od_tickab"
+                                    ng-value="false" ng-model="tear_film_od_tick" />
+                                <label class="form-check-label" for="tear_film_od_tickab">Abnormal
+
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-12 mt-2 " ng-show="!tear_film_od_tick">
+
+                            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="tear_flim_od">
+
+                        </div>
+
+
+                    </div>
+                    <!-- OS HERE -->
+                    <div class="col-md-4 ">
+                        <div class="col-md-1 col-sm-1 ">
+                            <label class="">OS
+
+                            </label>
+                        </div>
+                        <div class="col-md-10 small">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tear_flim_os_tick"
+                                    id="tear_flim_os_ticknormal" ng-init="tear_flim_os_tick=true" ng-value="true"
+                                    ng-model="tear_flim_os_tick"  ng-checked="true"/>
+                                <label class="form-check-label" for="tear_flim_os_ticknormal">Normal</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tear_flim_os_tick" id="tear_flim_os_tickab"
+                                    ng-value="false" ng-model="tear_flim_os_tick" />
+                                <label class="form-check-label" for="tear_flim_os_tickab">Abnormal
+
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-12 mt-2 " ng-show="!tear_flim_os_tick">
+
+                            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="tear_flim_os">
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <!-- TBVT -->
+
+                <div class="row m-1">
+                    <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.473);">
+                        <h7 class="text-left  "> TBUT</h7>
+                    </div>
+                </div>
+
+                <div class="row m-1">
+
+                    <!-- OD HERE -->
+                    <div class="col-md-4 ">
+                        <div class="col-md-1 col-sm-1 ">
+                            <label class="">OD
+
+                            </label>
+                        </div>
+                        <div class="col-md-10 small">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tbvt_od_tick"
+                                    id="tbvt_od_ticknormal" ng-init="tbvt_od_tick=true" ng-value="true" 
+                                    ng-checked="true"
+                                    ng-model="tbvt_od_tick" />
+                                <label class="form-check-label" for="tbvt_od_ticknormal">Normal</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tbvt_od_tick" id="tbvt_od_tickab"
+                                    ng-value="false" ng-model="tbvt_od_tick" />
+                                <label class="form-check-label" for="tbvt_od_tickab">Abnormal
+
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-12 mt-2 " ng-show="!tbvt_od_tick">
+
+                            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="tbvt_od">
+
+                        </div>
+
+
+                    </div>
+                    <!-- OS HERE -->
+                    <div class="col-md-4 ">
+                        <div class="col-md-1 col-sm-1 ">
+                            <label class="">OS
+
+                            </label>
+                        </div>
+                        <div class="col-md-10 small">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tbvt_os_tick"
+                                    id="tbvt_os_ticknormal" ng-init="tbvt_os_tick=true" ng-value="true"
+                                    ng-model="tbvt_os_tick"  ng-checked="true"/>
+                                <label class="form-check-label" for="tbvt_os_ticknormal">Normal</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tbvt_os_tick" id="tbvt_os_tickab"
+                                    ng-value="false" ng-model="tbvt_os_tick" />
+                                <label class="form-check-label" for="tbvt_os_tickab">Abnormal
+
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-12 mt-2 " ng-show="!tbvt_os_tick">
+
+                            <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="tbvt_os">
+
+                        </div>
+
+
+                    </div>
+                </div>
                
                 <!-- Conjunctiva -->
                 <div class="row m-1">
@@ -568,7 +737,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="conjunct_od_tick='1'"
                                     name="conjunct_od_tick" id="conjunct_od_yestick" ng-model="conjunct_od_tick" />
                                 <label class="form-check-label" for="conjunct_od_yestick">Normal</label>
                             </div>
@@ -639,7 +808,7 @@
                                 <input class="form-check-input" type="checkbox" ng-model="conjunct_ptery_od_tick"
                                     id="conjunct_ptery_od_tick" />
                                 <label class="form-check-label" for="conjunct_ptery_od_tick">
-                                    Pteryglum
+                                    Pterygium
                                 </label>
                             </div>
 
@@ -648,7 +817,7 @@
                                 <input class="form-check-input" type="checkbox" id="conjunct_ping_od_tick"
                                     ng-model="conjunct_ping_od_tick" />
                                 <label class="form-check-label" for="conjunct_ping_od_tick">
-                                    Pingiculae </label>
+                                    Pinguecula </label>
                             </div>
 
                             <div class="form-check">
@@ -672,7 +841,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="conjunct_os_tick='1'"
                                     name="conjunct_os_tick" id="conjunct_os_yestick" ng-model="conjunct_os_tick" />
                                 <label class="form-check-label" for="conjunct_os_yestick">Normal</label>
                             </div>
@@ -742,7 +911,7 @@
                                 <input class="form-check-input" type="checkbox" ng-model="conjunct_ptery_os_tick"
                                     id="conjunct_ptery_os_tick" />
                                 <label class="form-check-label" for="conjunct_ptery_os_tick">
-                                    Pteryglum
+                                    Pterygium
                                 </label>
                             </div>
 
@@ -751,7 +920,7 @@
                                 <input class="form-check-input" type="checkbox" id="conjunct_ping_os_tick"
                                     ng-model="conjunct_ping_os_tick" />
                                 <label class="form-check-label" for="conjunct_ping_os_tick">
-                                    Pingiculae </label>
+                                    Pinguecula </label>
                             </div>
 
                             <div class="form-check">
@@ -786,7 +955,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="sclera_od_tick='1'"
                                     name="sclera_od_tick" id="sclera_od_yestick" ng-model="sclera_od_tick" />
                                 <label class="form-check-label" for="sclera_od_yestick">Normal</label>
                             </div>
@@ -865,7 +1034,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="sclera_os_tick='1'"
                                     name="sclera_os_tick" id="sclera_os_yestick" ng-model="sclera_os_tick" />
                                 <label class="form-check-label" for="sclera_os_yestick">Normal</label>
                             </div>
@@ -953,7 +1122,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="cornea_od_tick='1'"
                                     name="cornea_od_tick" id="cornea_od_yestick" ng-model="cornea_od_tick" />
                                 <label class="form-check-label" for="cornea_od_yestick">Normal</label>
                             </div>
@@ -1032,7 +1201,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="cornea_os_tick='1'"
                                     name="cornea_os_tick" id="cornea_os_yestick" ng-model="cornea_os_tick" />
                                 <label class="form-check-label" for="cornea_os_yestick">Normal</label>
                             </div>
@@ -1124,7 +1293,7 @@
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="anterchamb_od_tick"
-                                    id="anterchamboddone" value="1" ng-model="anterchamb_od_tick" ng-checked="true" />
+                                    id="anterchamboddone" value="1" ng-model="anterchamb_od_tick" ng-init="anterchamb_od_tick='1'" />
                                 <label class="form-check-label" for="anterchamboddone">Done</label>
                             </div>
 
@@ -1195,7 +1364,7 @@
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="anterchamb_os_tick"
-                                    ng-model="anterchamb_os_tick" id="anterchamb_osdone" ng-checked="true" value="1" />
+                                    ng-model="anterchamb_os_tick" id="anterchamb_osdone" ng-init="anterchamb_os_tick='1'" value="1" />
                                 <label class="form-check-label" for="anterchamb_osdone">Done</label>
                             </div>
 
@@ -1272,7 +1441,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="iris_od_tick='1'"
                                     name="iris_od_tick" id="iris_od_yestick" ng-model="iris_od_tick" />
                                 <label class="form-check-label" for="iris_od_yestick">Normal</label>
                             </div>
@@ -1349,7 +1518,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="iris_os_tick='1'"
                                     name="iris_os_tick" id="iris_os_yestick" ng-model="iris_os_tick" />
                                 <label class="form-check-label" for="iris_os_yestick">Normal</label>
                             </div>
@@ -1436,7 +1605,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="pupil_od_tick='1'"
                                     name="pupil_od_tick" id="pupil_od_yestick" ng-model="pupil_od_tick" />
                                 <label class="form-check-label" for="pupil_od_yestick">Normal</label>
                             </div>
@@ -1472,7 +1641,7 @@
                                 <input class="form-check-input" type="checkbox" ng-model="pupil_ppm_od_tick"
                                     id="pupil_ppm_od_tick" />
                                 <label class="form-check-label" for="pupil_ppm_od_tick">
-                                    Persistent pupilary membrane
+                                    Persistent pupillary membrane
                                 </label>
                             </div>
 
@@ -1490,7 +1659,7 @@
                                 <input class="form-check-input" type="checkbox" ng-model="pupil_dsp_od_tick"
                                     id="pupil_dsp_od_tick" />
                                 <label class="form-check-label" for="pupil_dsp_od_tick">
-                                    D â€" shaped pupil
+                                    'D' shaped pupil
 
                                 </label>
                             </div>
@@ -1514,7 +1683,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="pupil_os_tick='1'"
                                     name="pupil_os_tick" id="pupil_os_yestick" ng-model="pupil_os_tick" />
                                 <label class="form-check-label" for="pupil_os_yestick">Normal</label>
                             </div>
@@ -1550,7 +1719,7 @@
                                 <input class="form-check-input" type="checkbox" ng-model="pupil_ppm_os_tick"
                                     id="pupil_ppm_os_tick" />
                                 <label class="form-check-label" for="pupil_ppm_os_tick">
-                                    Persistent pupilary membrane
+                                    Persistent pupillary membrane
                                 </label>
                             </div>
 
@@ -1568,7 +1737,7 @@
                                 <input class="form-check-input" type="checkbox" ng-model="pupil_dsp_os_tick"
                                     id="pupil_dsp_os_tick" />
                                 <label class="form-check-label" for="pupil_dsp_os_tick">
-                                    D â€" shaped pupil
+                                    'D' shaped pupil
 
                                 </label>
                             </div>
@@ -1601,7 +1770,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="pupil_rti_od_tick='1'"
                                     name="pupil_rti_od_tick" id="pupil_rti_od_yestick" ng-model="pupil_rti_od_tick" />
                                 <label class="form-check-label" for="pupil_rti_od_yestick">Normal</label>
                             </div>
@@ -1645,7 +1814,7 @@
                                 <input class="form-check-input" type="checkbox" ng-model="pupil_rti_aap_od_tick"
                                     id="pupil_rti_aap_od_tick" />
                                 <label class="form-check-label" for="pupil_rti_aap_od_tick">
-                                    Adeiâ€™s atonic pupil
+                                    Adie's  pupil
 
                                 </label>
                             </div>
@@ -1677,7 +1846,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="pupil_rti_os_tick='1'"
                                     name="pupil_rti_os_tick" id="pupil_rti_os_yestick" ng-model="pupil_rti_os_tick" />
                                 <label class="form-check-label" for="pupil_rti_os_yestick">Normal</label>
                             </div>
@@ -1723,7 +1892,7 @@
                                 <input class="form-check-input" type="checkbox" ng-model="pupil_rti_aap_os_tick"
                                     id="pupil_rti_aap_os_tick" />
                                 <label class="form-check-label" for="pupil_rti_aap_os_tick">
-                                    Adeiâ€™s atonic pupil
+                                    Adie's  pupil
 
                                 </label>
                             </div>
@@ -1771,7 +1940,7 @@
                                 <td class="">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="lens_phakic_od_tick"
-                                            id="lens_phakic_od_done" ng-value="true" ng-model="lens_phakic_od_tick" />
+                                            id="lens_phakic_od_done" ng-value="true" ng-model="lens_phakic_od_tick" ng-checked="true"  />
                                         <label class="form-check-label" for="lens_phakic_od_done">Yes</label>
                                     </div>
 
@@ -1781,14 +1950,14 @@
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="lens_phakic_od_tick"
                                             id="lens_phakic_od_notdone" ng-value="false" ng-model="lens_phakic_od_tick"
-                                            ng-checked="true" />
+                                            />
                                         <label class="form-check-label" for="lens_phakic_od_notdone">No</label>
                                     </div>
                                 </td>
                                 <td class="">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="lens_phakic_os_tick"
-                                            id="lens_phakic_os_done" ng-value="true" ng-model="lens_phakic_os_tick" />
+                                            id="lens_phakic_os_done" ng-value="true" ng-model="lens_phakic_os_tick" ng-checked="true"/>
                                         <label class="form-check-label" for="lens_phakic_os_done">Yes</label>
                                     </div>
 
@@ -1798,7 +1967,7 @@
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="lens_phakic_os_tick"
                                             id="lens_phakic_os_notdone" ng-value="false" ng-model="lens_phakic_os_tick"
-                                            ng-checked="true" />
+                                             />
                                         <label class="form-check-label" for="lens_phakic_os_notdone">No</label>
                                     </div>
                                 </td>
@@ -1899,7 +2068,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="caps_od_tick='1'"
                                     name="caps_od_tick" id="caps_od_yestick" ng-model="caps_od_tick" />
                                 <label class="form-check-label" for="caps_od_yestick">Normal</label>
                             </div>
@@ -1949,7 +2118,7 @@
                         </div>
                         <div class="col-md-10 small">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="1" ng-checked="true"
+                                <input class="form-check-input" type="radio" value="1" ng-init="caps_os_tick='1'"
                                     name="caps_os_tick" id="caps_os_yestick" ng-model="caps_os_tick" />
                                 <label class="form-check-label" for="caps_os_yestick">Normal</label>
                             </div>
@@ -2012,7 +2181,7 @@
                             </tr>
 
                             <tr>
-                                <th class="font-weight-bold">Phakodonosis</th>
+                                <th class="font-weight-bold">Phacodonesis</th>
                                 <td class="">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="pos_phacod_od_tick"
@@ -3445,7 +3614,7 @@
 
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="cdr_od_tick" id="cdr_od_tickab"
-                                    ng-value="false"    cdr_od_tick" />
+                                    ng-value="false"    ng-model="cdr_od_tick" />
                                 <label class="form-check-label" for="cdr_od_tickab">Abnormal
 
                                 </label>
@@ -3454,7 +3623,7 @@
 
 
 
-                        <div class="col-md-12 mt-2 " ng-show="!cdr_od_tick">
+                        <div class="col-md-12 mt-2 " ng-show="!cdr_od_tick || cdr_od_tick">
 
                             <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="cdr_od">
 
@@ -3487,7 +3656,7 @@
 
 
 
-                        <div class="col-md-12 mt-2 " ng-show="!cdr_os_tick">
+                        <div class="col-md-12 mt-2 " ng-show="cdr_os_tick || !cdr_os_tick">
 
                             <input type="text" class="form-control ml-2" placeholder="Specify.." ng-model="cdr_os">
 
