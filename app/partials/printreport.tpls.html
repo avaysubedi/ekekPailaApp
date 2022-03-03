@@ -1,0 +1,515 @@
+<div class="col-md-11 offset-1 m-1" id="report" ng-show="false">
+    <div id="center" ng-show="False">
+        <h3 class="text-center black-text font-weight-bold ">Summary Report</h3>
+    </div>
+    <div class="col-md-11 offset-1 ">
+        <table class="table-condensed table table-sm offset-1 mb-0 pb-0" id="noborder"
+            style="width:95% !important;">
+
+            <tr>
+                <td class="m-1 p-1 text-left noborder " colspan="30 " style="width: 670px; ">
+
+                    Mrd No: &nbsp;&nbsp; {{vm.userMrd}}
+                    </th>
+                    <!-- <td colspan="5 ">
+
+                    </td> -->
+                <td class="m-1 p-1 noborder pp ">
+
+                    Name:
+                </td>
+
+                <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                    {{vm.pname}}
+                </td>
+            </tr>
+            <tr>
+                <td class="m-1 p-1 text-left noborder " colspan="30 ">
+
+                    Date: &nbsp;&nbsp; {{vm.reportDate | date:'yyyy/MM/dd'}}
+                </td>
+                <td class="m-1 p-1 noborder pp ">
+
+                    Age:
+                </td>
+                <td class="m-1 p-1 noborder ">
+                    {{vm.age | placeholder}}
+                </td>
+
+            </tr>
+
+            <tr>
+                <th class="m-1 p-1 text-left noborder " id="left " colspan="30 ">
+                    <strong>Use of Glasses</strong>
+                </th>
+                <td class="m-1 p-1 noborder pp ">
+                    Gender:
+                </td>
+                <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                    {{vm.gender}}
+                </td>
+
+
+
+            </tr>
+            <tr>
+                <td class="m-1 p-1 text-left noborder " colspan="30 ">
+                    Distance: &nbsp; {{vm.distanceGlasses}}
+                </td>
+                <td class="m-1 p-1 noborder pp ">
+                    Address:
+                </td>
+                <td class="m-1 p-1 noborder pp " style="white-space: nowrap; ">
+                    {{vm.address}}
+                </td>
+
+
+            </tr>
+            <tr>
+                <td class="m-1 p-1 text-left noborder " colspan="30 ">
+                    Near: &nbsp; {{vm.nearGlasses}}
+                </td>
+
+                <td class="m-1 p-1 noborder pp ">
+
+                    Contact&nbsp;no:
+                </td>
+                <td class="m-1 p-1 noborder pp ">
+                    {{vm.contact | placeholder}}
+                </td>
+            </tr>
+
+
+        </table>
+    </div>
+    <!-- ACUITY -->
+    <div class="col-md-10 offset-1 ">
+        <!-- <h4 class="text-left black-text font-weight-bold " ng-show="false">Visual Acuity</h4> -->
+
+        <table class="table-condensed offset-1 table table-sm table-bordered " style="width: 95% !important; ">
+            <tr>
+                <th class="m-1 p-1 font-weight-bold " rowspan="2 ">Visual Acuity</th>
+                <th class="m-1 p-1 text-center font-weight-bold " colspan="2 ">OD</th>
+                <th class="m-1 p-1 text-center font-weight-bold " colspan="2 ">OS</th>
+            </tr>
+            <tr>
+                <!-- <th class="m-1 p-1 "></th> -->
+                <th class="m-1 p-1 text-center font-weight-bold ">PVA</th>
+                <!-- <th class="m-1 p-1 text-center font-weight-bold ">UVA</th> -->
+                <th class="m-1 p-1 text-center font-weight-bold ">PHVA</th>
+
+                <th class="m-1 p-1 text-center font-weight-bold ">PVA</th>
+                <!-- <th class="m-1 p-1 text-center font-weight-bold ">UVA</th> -->
+                <th class="m-1 p-1 text-center font-weight-bold ">PHVA</th>
+            </tr>
+
+            <tr>
+                <th class="m-1 p-1 ">Distance</th>
+                <td class="m-1 p-1 text-center ">{{vm.pvaDistanceOd |placeholder}}</th>
+                    <!-- <td class="m-1 p-1 text-center ">{{vm.uvaDistanceOd |placeholder}}</th> -->
+                <td class="m-1 p-1 text-center ">{{vm.pvDistanceOd |placeholder}}</th>
+
+                <td class="m-1 p-1 text-center ">{{vm.pvaDistanceOs |placeholder}}</th>
+                    <!-- <td class="m-1 p-1 text-center ">{{vm.uvaDistanceOs |placeholder}}</th> -->
+                <td class="m-1 p-1 text-center ">{{vm.pvDistanceOs |placeholder}}</th>
+
+            </tr>
+            <tr>
+                <th class="m-1 p-1 ">Near</th>
+                <td class="m-1 p-1 text-center ">{{vm.pvaNearOd |placeholder}}</th>
+
+                    <!-- <td class="m-1 p-1 text-center ">{{vm.uvaNearOd |placeholder}}</th> -->
+
+                <td class="m-1 p-1 text-center "> {{vm.pvNearOd|placeholder}}</th>
+                <td class="m-1 p-1 text-center ">
+                    {{vm.pvaNearOs}} </th>
+                <td class="m-1 p-1 text-center ">
+                    {{vm.pvNearOs}} </th>
+                    <!-- <td class="m-1 p-1 text-center ">{{vm.uvaNearOs |placeholder}}</th> -->
+            </tr>
+        </table>
+    </div>
+    <br>
+    <div class="col-md-10 offset-1 ">
+        <table class="table-condensed offset-1 table table-sm table-bordered " style="width: 95% !important; ">
+            <tr>
+
+                <th class="m-1 p-1 font-weight-bold text-left " style="border-bottom: none !important; "
+                    colspan="1 ">Glass prescription</th>
+                <th class="m-1 p-1 text-center font-weight-bold " colspan="4 ">OD</th>
+                <th class="m-1 p-1 text-center font-weight-bold " colspan="4 ">OS</th>
+            </tr>
+            <tr>
+                <th class="m-1 p-1 noborder " style="border-top: none !important; "></th>
+                <th class="m-1 p-1 text-center font-weight-bold ">SPH</th>
+                <th class="m-1 p-1 text-center font-weight-bold ">CYL</th>
+                <th class="m-1 p-1 text-center font-weight-bold ">Axis</th>
+                <th class="m-1 p-1 text-center font-weight-bold ">BCVA</th>
+
+                <th class="m-1 p-1 text-center font-weight-bold ">SPH</th>
+                <th class="m-1 p-1 text-center font-weight-bold ">CYL</th>
+                <th class="m-1 text-center p-1 font-weight-bold ">Axis</th>
+                <th class="m-1 p-1 text-center font-weight-bold ">BCVA</th>
+            </tr>
+
+            <tr>
+                <th class="m-1 p-1 ">Distance</th>
+                <td class="m-1 p-1 text-center ">{{vm.sphericalDistanceOdValue | placeholder}}</th>
+                <td class="m-1 p-1 text-center ">{{vm.cylindricalDistanceOdValue | placeholder}}</th>
+                <td class="m-1 p-1 text-center ">{{vm.axisDistanceOd | placeholder}}</th>
+                <td class="m-1 p-1 text-center ">{{vm.vancDistanceOd | placeholder}}</th>
+
+                <td class="m-1 p-1 text-center ">{{vm.sphericalDistanceOsValue | placeholder}}</th>
+                <td class="m-1 p-1 text-center ">{{vm.cylindricalDistanceOsValue | placeholder}}</th>
+                <td class="m-1 p-1 text-center ">{{vm.axisDistanceOs | placeholder}}</th>
+                <td class="m-1 p-1 text-center ">{{vm.vancDistanceOs | placeholder}}</th>
+
+            </tr>
+            <tr>
+                <th class="m-1 p-1 ">Near</th>
+                <td class="m-1 p-1 text-center ">{{vm.sphericalNearOdValue | placeholder}}</th>
+                <td class="m-1 p-1 text-center ">
+                    </th>
+                <td class="m-1 p-1 ">
+                    </th>
+                <td class="m-1 p-1 text-center ">{{vm.vancNearOd | placeholder}}</th>
+
+                <td class="m-1 p-1 text-center ">{{vm.sphericalNearOsValue | placeholder}}</th>
+                <td class="m-1 p-1 ">
+                    </th>
+                <td class="m-1 p-1 ">
+                    </th>
+                <td class="m-1 p-1 text-center ">{{vm.vancNearOs | placeholder}}</th>
+            </tr>
+        </table>
+    </div>
+
+    <span ng-show="false">Note: Kindly note the power prescribed for near vision glass is net value, not an
+        addition to distance glass</span>
+
+    <br>
+    <br>
+    <div ng-if="!vm.biometryPrint">
+        <!-- BIOMETRY -->
+        <div class="row">
+            <h4 class="text-left black-text font-weight-bold" ng-show="false">Biometry</h4>
+
+            <table class="table-condensed  table table-sm table-bordered " style="width: 50% !important; ">
+                <tr>
+                    <th class="m-1 p-1 text-center font-weight-bold " style="width: 40% !important;"></th>
+
+                    <th class="m-1 p-1 text-center font-weight-bold ">OD</th>
+                    <th class="m-1 p-1 text-center font-weight-bold ">OS</th>
+                </tr>
+
+                <tr>
+                    <th class="m-1 p-1 text-center font-weight-bold ">K1</th>
+                    <td class="m-1 p-1 text-center ">{{vm.k1od |placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.k1os |placeholder}}</th>
+
+
+                </tr>
+                <tr>
+                    <th class="m-1 p-1 text-center font-weight-bold ">K2</th>
+                    <td class="m-1 p-1 text-center ">{{vm.k2od |placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.k2os |placeholder}}</th>
+                </tr>
+                <tr>
+                    <th class="m-1 p-1 text-center font-weight-bold ">Axial Length</th>
+                    <td class="m-1 p-1 text-center ">{{vm.axial_od |placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.axial_os |placeholder}}</th>
+
+                </tr>
+                <tr>
+                    <th class="m-1 p-1 text-center font-weight-bold ">IOL Power</th>
+                    <td class="m-1 p-1 text-center ">{{vm.iol_od |placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.iol_os |placeholder}}</th>
+
+                </tr>
+                <tr>
+                    <th class="m-1 p-1 text-center font-weight-bold ">A Constant</th>
+                    <td class="m-1 p-1 text-center ">{{vm.a_constant_od |placeholder}}</th>
+                    <td class="m-1 p-1 text-center ">{{vm.a_constant_os |placeholder}}</th>
+                </tr>
+
+
+                </tr>
+
+
+            </table>
+        </div>
+
+
+        <!-- BLOOD REPORT -->
+        <div class="row">
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0 pp">Blood Report:</span>{{vm.blood_report}}
+            </p>
+
+            <table class="table-condensed  table table-sm table-bordered " style="width: 50% !important; ">
+
+                <!-- <tr>
+                <th class="m-1 p-1 text-center font-weight-bold "> </th>
+                <th class="m-1 p-1 text-center font-weight-bold"></th>
+
+            </tr> -->
+
+
+                <tr>
+                    <th class="m-1 p-1 text-center font-weight-bold ">HbsAg</th>
+                    <td class="m-1 p-1 text-center ">
+                        <p ng-if="vm.hbsag_react_tick"> Reactive </p>
+                        <p ng-if="!vm.hbsag_react_tick">Non-Reactive </p>
+                        </th>
+                </tr>
+                <tr>
+                    <th class="m-1 p-1 text-center font-weight-bold ">HCV</th>
+                    <td class="m-1 p-1 text-center ">
+                        <p ng-if="vm.hcv_react_tick"> Reactive </p>
+                        <p ng-if="!vm.hcv_react_tick">Non-Reactive </p>
+                        </th>
+                </tr>
+                <tr>
+                    <th class="m-1 p-1 text-center font-weight-bold ">HIV I & II</th>
+                    <td class="m-1 p-1 text-center ">
+                        <p ng-if="vm.hiv_tick"> Reactive </p>
+                        <p ng-if="!vm.hiv_tick">Non-Reactive </p>
+                        </th>
+                </tr>
+                <tr ng-if="vm.bs_fbs_tick">
+                    <th class="m-1 p-1 text-center font-weight-bold ">Blood Sugar- FBS</th>
+                    <td class="m-1 p-1 text-center ">
+                        <p>{{vm.bs_fbs}} </p>
+                        </th>
+                </tr>
+                <tr ng-if="vm.bs_pp_tick">
+                    <th class="m-1 p-1 text-center font-weight-bold ">Blood Sugar- PP</th>
+                    <td class="m-1 p-1 text-center ">
+                        <p>{{vm.bs_pp}} </p>
+                        </th>
+                </tr>
+                <tr ng-if="vm.bs_rbs_tick">
+                    <th class="m-1 p-1 text-center font-weight-bold ">Blood Sugar- RBS</th>
+                    <td class="m-1 p-1 text-center ">
+                        <p>{{vm.bs_rbs}} </p>
+                        </th>
+                </tr>
+
+
+
+
+
+                </tr>
+
+
+            </table>
+
+            <p class="m-0 p-0 pp">
+                <span class="font-weight-bold f-0 pp">Remarks:</span>{{vm.bioremarks}}
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6 rightonly">
+        <img src="../imports/img/signs/ref/ref1.png" style="width:2cm;height:1cm;">
+
+    </div>
+    <div class="col-md-6 rightonly">
+        <span style="border-top: 1px black solid;">Signature of Refractionist</span>
+    </div>
+
+
+    <div class="pagebreak" ng-if="!vm.biometryPrint"></div>
+
+
+    <!-- DIAGNOSIS -->
+    <div class="col-md-10 offset-2" ng-show="false">
+        <h4 class="text-left black-text font-weight-bold " ng-show="false">Diagnosis</h4>
+        <h5 class="text-left font-weight-bold f-0 p-0">OD</h5>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.normal_od_tick">Normal</p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.refractive_error_od_tick">Refractive Error:
+            {{vm.UserSummaryList.referror_od}} </p>
+
+        <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.conjunc_od_tick">Conjunctivitis:
+            {{vm.UserSummaryList.conjunc_od}} </p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.glaucoma_od_tick">Glaucoma: {{vm.UserSummaryList.glaucoma_od}}
+        </p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.cataract_untreated_od_tick">Cataract:
+            {{vm.UserSummaryList.catar_od}} </p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.diabetic_od_tick">Diabetic Retinopathy:
+            {{vm.UserSummaryList.diabe_ret_od}} </p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.hpt_od_tick">Hypertensive Retinopathy:
+            {{vm.UserSummaryList.hpt_od}} </p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.other_posterior_od_tick">Posterior Segment Disease:
+            {{vm.UserSummaryList.poster_od}}</p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.uveal_od_tick">Uveal Disease:
+            {{vm.UserSummaryList.uveal_od}} </p>
+
+        <p class="font-weight-bold b-0 pp" ng-if="vm.phthisis_od_tick">Phthisis: {{vm.UserSummaryList.pthisis_od}}
+        </p>
+
+        <p class="font-weight-bold b-0 pp" ng-if="vm.others_od_tick">{{vm.others_od}}
+        </p>
+        <!-- <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.others_od_tick">Others:</p>{{vm.others_od}}
+        </span> -->
+        <p class="m-0 p-0 pp">
+            <span class="font-weight-bold f-0"
+                ng-if="vm.medical_treatment_od_tick">Medical Treatment:</span>{{vm.medical_treatment_od}}
+        </p>
+        <!-- <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.medical_treatment_od_tick">Medical Treatment:</p>
+            {{vm.medical_treatment_od}}
+        </span> -->
+
+        <p class="m-0 p-0 pp">
+            <span class="font-weight-bold f-0"
+                ng-if="vm.surgrical_treatment_od_tick">Surgrical Treatment:</span>{{vm.surgrical_treatment_od}}
+        </p>
+
+        <!-- <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.surgrical_treatment_od_tick">Surgrical Treatment:</p>
+            {{vm.surgrical_treatment_od}}
+        </span> -->
+
+
+        <p class="m-0 p-0 pp">
+            <span class="font-weight-bold f-0"
+                ng-if="vm.laser_treatment_od_tick">Laser Treatment:</span>{{vm.laser_treatment_od}}
+        </p>
+
+        <!-- 
+        <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.laser_treatment_od_tick">Laser Treatment:</p>
+            {{vm.laser_treatment_od}}
+        </span> -->
+
+        <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.subspeciality_referal_od_tick">Sub speciality Refer:
+            </p>
+            <span class="b-0 pp" ng-if="vm.subspec_corena_od_tick"> Corena</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_retina_od_tick"> Retina</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_glaucoma_od_tick"> Glaucoma,</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_opal_od_tick"> Opal,</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_referr_od_tick"> Referr,</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_squint_od_tick"> Squint,</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_uvea_od_tick"> Uvea,</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_neuropthalmo_od_tick"> Neuropthalmology,</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_none_od_tick"> None</span>
+
+        </span>
+
+
+
+        <!-- <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.followup_od != null">Follow up:</p>
+            {{vm.followup_od}}
+        </span> -->
+
+
+        <br>
+        <h5 class="text-left font-weight-bold f-0 p-0">OS</h5>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.normal_os_tick">Normal</p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.refractive_error_os_tick">Refractive Error:
+            {{vm.UserSummaryList.referror_os}} </p>
+
+        <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.conjunc_os_tick">Conjunctivitis:
+            {{vm.UserSummaryList.conjunc_os}} </p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.glaucoma_os_tick">Glaucoma: {{vm.UserSummaryList.glaucoma_os}}
+        </p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.cataract_untreated_os_tick">Cataract:
+            {{vm.UserSummaryList.catar_os}} </p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.diabetic_os_tick">Diabetic Retinopathy:
+            {{vm.UserSummaryList.dIabete_ret_os}} </p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.hpt_os_tick">Hypertensive Retinopathy:
+            {{vm.UserSummaryList.hpt_os}} </p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.other_posterior_os_tick">Posterior Segment Disease:
+            {{vm.UserSummaryList.poster_os}}</p>
+        <p class="font-weight-bold b-0 pp" ng-if="vm.UserSummaryList.uveal_os_tick">Uveal Disease:
+            {{vm.UserSummaryList.uveal_od}} </p>
+
+        <p class="font-weight-bold b-0 pp" ng-if="vm.phthisis_os_tick">Phthisis: {{vm.UserSummaryList.pthsis_os}}
+        </p>
+
+
+
+        <p class="font-weight-bold b-0 pp" ng-if="vm.others_os_tick">{{vm.others_os}}
+        </p>
+        <!-- <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.others_os_tick">Others:</p>
+            {{vm.others_os}}
+        </span> -->
+
+        <!-- <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.medical_treatment_os_tick">Medical Treatment:</p>
+            {{vm.medical_treatment_os}}
+        </span> -->
+        <!-- 
+        <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.surgrical_treatment_os_tick">Surgrical Treatment:</p>
+            {{vm.surgrical_treatment_os}}
+        </span> -->
+
+
+        <!-- <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.laser_treatment_os_tick">Laser Treatment:</p>
+            {{vm.laser_treatment_os}}
+        </span> -->
+
+        <p class="m-0 p-0 pp">
+            <span class="font-weight-bold f-0"
+                ng-if="vm.medical_treatment_os_tick">Medical Treatment:</span>{{vm.medical_treatment_os}}
+        </p>
+
+        <p class="m-0 p-0 pp">
+            <span class="font-weight-bold f-0"
+                ng-if="vm.surgrical_treatment_os_tick">Surgrical Treatment:</span>{{vm.surgrical_treatment_os}}
+        </p>
+
+
+
+        <p class="m-0 p-0 pp">
+            <span class="font-weight-bold f-0"
+                ng-if="vm.laser_treatment_os_tick">Laser Treatment:</span>{{vm.laser_treatment_os}}
+        </p>
+
+        <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.subspeciality_referal_os_tick">Sub speciality Refer:
+            </p>
+            <span class=" b-0 pp" ng-if="vm.subspec_corena_os_tick"> Corena</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_retina_os_tick"> Retina</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_glaucoma_os_tick"> Glaucoma</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_opal_os_tick"> Opal</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_referr_os_tick"> Referr</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_squint_os_tick"> Squint</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_uvea_os_tick"> Uvea</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_neuropthalmo_os_tick"> Neuropthalmology</span>
+            <span class=" b-0 pp" ng-if="vm.subspeciality_none_os_tick"> None</span>
+
+
+        </span>
+        <!-- <span class="m-0 p-0">
+            <p class="font-weight-bold f-0 pp" ng-if="vm.followup_os != null">Follow up:</p>
+            {{vm.followup_os}}
+        </span> -->
+
+        <p class="m-0 p-0 pp">
+            <span class="font-weight-bold f-0" ng-if="vm.followup_os != null">Follow up:</span>{{vm.followup_os}}
+        </p>
+
+
+        <br>
+        <div class="col-md-6 rightonly">
+            <img src="../imports/img/signs/doc/drkabita.png" style="width:2cm;height:1cm;">
+
+        </div>
+        <div class="col-md-6 rightonly" ng-show="false">
+            <span style="border-top: 1px black solid;">Signature of Doctor</span>
+        </div>
+
+    </div>
+
+
+</div>

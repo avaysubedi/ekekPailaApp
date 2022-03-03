@@ -30,7 +30,8 @@ app.controller('BiometryController', ['$http', 'UrlConfig', 'TokenService', '$sc
             $scope.bs_rbs_tick = false;
 
             if ($scope.mrdnum !== undefined && $scope.hospitalid !== undefined) {
-                vm.fetchUserSummary();
+             //  vm.fetchUserSummary();
+                vm.fetchUserBiometrySummary()
             }
 
             // vm.fetchRefererList();
@@ -118,9 +119,10 @@ app.controller('BiometryController', ['$http', 'UrlConfig', 'TokenService', '$sc
 
             var token = localStorage.getItem('access_token');
             var userId = TokenService.getUserId();
+//http://localhost:64705/api/customerselect?customer_id=1
 
-
-            $http.get(UrlConfig.labReportBaseUrl() + 'api/CsiAll?mrdno=' + $scope.mrdnum,
+            $http.get('http://localhost:64705/api/customerselect?customer_id=0', 
+            //(UrlConfig.labReportBaseUrl() + 'api/CsiAll?mrdno=' + $scope.mrdnum,
                 { headers: { Authorization: 'Bearer ' + token } })
                 .then(function (result) {
 

@@ -46,6 +46,7 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'Config',
             $scope.mrdnum = $routeParams.mrdno;
             $scope.hospitalid = $routeParams.hospid;
             vm.pname = $routeParams.pname;
+            $scope.servid=$routeParams.doc
 
 
             if ($scope.mrdnum !== undefined && $scope.hospitalid !== undefined) {
@@ -696,6 +697,7 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'Config',
                         vm.gender = result.data[0].sex;
                         vm.age = result.data[0].age;
                         vm.reportDate = result.data[0].ddate;
+                        console.log(result.data)
 
                     }
 
@@ -1570,19 +1572,25 @@ app.controller('OcularInvestigationController', ['$http', 'UrlConfig', 'Config',
         }
 
         vm.PrintRecord = function () {
+            vm.biometryPrint = false;
             vm.getBiometry()
             if (window.confirm("Do you want to include Biometry?")) {
                 vm.biometryPrint = true;
+                $scope.loading = true;
+                $timeout(printData, 4000);
 
             } else {
                 vm.biometryPrint = false;
+                $scope.loading = true;
+                $timeout(printData, 4000);
             }
-            $scope.loading = true;
-            $timeout(printData, 4000);
+          
         }
 
         function printData() {
             $scope.loading = false;
+            $scope.loadtrue = false;
+
 
             $scope.full = 12;
             $scope.IsHeadVisible = $scope.IsHeadVisible ? false : true;

@@ -42,7 +42,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                 $scope.amount = 20000;
 
             vm.grpid = Config.groupid;
-            // vm.fetchMainList();
+            vm.biometryPrint = false;
 
         };
 
@@ -189,7 +189,6 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
         };
 
 
-
         vm.fetchMainList = function () {
 
             $scope.loadtrue = true;
@@ -221,7 +220,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                     vm.mainList = result.data;
                     $scope.loadtrue = false;
 
-                 //   console.log(result.data);
+                    //   console.log(result.data);
                 }, function (error) {
                     console.log(error);
                     vm.notification = { mode: 'danger', message: 'Error: ' + error.data.message };
@@ -431,7 +430,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
             var token = localStorage.getItem('access_token');
             var userId = TokenService.getUserId();
 
-        
+
             $http.get(UrlConfig.labReportBaseUrl() + 'api/OcularInvestigationAll?mrdno=' + vm.selectedRep.mrdno,
                 { headers: { Authorization: 'Bearer ' + token } })
                 .then(function (result) {
@@ -655,6 +654,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
         vm.onRepSelected = function (selected) {
             vm.selectedRep = selected;
             vm.selectedRep.mrdno = selected.inv_no;
+            vm.selectedDoc = selected.servid;
 
             vm.createMrd();
 
@@ -934,7 +934,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
 
                         $scope.showReport = true;
                     }
-                 //   console.log(result.data);
+                    //   console.log(result.data);
                 }, function (error) {
                     console.log(error);
                     $scope.noReport = true;
@@ -971,7 +971,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                         vm.reportDate = result.data[0].ddate;
                         $scope.showReport = true;
                     }
-                  //  console.log(result.data);
+                    //  console.log(result.data);
                 }, function (error) {
                     console.log(error);
                     $scope.noReport = true;
@@ -1049,7 +1049,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                         vm.reportDate = new Date(result.data[0].ddate);
                         $scope.showReport = true;
                     }
-                  //  console.log(result.data);
+                    //  console.log(result.data);
                 }, function (error) {
                     console.log(error);
                     $scope.noReport = true;
@@ -1084,7 +1084,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                         vm.reportDate = result.data[0].ddate;
                     }
                     $scope.showReport = true;
-                   // console.log(result.data);
+                    // console.log(result.data);
                     $scope.loadtrue = false;
                 }, function (error) {
                     console.log(error);
@@ -1151,7 +1151,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
 
                     $scope.loadtrue = false;
                     vm.biometryList = result.data;
-                  console.log(result.data)
+                    console.log(result.data)
                     if (vm.biometryList.mrdno !== undefined) {
                         vm.k1od = vm.biometryList.k1od
                         vm.k1os = vm.biometryList.k1os
@@ -1174,7 +1174,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                         vm.bs_pp = vm.biometryList.bs_pp
                         vm.a_constant_od = vm.biometryList.a_constant_od
                         vm.a_constant_os = vm.biometryList.a_constant_os
-                        vm.bioremarks=vm.biometryList.remarks
+                        vm.bioremarks = vm.biometryList.remarks
 
                         // console.log("AconsOD" +vm.a_constant_od)
                         // console.log("AconsOD from table" +vm.biometryList.a_constant_od)
@@ -1204,7 +1204,8 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
         vm.goToOcular = function () {
             //    vm.selectedReport = report;
             window.open('#!/ocularinvestigation?mrdno=' + vm.selectedRep.inv_no +
-                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname,
+                '&hospid=' + vm.selectedRep.hospid + '&pname=' + vm.selectedRep.pname +
+                '&doc=' + vm.selectedDoc,
 
                 '_self', '');
         }
@@ -1315,16 +1316,23 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
 
 
         vm.PrintRecord = function () {
-            if (window.confirm("Do you want to include Biometry?")) {
-                vm.biometryPrint=true;
+            vm.biometryPrint = false;
 
+            if (window.confirm("Do you want to include Biometry?")) {
+                vm.biometryPrint = true;
+                $scope.loadtrue = true;
+                $timeout(printData, 2000);
             } else {
-                vm.biometryPrint=false;
+                vm.biometryPrint = false;
+                $scope.loadtrue = true;
+                $timeout(printData, 2000);
             }
-            printData();
+
         }
 
         function printData() {
+            $scope.loading = false;
+            $scope.loadtrue = false;
             $scope.full = 12;
             $scope.IsHeadVisible = $scope.IsHeadVisible ? false : true;
             var divToPrint = document.getElementById("report");
@@ -1357,7 +1365,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
                 'span{font-size:13px !important;margin-top:10px !important;}' +
                 '.pagebreak { page-break-before: always; }' +
                 // '.col-md-6 {width:50%;}'+
-                ' #sameline,#sameline1{display:inline;}'+
+                ' #sameline,#sameline1{display:inline;}' +
                 // '.col-md {width:50%;float:right}'+
 
                 // '.col-md-4{width:40%}'+
