@@ -17,8 +17,8 @@ app.constant('Config', {
 app.factory('UrlConfig', ['$location', function ($location) {
     return {
         labReportBaseUrl: function () {
-            return 'http://192.168.50.126/medipro.api.medipro/';
-      //  return 'http://server/medipro.api.medipro/';
+           return 'https://192.168.50.126/medipro.api.medipro/';
+    //    return 'http://localhost/medipro.api.medipro/';
 
             // return 'https://mediprocomputers.com/mediprowebapis';
 

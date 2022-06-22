@@ -668,7 +668,7 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
             vm.noOcularExam = false;
             vm.noDerma = false;
             vm.noBiometry = false;
-            console.log(selected);
+            //  console.log(selected);
             vm.fetchUserSummary();
             vm.fetchUserReportList();
 
@@ -683,6 +683,8 @@ app.controller('DashboardController', ['$http', 'UrlConfig', 'Config', 'TokenSer
             vm.getDerma();
             vm.getBiometry();
         }
+
+        //checkAllReport?mrdno=sk---0101
 
 
 
